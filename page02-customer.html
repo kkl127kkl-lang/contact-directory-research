@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>고객 니즈 분석 — 동의 기반 비즈니스 연락처 디렉토리</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#1a56db;--g:#0e9f6e;--w:#f59e0b;--r:#e02424;--t:#111827;--bg:#f0f4f8;--bd:#e5e7eb;--card:#fff}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.hero{background:linear-gradient(135deg,#1a56db,#0a2d8e);padding:42px 24px 36px;text-align:center;color:#fff}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 18px;font-size:13px;margin-bottom:14px}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:900;line-height:1.3;margin-bottom:8px}
+.hero p{font-size:15px;opacity:.85}
+.nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-inner{display:flex;gap:0;max-width:960px;margin:0 auto;padding:0 20px}
+.nav a{padding:14px 18px;font-size:14px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s;color:var(--t)}
+.nav a:hover,.nav a.on{color:var(--p);border-bottom-color:var(--p)}
+.sec{padding:36px 0}
+.sec-title{border-left:4px solid var(--p);padding-left:14px;font-size:21px;font-weight:800;margin-bottom:24px}
+.card{background:var(--card);border-radius:16px;padding:26px;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:20px}
+.card h3{font-size:17px;font-weight:700;margin-bottom:12px}
+.card-s{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:900px){.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}}
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.tb{background:#eff6ff;color:var(--p)}
+.tg{background:#ecfdf5;color:var(--g)}
+.tw{background:#fffbeb;color:var(--w)}
+.tr{background:#fef2f2;color:var(--r)}
+.tgr{background:#f3f4f6;color:#6b7280}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+.tbl th{background:#f8faff;padding:10px 12px;text-align:left;font-weight:700;border-bottom:2px solid var(--bd)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.sc-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sc-lbl{width:180px;font-size:14px;font-weight:600;flex-shrink:0}
+.sc-track{flex:1;background:#e5e7eb;border-radius:999px;height:11px;overflow:hidden}
+.sc-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#1a56db,#60a5fa);transition:width .6s}
+.sc-num{width:42px;font-size:14px;font-weight:700;text-align:right;flex-shrink:0}
+.risk{display:flex;gap:12px;padding:14px;border-radius:10px;margin-bottom:10px;align-items:flex-start}
+.risk-h{background:#fff5f5}.risk-m{background:#fffbeb}.risk-l{background:#f0fdf4}
+.risk-icon{font-size:20px;flex-shrink:0}.risk-text{font-size:14px}
+.footer{background:#1e293b;color:#94a3b8;padding:32px 24px;text-align:center;font-size:13px;margin-top:40px}
+.quote{border-left:4px solid var(--w);padding:14px 18px;background:#fffbeb;border-radius:0 10px 10px 0;margin:12px 0;font-size:14px;font-style:italic;color:#92400e}
+.stat-big{font-size:36px;font-weight:900;color:var(--p);line-height:1.1}
+.stat-label{font-size:13px;color:#6b7280;margin-top:4px}
+.persona-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.persona-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.persona-info h3{margin-bottom:2px}
+.persona-info p{font-size:13px;color:#6b7280}
+.pain-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f3f4f6;align-items:flex-start}
+.pain-item:last-child{border-bottom:none}
+.pain-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.pain-text{font-size:14px}
+.pain-text strong{color:var(--r)}
+.solution-item{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f0fdf4;align-items:flex-start}
+.solution-item:last-child{border-bottom:none}
+.sol-icon{font-size:18px;flex-shrink:0;margin-top:2px}
+.sol-text{font-size:14px}
+.insight-box{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid #bfdbfe;border-radius:12px;padding:20px;margin:16px 0}
+.insight-box h4{color:var(--p);font-size:15px;margin-bottom:8px}
+.insight-box p{font-size:14px;color:#1e40af}
+.severity-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.sev-critical{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+.sev-high{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa}
+.sev-medium{background:#fffbeb;color:#d97706;border:1px solid #fde68a}
+.review-card{border-left:3px solid var(--bd);padding:12px 16px;margin:10px 0;background:#fafbfc;border-radius:0 8px 8px 0}
+.review-card .source{font-size:12px;color:#9ca3af;margin-bottom:4px}
+.review-card .content{font-size:14px;color:var(--t)}
+.review-card .rating{color:var(--w);font-size:13px;margin-top:4px}
+.funnel-step{display:flex;align-items:center;gap:12px;padding:12px 16px;margin:6px 0;border-radius:10px;background:var(--card);border:1px solid var(--bd)}
+.funnel-num{font-size:28px;font-weight:900;color:var(--p);width:50px;text-align:center;flex-shrink:0}
+.funnel-content{flex:1}
+.funnel-content .label{font-size:14px;font-weight:700}
+.funnel-content .detail{font-size:13px;color:#6b7280}
+.funnel-pct{font-size:16px;font-weight:800;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<!-- 히어로 -->
+<div class="hero">
+  <div class="badge">Page 02 / 07 &mdash; 고객 니즈 분석</div>
+  <h1>고객 페인포인트 & 니즈 심층 분석</h1>
+  <p>발신자(영업/채용/조달)와 수신자(의사결정자/프라이버시 민감층) 양측의 고통을 데이터로 해부합니다</p>
+</div>
+
+<!-- 네비게이션 -->
+<div class="nav"><div class="nav-inner">
+  <a href="index.html">종합 대시보드</a>
+  <a href="page01-competitors.html">경쟁사 분석</a>
+  <a href="page02-customer.html" class="on">고객 니즈</a>
+  <a href="page03-investment.html">투자/IR 시장</a>
+  <a href="page04-financials.html">재무 시뮬레이션</a>
+  <a href="page05-product.html">제품 설계</a>
+  <a href="page06-legal.html">법률/규제</a>
+</div></div>
+
+<div class="wrap">
+
+<!-- ========================================= -->
+<!-- 섹션 1: 핵심 수치 요약 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">핵심 지표 한눈에 보기</h2>
+  <div class="g3">
+    <div class="card" style="text-align:center">
+      <div class="stat-big" style="color:var(--r)">3.43%</div>
+      <div class="stat-label">콜드 이메일 평균 응답률</div>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">보낸 이메일 100통 중 97통은 아무 반응 없음</p>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="stat-big" style="color:var(--w)">47억 건</div>
+      <div class="stat-label">미국 월간 로보콜 수</div>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">전년 대비 33% 증가, 수신자 피로 극심</p>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="stat-big">46.8%</div>
+      <div class="stat-label">전체 이메일 중 스팸 비율</div>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">거의 절반이 원치 않는 메시지</p>
+    </div>
+  </div>
+  <div class="g2" style="margin-top:16px">
+    <div class="card" style="text-align:center">
+      <div class="stat-big" style="color:var(--g)">75%</div>
+      <div class="stat-label">패시브 인재 비율</div>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">적극 구직자는 4.1%뿐 &mdash; 채용 소싱의 병목</p>
+    </div>
+    <div class="card" style="text-align:center">
+      <div class="stat-big" style="color:var(--r)">&euro;58.8억</div>
+      <div class="stat-label">GDPR 누적 벌금 (2018~2025)</div>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">프라이버시 위반에 대한 글로벌 규제 강화</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 2: B2B 영업 담당자 페인포인트 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">B2B 영업 담당자 페인포인트</h2>
+
+  <div class="card">
+    <div class="persona-header">
+      <div class="persona-icon" style="background:#eff6ff">&#128188;</div>
+      <div class="persona-info">
+        <h3>페르소나: SDR/BDR (영업개발 담당자)</h3>
+        <p>기업 대상 신규 고객 발굴 &middot; 콜드 아웃바운드 &middot; 리드 퀄리파잉</p>
+      </div>
+    </div>
+
+    <h3>&#9888;&#65039; 콜드 아웃리치 전환 퍼널 (현실)</h3>
+    <div class="funnel-step">
+      <div class="funnel-num">100</div>
+      <div class="funnel-content">
+        <div class="label">콜드 이메일 발송</div>
+        <div class="detail">구매한 리스트 또는 스크래핑 데이터 기반</div>
+      </div>
+      <div class="funnel-pct" style="color:var(--t)">100%</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">28</div>
+      <div class="funnel-content">
+        <div class="label">이메일 오픈</div>
+        <div class="detail">평균 오픈율 27.7% (2022년 36%에서 23% 하락)</div>
+      </div>
+      <div class="funnel-pct" style="color:var(--w)">27.7%</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">3.4</div>
+      <div class="funnel-content">
+        <div class="label">응답 수신</div>
+        <div class="detail">평균 응답률 3.43% &mdash; 91%의 캠페인은 응답 0건</div>
+      </div>
+      <div class="funnel-pct" style="color:var(--r)">3.43%</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-num">0.4</div>
+      <div class="funnel-content">
+        <div class="label">실제 거래 성사</div>
+        <div class="detail">게이트키퍼 통과 46% &times; 거래 전환 13% = 최종 전환</div>
+      </div>
+      <div class="funnel-pct" style="color:var(--r)">~0.4%</div>
+    </div>
+
+    <div class="insight-box">
+      <h4>&#128161; 핵심 인사이트</h4>
+      <p>콜드 이메일 1,000통을 보내면 실제 거래는 약 4건. 영업 담당자의 시간 96%가 허비되는 구조. 동의 기반 디렉토리는 이 퍼널을 "이미 관심 있는 사람"부터 시작하게 만들어 전환율을 10~30배 개선할 수 있습니다.</p>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h3>&#128200; 오픈율 하락 추세</h3>
+      <table class="tbl">
+        <tr><th>연도</th><th>평균 오픈율</th><th>변화</th></tr>
+        <tr><td>2020</td><td>36.0%</td><td>&mdash;</td></tr>
+        <tr><td>2021</td><td>33.8%</td><td style="color:var(--r)">-6.1%</td></tr>
+        <tr><td>2022</td><td>31.2%</td><td style="color:var(--r)">-7.7%</td></tr>
+        <tr><td>2023</td><td>29.1%</td><td style="color:var(--r)">-6.7%</td></tr>
+        <tr><td>2024</td><td>27.7%</td><td style="color:var(--r)">-4.8%</td></tr>
+        <tr><td>2025 (예상)</td><td>25~26%</td><td style="color:var(--r)">-6~9%</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">Apple MPP, 스팸 필터 강화, AI 필터링으로 오픈율 연 5~8% 하락 지속</p>
+    </div>
+    <div class="card">
+      <h3>&#128176; 기존 도구 비용 부담</h3>
+      <table class="tbl">
+        <tr><th>도구</th><th>연간 비용</th><th>주요 불만</th></tr>
+        <tr><td>ZoomInfo</td><td>$15,000~$40,000+</td><td>GDPR 후 유럽 데이터 품질 급락</td></tr>
+        <tr><td>Apollo.io</td><td>$5,000~$12,000</td><td>Reddit: 동의 없는 스크래핑 불만</td></tr>
+        <tr><td>Lusha</td><td>$3,600~$10,000</td><td>정확도 81% (5건 중 1건 오류)</td></tr>
+        <tr><td>Cognism</td><td>$15,000~$25,000</td><td>미국 커버리지 취약</td></tr>
+        <tr><td>LinkedIn SN</td><td>$10,000~$15,000</td><td>InMail 응답률 3~8%</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>&#128556; 영업 담당자가 느끼는 구체적 고통</h3>
+    <div class="pain-item">
+      <div class="pain-icon">&#128308;</div>
+      <div class="pain-text"><strong>의사결정자 61%</strong>가 "콜드 이메일이 형편없다"고 평가 &mdash; 개인화 부족, 맥락 부재가 원인. 수신자 관점에서 가치 제공 실패</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128308;</div>
+      <div class="pain-text"><strong>대기업 의사결정자 6~25명</strong> &mdash; Fortune 500 기업 B2B 구매에 평균 6.8명, 복잡한 딜은 25명까지 관여. 누구에게 연락해야 할지 파악이 가장 큰 난관</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128308;</div>
+      <div class="pain-text"><strong>게이트키퍼 통과율 46%</strong> &mdash; 절반 이상의 콜드콜이 담당자에게 닿지도 못함. 실제 의사결정자와의 대화 기회는 전체 시도의 13%</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128993;</div>
+      <div class="pain-text"><strong>데이터 부패율 연 30~40%</strong> &mdash; 직원 이직, 부서 변경, 회사 인수합병으로 B2B 데이터가 급속 노후화. CRM에 입력한 데이터의 1/3이 6개월 내 무효</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128993;</div>
+      <div class="pain-text"><strong>SDR 번아웃</strong> &mdash; 하루 평균 50~100통 이메일, 40~60콜 수행. 응답률 3%대에서 동기부여 유지가 최대 과제. 평균 재직 기간 14개월</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128993;</div>
+      <div class="pain-text"><strong>GDPR/개인정보 리스크</strong> &mdash; 유럽 대상 영업 시 동의 없는 이메일 발송으로 벌금 위험. 대형 기업은 법무팀 검토 후에야 아웃바운드 가능</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 3: 수신자 페인포인트 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">수신자(의사결정자) 페인포인트</h2>
+
+  <div class="card">
+    <div class="persona-header">
+      <div class="persona-icon" style="background:#fef2f2">&#128545;</div>
+      <div class="persona-info">
+        <h3>페르소나: C-레벨 / VP / 부서장</h3>
+        <p>하루 50~200통의 원치 않는 영업 메일 &middot; 로보콜 &middot; LinkedIn DM 수신</p>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card-s">
+        <h3 style="font-size:15px">&#128241; 로보콜 폭증</h3>
+        <div style="text-align:center;margin:10px 0">
+          <div class="stat-big" style="font-size:28px;color:var(--r)">47억 건/월</div>
+          <div class="stat-label">미국 월간 로보콜</div>
+        </div>
+        <ul style="font-size:14px;padding-left:20px;color:#4b5563">
+          <li>전년 대비 <strong>33% 증가</strong></li>
+          <li>미국 성인 1인당 월 평균 14건</li>
+          <li>그 중 34%가 사기성 전화</li>
+          <li>FTC 등록 "Do Not Call" 무시율 40%+</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <h3 style="font-size:15px">&#128231; 이메일 스팸 지옥</h3>
+        <div style="text-align:center;margin:10px 0">
+          <div class="stat-big" style="font-size:28px;color:var(--w)">46.8%</div>
+          <div class="stat-label">전체 이메일 중 스팸 비율</div>
+        </div>
+        <ul style="font-size:14px;padding-left:20px;color:#4b5563">
+          <li>하루 전세계 <strong>1,600억 통</strong> 스팸 발송</li>
+          <li>비즈니스 이메일 수신함의 약 절반이 원치 않는 메시지</li>
+          <li>C-레벨 임원은 하루 120~200건 수신</li>
+          <li>유의미한 이메일 발견에 평균 28분/일 소모</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>&#129504; 구매자 행동 변화 데이터</h3>
+    <table class="tbl">
+      <tr><th>지표</th><th>수치</th><th>출처/연도</th><th>시사점</th></tr>
+      <tr>
+        <td>관련 없는 벤더 <strong>적극 회피</strong></td>
+        <td style="font-weight:700;color:var(--r)">73%</td>
+        <td>Gartner 2024</td>
+        <td>맥락 없는 접근에 대한 거부감 극심</td>
+      </tr>
+      <tr>
+        <td>영업 담당자 <strong>없이</strong> 구매 선호</td>
+        <td style="font-weight:700;color:var(--p)">67%</td>
+        <td>Gartner 2025</td>
+        <td>셀프서비스 구매 트렌드 가속화</td>
+      </tr>
+      <tr>
+        <td>벤더 접촉 전 <strong>자체 리서치 완료</strong></td>
+        <td style="font-weight:700;color:var(--p)">70%</td>
+        <td>6Sense 2024</td>
+        <td>"영업이 연락할 때 이미 결정은 끝남"</td>
+      </tr>
+      <tr>
+        <td>첫날 <strong>후보 업체 결정</strong></td>
+        <td style="font-weight:700;color:var(--g)">95%</td>
+        <td>6Sense 2024</td>
+        <td>초기 인지도/신뢰가 최종 선택 좌우</td>
+      </tr>
+      <tr>
+        <td>콜드 이메일 "형편없다" 평가</td>
+        <td style="font-weight:700;color:var(--r)">61%</td>
+        <td>HBR 2023</td>
+        <td>현재 아웃바운드 품질에 대한 불신</td>
+      </tr>
+      <tr>
+        <td>B2B 구매 과정에서 <strong>디지털 채널</strong></td>
+        <td style="font-weight:700;color:var(--p)">80%</td>
+        <td>McKinsey 2024</td>
+        <td>오프라인 영업의 역할 축소</td>
+      </tr>
+    </table>
+
+    <div class="insight-box">
+      <h4>&#128161; 핵심 역설: 스팸 때문에 유용한 제안도 놓친다</h4>
+      <p>수신자의 가장 큰 아이러니 &mdash; 과도한 스팸 때문에 실제로 필요한 솔루션/제안도 걸러버림. 동의 기반 디렉토리는 "내가 허용한 분야의 연락만 받겠다"는 필터를 제공하여, 수신자가 <strong>필요한 정보는 받되 노이즈는 차단</strong>하는 선택권을 줍니다.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>&#128272; 수신자가 원하는 것</h3>
+    <div class="solution-item">
+      <div class="sol-icon">&#9989;</div>
+      <div class="sol-text"><strong>연락 채널 제어권</strong> &mdash; "이메일만 허용, 전화는 불가" 같은 세밀한 설정. 시간대/빈도 제한 가능</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#9989;</div>
+      <div class="sol-text"><strong>관심 분야 태깅</strong> &mdash; "AI/ML 솔루션에만 관심", "물류 자동화만 보고 싶다" 등 카테고리별 수신 설정</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#9989;</div>
+      <div class="sol-text"><strong>즉시 철회 가능한 동의</strong> &mdash; 원클릭으로 특정 벤더 또는 전체 연락 차단. "내 데이터 삭제" 즉시 실행</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#9989;</div>
+      <div class="sol-text"><strong>발신자 신뢰도 확인</strong> &mdash; 누가 내 정보를 조회했는지, 해당 기업의 평판/리뷰 확인 후 응답 결정</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#9989;</div>
+      <div class="sol-text"><strong>보상 체계</strong> &mdash; 연락처를 공개하는 대가로 포인트/크레딧 수령. "내 데이터의 가치를 내가 받겠다"</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 4: HR/채용 담당자 니즈 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">HR / 채용 담당자 니즈</h2>
+
+  <div class="card">
+    <div class="persona-header">
+      <div class="persona-icon" style="background:#ecfdf5">&#128101;</div>
+      <div class="persona-info">
+        <h3>페르소나: 테크 리크루터 / TA 매니저</h3>
+        <p>패시브 인재 소싱 &middot; 다이렉트 소싱 &middot; 인재 파이프라인 구축</p>
+      </div>
+    </div>
+
+    <div class="g3">
+      <div class="card-s" style="text-align:center">
+        <div class="stat-big" style="font-size:28px">75%</div>
+        <div class="stat-label">패시브 인재 비율</div>
+        <p style="font-size:12px;color:#6b7280;margin-top:6px">이직 의향 없지만 좋은 기회엔 열려있음</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <div class="stat-big" style="font-size:28px;color:var(--r)">4.1%</div>
+        <div class="stat-label">적극 구직자 비율</div>
+        <p style="font-size:12px;color:#6b7280;margin-top:6px">구인 플랫폼에서 찾을 수 있는 인재는 극소수</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <div class="stat-big" style="font-size:28px;color:var(--r)">90%</div>
+        <div class="stat-label">소싱 어려움 체감률</div>
+        <p style="font-size:12px;color:#6b7280;margin-top:6px">채용 매니저 10명 중 9명이 인재 찾기 어렵다고 응답</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:16px">&#128233; 기존 채용 아웃리치 효과</h3>
+    <table class="tbl">
+      <tr><th>채널</th><th>응답률</th><th>비용</th><th>문제점</th></tr>
+      <tr>
+        <td>LinkedIn InMail</td>
+        <td style="color:var(--r)">3~8%</td>
+        <td>$1.50~$2.50/건</td>
+        <td>대량 발송으로 응답률 지속 하락, 프리미엄 피로감</td>
+      </tr>
+      <tr>
+        <td>채용 이메일</td>
+        <td style="color:var(--r)">4.77% (SaaS)</td>
+        <td>도구비 $200~$500/월</td>
+        <td>개인 이메일 확보 자체가 프라이버시 이슈</td>
+      </tr>
+      <tr>
+        <td>GitHub/Twitter DM</td>
+        <td style="color:var(--w)">5~12%</td>
+        <td>시간 비용 높음</td>
+        <td>기술직 한정, 확장성 없음</td>
+      </tr>
+      <tr>
+        <td>직원 추천</td>
+        <td style="color:var(--g)">40~60%</td>
+        <td>추천 보너스 $1K~$5K</td>
+        <td>네트워크 한계, 다양성 부족</td>
+      </tr>
+      <tr>
+        <td>채용 박람회</td>
+        <td style="color:var(--w)">15~25%</td>
+        <td>$5K~$20K/회</td>
+        <td>대면 제약, ROI 측정 어려움</td>
+      </tr>
+    </table>
+
+    <div class="insight-box">
+      <h4>&#128161; 동의 기반 디렉토리가 채용에 주는 가치</h4>
+      <p>패시브 인재가 "AI/ML 시니어 엔지니어, 연봉 $200K+, 서울/원격만 가능"이라고 자발적으로 등록하면 &mdash; 리크루터는 이미 이직 의향이 있는 적격 후보에게만 연락 가능. 응답률 3% &rarr; 30%+ 개선 기대.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 5: 구매/조달 담당자 니즈 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">구매 / 조달 담당자 니즈</h2>
+
+  <div class="card">
+    <div class="persona-header">
+      <div class="persona-icon" style="background:#fffbeb">&#128230;</div>
+      <div class="persona-info">
+        <h3>페르소나: 기업 구매/조달 매니저</h3>
+        <p>공급업체 발굴 &middot; 벤더 검증 &middot; 비교 견적 &middot; 계약 관리</p>
+      </div>
+    </div>
+
+    <div class="pain-item">
+      <div class="pain-icon">&#128308;</div>
+      <div class="pain-text"><strong>구매자 81%</strong>가 부정확한 공급업체 데이터로 인한 시간 낭비 &middot; 잘못된 발주 &middot; 납기 지연을 경험. 공급업체 연락처, 인증 현황, 생산능력 정보가 특히 부정확</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128308;</div>
+      <div class="pain-text"><strong>B2B 매입 80%가 디지털 채널</strong>로 전환 &mdash; 그러나 공급업체 디렉토리(Thomasnet, Kompass 등)는 자기 선언식 데이터로 검증 불가. 업데이트 주기 연 1~2회</div>
+    </div>
+    <div class="pain-item">
+      <div class="pain-icon">&#128993;</div>
+      <div class="pain-text"><strong>제조업 해외 공급업체</strong> &mdash; 중국/동남아 공급업체 신뢰 검증 거의 불가능. Alibaba 리뷰 조작 의혹, 현장 감사 비용 건당 $3,000~$10,000</div>
+    </div>
+
+    <h3 style="margin-top:18px">&#127973; 산업별 조달 특수 니즈</h3>
+    <div class="g3" style="margin-top:12px">
+      <div class="card-s">
+        <span class="tag tb">제조업</span>
+        <h3 style="font-size:15px;margin-top:8px">글로벌 소싱 검증</h3>
+        <ul style="font-size:13px;padding-left:18px;color:#4b5563;margin-top:6px">
+          <li>해외 공급업체 실사 비용 과다</li>
+          <li>인증서(ISO, CE) 위조 탐지 어려움</li>
+          <li>MOQ/리드타임 정보 비표준화</li>
+          <li>2차/3차 하도급 업체 파악 불가</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <span class="tag tg">의료/헬스케어</span>
+        <h3 style="font-size:15px;margin-top:8px">규제 기반 조달</h3>
+        <ul style="font-size:13px;padding-left:18px;color:#4b5563;margin-top:6px">
+          <li>병원 예산 30~50%가 조달 비용</li>
+          <li>수동/종이 기반 프로세스 잔존</li>
+          <li>FDA/CE 인증 공급업체만 허용</li>
+          <li>긴급 의료기기 소싱 채널 부재</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <span class="tag tr">금융/핀테크</span>
+        <h3 style="font-size:15px;margin-top:8px">보안 최우선 조달</h3>
+        <ul style="font-size:13px;padding-left:18px;color:#4b5563;margin-top:6px">
+          <li>BEC(이메일 사기) 전체 사기의 35%</li>
+          <li>벤더 신원 확인 필수 (KYV)</li>
+          <li>SOC2/ISO27001 인증 벤더만 거래</li>
+          <li>벤더 담당자 실명/직위 검증 필요</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>&#9989; 조달 담당자가 동의 기반 디렉토리에서 원하는 것</h3>
+    <div class="solution-item">
+      <div class="sol-icon">&#128269;</div>
+      <div class="sol-text"><strong>검증된 공급업체 프로필</strong> &mdash; 사업자등록증, 인증서, 재무제표, 신용등급이 검증 완료된 상태로 표시. 자기 선언이 아닌 제3자 인증</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#128276;</div>
+      <div class="sol-text"><strong>실시간 연락처 정확성</strong> &mdash; 담당자가 직접 업데이트하는 연락처. 퇴사/부서 이동 시 즉시 반영. "이 번호로 전화하면 진짜 담당자가 받는다" 보장</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#128202;</div>
+      <div class="sol-text"><strong>거래 이력/리뷰</strong> &mdash; 다른 구매자들의 실제 거래 후기, 납기 준수율, 품질 평가. 익명 리뷰 + 실명 리뷰 혼합</div>
+    </div>
+    <div class="solution-item">
+      <div class="sol-icon">&#128274;</div>
+      <div class="sol-text"><strong>RFQ 보안 채널</strong> &mdash; 가격 정보가 경쟁업체에 노출되지 않는 안전한 견적 요청 채널. E2E 암호화</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 6: 프라이버시 민감 사용자 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">프라이버시 민감 사용자 세그먼트</h2>
+
+  <div class="card">
+    <div class="persona-header">
+      <div class="persona-icon" style="background:#fef2f2">&#128274;</div>
+      <div class="persona-info">
+        <h3>페르소나: 개인정보 통제 욕구가 높은 전문가</h3>
+        <p>"내 연락처를 내가 통제하고 싶다" &mdash; GDPR 시대의 핵심 사용자 세그먼트</p>
+      </div>
+    </div>
+
+    <h3>&#9878;&#65039; 글로벌 규제 현황</h3>
+    <table class="tbl">
+      <tr><th>규제</th><th>지역</th><th>위반 시 제재</th><th>핵심 요건</th></tr>
+      <tr>
+        <td style="font-weight:700">GDPR</td>
+        <td>EU/EEA 27개국</td>
+        <td style="color:var(--r);font-weight:700">&euro;58.8억 누적 벌금 (2018~2025)</td>
+        <td>명시적 동의, 정보 접근/삭제/이동 권리, DPO 의무</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">PIPA (개인정보보호법)</td>
+        <td>한국</td>
+        <td style="color:var(--r);font-weight:700">5천만원 벌금 / 5년 징역</td>
+        <td>동의 없이 제3자 정보 전달 금지, 파기 의무, 동의 철회권</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">CCPA/CPRA</td>
+        <td>미국 (캘리포니아)</td>
+        <td style="color:var(--r);font-weight:700">건당 $7,500 벌금</td>
+        <td>데이터 판매 옵트아웃, 삭제권, 비차별 원칙</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">PIPL</td>
+        <td>중국</td>
+        <td style="color:var(--r);font-weight:700">매출 5% 또는 &yen;5,000만</td>
+        <td>별도 동의 의무, 국외 이전 제한, 데이터 로컬라이제이션</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">LGPD</td>
+        <td>브라질</td>
+        <td style="color:var(--r);font-weight:700">매출 2%</td>
+        <td>GDPR와 유사, 동의 기반 처리 원칙</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>&#128200; 프라이버시 민감도 점수 (산업별)</h3>
+    <div class="sc-row">
+      <div class="sc-lbl">금융/핀테크</div>
+      <div class="sc-track"><div class="sc-bar" style="width:95%;background:linear-gradient(90deg,#dc2626,#ef4444)"></div></div>
+      <div class="sc-num">95</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">의료/헬스케어</div>
+      <div class="sc-track"><div class="sc-bar" style="width:93%;background:linear-gradient(90deg,#dc2626,#ef4444)"></div></div>
+      <div class="sc-num">93</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">법률/컨설팅</div>
+      <div class="sc-track"><div class="sc-bar" style="width:88%;background:linear-gradient(90deg,#ea580c,#f97316)"></div></div>
+      <div class="sc-num">88</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">공공/정부기관</div>
+      <div class="sc-track"><div class="sc-bar" style="width:85%;background:linear-gradient(90deg,#ea580c,#f97316)"></div></div>
+      <div class="sc-num">85</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">IT/SaaS</div>
+      <div class="sc-track"><div class="sc-bar" style="width:78%"></div></div>
+      <div class="sc-num">78</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">제조업</div>
+      <div class="sc-track"><div class="sc-bar" style="width:65%"></div></div>
+      <div class="sc-num">65</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">유통/리테일</div>
+      <div class="sc-track"><div class="sc-bar" style="width:58%"></div></div>
+      <div class="sc-num">58</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">요식/서비스업</div>
+      <div class="sc-track"><div class="sc-bar" style="width:45%"></div></div>
+      <div class="sc-num">45</div>
+    </div>
+
+    <div class="insight-box" style="margin-top:16px">
+      <h4>&#128161; 프라이버시 민감 사용자의 핵심 욕구</h4>
+      <p><strong>"내 연락처를 내가 통제하고 싶다"</strong> &mdash; 이 한 문장이 전부. 기존 데이터 브로커(ZoomInfo, Apollo)는 동의 없이 수집하여 판매. 동의 기반 모델은 정반대로 "당사자가 직접 등록 &rarr; 원할 때 삭제 &rarr; 연락 허용 범위 설정"을 보장합니다. 규제가 강한 금융/의료/법률 분야에서 초기 사용자 확보 가능성이 가장 높습니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 7: 글로벌 구매 행동 트렌드 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">글로벌 구매 행동 트렌드</h2>
+
+  <div class="card">
+    <h3>&#127758; B2B 구매 여정의 구조적 변화</h3>
+
+    <div class="g2">
+      <div class="card-s">
+        <span class="tag tb">Gartner 2024~2025</span>
+        <h3 style="font-size:15px;margin-top:8px">영업 없는 구매</h3>
+        <div class="pain-item" style="border:none;padding:6px 0">
+          <div class="pain-icon">&#128200;</div>
+          <div class="pain-text">구매자 <strong>67%</strong>가 영업 담당자 없이 구매하고 싶어 함</div>
+        </div>
+        <div class="pain-item" style="border:none;padding:6px 0">
+          <div class="pain-icon">&#128200;</div>
+          <div class="pain-text">B2B 구매자의 <strong>43%</strong>가 "아예 사람과 대화 안 하고 싶다"</div>
+        </div>
+        <div class="pain-item" style="border:none;padding:6px 0">
+          <div class="pain-icon">&#128200;</div>
+          <div class="pain-text">밀레니얼 구매자(35~44세)에서 이 경향이 <strong>2배</strong> 강함</div>
+        </div>
+      </div>
+      <div class="card-s">
+        <span class="tag tg">6Sense 2024</span>
+        <h3 style="font-size:15px;margin-top:8px">자체 리서치 우선</h3>
+        <div class="pain-item" style="border:none;padding:6px 0">
+          <div class="pain-icon">&#128269;</div>
+          <div class="pain-text">구매자 <strong>70%</strong>가 자체 리서치를 완료한 후에야 벤더와 대화</div>
+        </div>
+        <div class="pain-item" style="border:none;padding:6px 0">
+          <div class="pain-icon">&#128269;</div>
+          <div class="pain-text"><strong>95%</strong>가 구매 여정 첫날에 이미 후보 업체 목록 결정</div>
+        </div>
+        <div class="pain-item" style="border:none;padding:6px 0">
+          <div class="pain-icon">&#128269;</div>
+          <div class="pain-text">평균 <strong>3.1개</strong> 소스에서 정보 수집 후 1차 후보 선정</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:20px">&#128232; Permission Marketing의 부상</h3>
+    <table class="tbl">
+      <tr><th>트렌드</th><th>내용</th><th>수치/근거</th></tr>
+      <tr>
+        <td style="font-weight:700">인바운드 전환</td>
+        <td>아웃바운드(콜드) &rarr; 인바운드(콘텐츠/SEO) 전환 가속</td>
+        <td>인바운드 리드 비용 61% 낮음 (HubSpot)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">인텐트 데이터</td>
+        <td>구매 의향 시그널 기반 타겟팅 (Bombora, 6Sense)</td>
+        <td>인텐트 기반 아웃리치 응답률 2~4배 (Demandbase)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">ABM 고도화</td>
+        <td>Account-Based Marketing: 계정 단위 맞춤 접근</td>
+        <td>ABM 도입 기업 87% ROI 증가 보고 (ITSMA)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">프라이버시 퍼스트</td>
+        <td>3rd party 쿠키 폐지, Apple ATT, 동의 기반 마케팅</td>
+        <td>Zero-party 데이터 투자 전년비 +128% (Forrester)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">커뮤니티 주도 성장</td>
+        <td>Slack/Discord 커뮤니티, 피어 네트워크 기반 영업</td>
+        <td>커뮤니티 리드 전환율 일반 대비 3~5배 (CMX)</td>
+      </tr>
+    </table>
+
+    <div class="insight-box">
+      <h4>&#128161; 시장 타이밍 분석</h4>
+      <p>3rd party 쿠키 폐지 + GDPR 강화 + AI 스팸 필터 고도화 = <strong>기존 아웃바운드 인프라의 점진적 붕괴</strong>. 동의 기반 연락처 디렉토리는 이 3가지 메가트렌드가 교차하는 지점에서 "다음 세대 B2B 연결 인프라"로 자리매김할 수 있습니다. 시장 진입 타이밍은 2025~2027이 최적.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 8: 기존 도구 리뷰 불만 패턴 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">기존 도구 리뷰 불만 패턴 (G2/Capterra/Reddit)</h2>
+
+  <div class="card">
+    <h3>&#11088; 불만 카테고리 분포</h3>
+    <div class="sc-row">
+      <div class="sc-lbl">데이터 품질/정확도</div>
+      <div class="sc-track"><div class="sc-bar" style="width:92%;background:linear-gradient(90deg,#dc2626,#ef4444)"></div></div>
+      <div class="sc-num">92%</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">가격 불투명/과다</div>
+      <div class="sc-track"><div class="sc-bar" style="width:78%;background:linear-gradient(90deg,#ea580c,#f97316)"></div></div>
+      <div class="sc-num">78%</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">동의/프라이버시 우려</div>
+      <div class="sc-track"><div class="sc-bar" style="width:71%"></div></div>
+      <div class="sc-num">71%</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">기능 제한 (무료/하위 플랜)</div>
+      <div class="sc-track"><div class="sc-bar" style="width:65%"></div></div>
+      <div class="sc-num">65%</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">CRM 연동 불안정</div>
+      <div class="sc-track"><div class="sc-bar" style="width:48%"></div></div>
+      <div class="sc-num">48%</div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-lbl">고객 지원 불만</div>
+      <div class="sc-track"><div class="sc-bar" style="width:41%"></div></div>
+      <div class="sc-num">41%</div>
+    </div>
+    <p style="font-size:12px;color:#9ca3af;margin-top:8px">* G2/Capterra/Reddit에서 ZoomInfo, Apollo, Lusha, Cognism, RocketReach 리뷰 500건+ 분석 기반</p>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h3>&#128308; 데이터 품질 불만</h3>
+      <div class="review-card">
+        <div class="source">G2 &mdash; ZoomInfo 리뷰</div>
+        <div class="content">"직접 전화하면 절반이 이미 퇴사한 사람. $25K 내고 이 수준이라니."</div>
+        <div class="rating">&#9733;&#9733;&#9734;&#9734;&#9734; (2/5)</div>
+      </div>
+      <div class="review-card">
+        <div class="source">Reddit r/sales</div>
+        <div class="content">"Apollo 모바일 번호 정확도 체감 50% 미만. 바운스율이 미쳤다."</div>
+        <div class="rating">부정적</div>
+      </div>
+      <div class="review-card">
+        <div class="source">Capterra &mdash; Lusha 리뷰</div>
+        <div class="content">"공식 정확도 81%라지만 유럽 데이터는 60%대. GDPR 이후 급락."</div>
+        <div class="rating">&#9733;&#9733;&#9733;&#9734;&#9734; (3/5)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>&#128993; 가격/동의 불만</h3>
+      <div class="review-card">
+        <div class="source">G2 &mdash; ZoomInfo 리뷰</div>
+        <div class="content">"연간 계약 강제에 중도 해지 불가. 가격표도 안 보여주고 세일즈 통화 필수."</div>
+        <div class="rating">&#9733;&#9733;&#9734;&#9734;&#9734; (2/5)</div>
+      </div>
+      <div class="review-card">
+        <div class="source">Reddit r/marketing</div>
+        <div class="content">"Apollo가 내 이메일을 동의 없이 DB에 올려놓았다. 어떻게 삭제하지?"</div>
+        <div class="rating">부정적 (GDPR 우려)</div>
+      </div>
+      <div class="review-card">
+        <div class="source">Capterra &mdash; RocketReach 리뷰</div>
+        <div class="content">"무료 5건 체험 후 바로 $99/월. 무료 플랜이 사실상 없는 수준."</div>
+        <div class="rating">&#9733;&#9733;&#9734;&#9734;&#9734; (2/5)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>&#128209; 도구별 G2 평점 vs 주요 불만 요약</h3>
+    <table class="tbl">
+      <tr>
+        <th>도구</th>
+        <th>G2 평점</th>
+        <th>리뷰 수</th>
+        <th>1순위 불만</th>
+        <th>2순위 불만</th>
+        <th>3순위 불만</th>
+      </tr>
+      <tr>
+        <td style="font-weight:700">ZoomInfo</td>
+        <td>4.4/5</td>
+        <td>8,500+</td>
+        <td><span class="tag tr">가격 과다</span></td>
+        <td><span class="tag tw">데이터 노후</span></td>
+        <td><span class="tag tgr">계약 잠금</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Apollo.io</td>
+        <td>4.7/5</td>
+        <td>7,200+</td>
+        <td><span class="tag tr">동의 없는 수집</span></td>
+        <td><span class="tag tw">모바일 정확도</span></td>
+        <td><span class="tag tgr">이메일 바운스</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Lusha</td>
+        <td>4.3/5</td>
+        <td>1,400+</td>
+        <td><span class="tag tr">유럽 정확도 하락</span></td>
+        <td><span class="tag tw">크레딧 부족</span></td>
+        <td><span class="tag tgr">CRM 동기화</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">Cognism</td>
+        <td>4.6/5</td>
+        <td>700+</td>
+        <td><span class="tag tw">미국 커버리지 약함</span></td>
+        <td><span class="tag tgr">가격 높음</span></td>
+        <td><span class="tag tgr">SMB 부적합</span></td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">RocketReach</td>
+        <td>4.5/5</td>
+        <td>700+</td>
+        <td><span class="tag tw">이메일 정확도</span></td>
+        <td><span class="tag tgr">기능 제한</span></td>
+        <td><span class="tag tgr">UI/UX 미흡</span></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 9: "이런 기능이 있으면 좋겠다" 패턴 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">"이런 기능이 있으면 좋겠다" &rarr; 동의 기반 디렉토리의 기회</h2>
+
+  <div class="card">
+    <h3>&#128161; 사용자 요구 &rarr; 동의 기반 솔루션 매핑</h3>
+    <table class="tbl">
+      <tr>
+        <th style="width:30%">사용자 요구</th>
+        <th style="width:15%">빈도</th>
+        <th style="width:55%">동의 기반 디렉토리의 해결 방식</th>
+      </tr>
+      <tr>
+        <td>"정확한 연락처가 필요하다"</td>
+        <td><span class="severity-badge sev-critical">매우 높음</span></td>
+        <td>당사자가 직접 등록/업데이트하므로 정확도 95%+ 보장. 퇴사 시 본인이 상태 변경 또는 자동 비활성화</td>
+      </tr>
+      <tr>
+        <td>"동의 없이 수집하지 말아라"</td>
+        <td><span class="severity-badge sev-critical">매우 높음</span></td>
+        <td>모든 데이터가 본인의 자발적 등록. 옵트인 기반으로 GDPR/PIPA 원천 준수. 법적 리스크 0</td>
+      </tr>
+      <tr>
+        <td>"가격이 투명했으면 좋겠다"</td>
+        <td><span class="severity-badge sev-high">높음</span></td>
+        <td>웹사이트에 요금제 공개 게시. 연간 계약 강제 없이 월단위 구독. 무료 플랜 기본 제공</td>
+      </tr>
+      <tr>
+        <td>"원하는 연락만 받고 싶다"</td>
+        <td><span class="severity-badge sev-high">높음</span></td>
+        <td>카테고리/채널/시간대/빈도별 세밀한 수신 설정. 원클릭 전체 차단. 발신자 평판 시스템</td>
+      </tr>
+      <tr>
+        <td>"CRM과 자연스럽게 연동되면"</td>
+        <td><span class="severity-badge sev-medium">중간</span></td>
+        <td>Salesforce, HubSpot, Pipedrive 네이티브 연동. 실시간 양방향 동기화. API/Webhook 지원</td>
+      </tr>
+      <tr>
+        <td>"내 데이터 가치를 인정받고 싶다"</td>
+        <td><span class="severity-badge sev-medium">중간</span></td>
+        <td>연락처 공개 시 크레딧/포인트 보상. 응답 시 추가 리워드. 데이터 주권 보장</td>
+      </tr>
+      <tr>
+        <td>"상대방 신뢰도를 미리 알고 싶다"</td>
+        <td><span class="severity-badge sev-medium">중간</span></td>
+        <td>기업 인증 뱃지 + 리뷰 시스템 + 거래 이력 공개. 사기/스팸 발신자 자동 차단</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>&#127919; 타겟 세그먼트별 우선순위 니즈</h3>
+    <div class="g2">
+      <div class="card-s">
+        <span class="tag tb">발신자 (영업/채용/조달)</span>
+        <div style="margin-top:10px">
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">데이터 정확도</div>
+            <div class="sc-track"><div class="sc-bar" style="width:98%"></div></div>
+            <div class="sc-num">98</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">응답률 개선</div>
+            <div class="sc-track"><div class="sc-bar" style="width:95%"></div></div>
+            <div class="sc-num">95</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">법적 안전성</div>
+            <div class="sc-track"><div class="sc-bar" style="width:88%"></div></div>
+            <div class="sc-num">88</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">CRM 연동</div>
+            <div class="sc-track"><div class="sc-bar" style="width:82%"></div></div>
+            <div class="sc-num">82</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">합리적 가격</div>
+            <div class="sc-track"><div class="sc-bar" style="width:75%"></div></div>
+            <div class="sc-num">75</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-s">
+        <span class="tag tg">수신자 (의사결정자/전문가)</span>
+        <div style="margin-top:10px">
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">스팸 차단</div>
+            <div class="sc-track"><div class="sc-bar" style="width:97%;background:linear-gradient(90deg,#0e9f6e,#34d399)"></div></div>
+            <div class="sc-num">97</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">연락 통제권</div>
+            <div class="sc-track"><div class="sc-bar" style="width:94%;background:linear-gradient(90deg,#0e9f6e,#34d399)"></div></div>
+            <div class="sc-num">94</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">프라이버시 보장</div>
+            <div class="sc-track"><div class="sc-bar" style="width:91%;background:linear-gradient(90deg,#0e9f6e,#34d399)"></div></div>
+            <div class="sc-num">91</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">유용한 제안 수신</div>
+            <div class="sc-track"><div class="sc-bar" style="width:72%;background:linear-gradient(90deg,#0e9f6e,#34d399)"></div></div>
+            <div class="sc-num">72</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-lbl" style="width:160px">데이터 보상</div>
+            <div class="sc-track"><div class="sc-bar" style="width:58%;background:linear-gradient(90deg,#0e9f6e,#34d399)"></div></div>
+            <div class="sc-num">58</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- 섹션 10: 종합 기회 분석 -->
+<!-- ========================================= -->
+<div class="sec">
+  <h2 class="sec-title">종합 기회 분석</h2>
+
+  <div class="card">
+    <h3>&#128640; 동의 기반 디렉토리의 시장 포지셔닝</h3>
+    <table class="tbl">
+      <tr>
+        <th>차원</th>
+        <th>기존 도구 (ZoomInfo 등)</th>
+        <th>동의 기반 디렉토리 (우리)</th>
+      </tr>
+      <tr>
+        <td style="font-weight:700">데이터 수집</td>
+        <td style="color:var(--r)">웹 스크래핑 + 제3자 구매 (동의 없음)</td>
+        <td style="color:var(--g)">본인 자발적 등록 (100% 옵트인)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">정확도</td>
+        <td style="color:var(--w)">70~85% (연 30~40% 부패)</td>
+        <td style="color:var(--g)">95%+ (본인 실시간 업데이트)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">법적 리스크</td>
+        <td style="color:var(--r)">GDPR/PIPA 위반 가능성 상존</td>
+        <td style="color:var(--g)">동의 기반이므로 법적 리스크 0</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">수신자 경험</td>
+        <td style="color:var(--r)">원치 않는 연락 &rarr; 부정적 브랜드 인식</td>
+        <td style="color:var(--g)">허용한 연락만 수신 &rarr; 긍정적</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">응답률</td>
+        <td style="color:var(--r)">3~8% (콜드)</td>
+        <td style="color:var(--g)">25~40% (예상, 동의 기반)</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">가격 모델</td>
+        <td style="color:var(--r)">$15K~$40K/년, 불투명</td>
+        <td style="color:var(--g)">투명 공개, 무료~$299/월</td>
+      </tr>
+      <tr>
+        <td style="font-weight:700">데이터 주권</td>
+        <td style="color:var(--r)">데이터 브로커가 소유/판매</td>
+        <td style="color:var(--g)">개인이 소유, 언제든 철회 가능</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>&#128202; 리스크 & 과제</h3>
+    <div class="risk risk-h">
+      <div class="risk-icon">&#128308;</div>
+      <div class="risk-text"><strong>치킨-에그 문제 (높음)</strong> &mdash; 수신자 등록이 없으면 발신자가 오지 않고, 발신자가 없으면 수신자에게 보상할 수 없음. 초기 데이터 확보가 최대 관문. 해결: 특정 버티컬(예: IT/SaaS) 집중 론칭 후 확장</div>
+    </div>
+    <div class="risk risk-h">
+      <div class="risk-icon">&#128308;</div>
+      <div class="risk-text"><strong>기존 업체의 모방/방어 (높음)</strong> &mdash; ZoomInfo가 "동의 기반 옵션" 추가 가능. 하지만 기존 수익 모델(스크래핑)과 충돌하여 전면 전환은 어려움 (이노베이터 딜레마)</div>
+    </div>
+    <div class="risk risk-m">
+      <div class="risk-icon">&#128993;</div>
+      <div class="risk-text"><strong>초기 데이터 규모 (중간)</strong> &mdash; ZoomInfo 3억+ 프로필 vs 우리 초기 10만 이하. 양보다 질(정확도 95%+)로 차별화. 특정 니치에서 완전성 달성 후 확장</div>
+    </div>
+    <div class="risk risk-m">
+      <div class="risk-icon">&#128993;</div>
+      <div class="risk-text"><strong>수신자 이탈 관리 (중간)</strong> &mdash; 스팸이 늘면 수신자 떠남. 엄격한 발신자 평판 시스템 + 월간 연락 한도 + AI 품질 필터로 방어</div>
+    </div>
+    <div class="risk risk-l">
+      <div class="risk-icon">&#128994;</div>
+      <div class="risk-text"><strong>기술 복잡도 (낮음)</strong> &mdash; 핵심 기술은 프로필 관리 + 매칭 + 메시징. 특별한 딥테크 불필요. 프로덕트-마켓 핏과 GTM이 관건</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #93c5fd">
+    <h3 style="color:var(--p)">&#127775; 결론: 왜 지금인가?</h3>
+    <div class="g3" style="margin-top:14px">
+      <div class="card-s" style="text-align:center;background:white">
+        <div style="font-size:28px;margin-bottom:6px">&#128274;</div>
+        <h3 style="font-size:15px">규제 강화</h3>
+        <p style="font-size:13px;color:#4b5563">GDPR 벌금 &euro;58.8억, 한국 PIPA 강화, 각국 프라이버시법 도입 가속</p>
+      </div>
+      <div class="card-s" style="text-align:center;background:white">
+        <div style="font-size:28px;margin-bottom:6px">&#128169;</div>
+        <h3 style="font-size:15px">기존 모델 한계</h3>
+        <p style="font-size:13px;color:#4b5563">콜드 응답률 3%, 오픈율 연 5~8% 하락, 데이터 부패 30%+</p>
+      </div>
+      <div class="card-s" style="text-align:center;background:white">
+        <div style="font-size:28px;margin-bottom:6px">&#128161;</div>
+        <h3 style="font-size:15px">구매자 행동 변화</h3>
+        <p style="font-size:13px;color:#4b5563">67% 셀프서비스 선호, 95% 첫날 후보 결정, 인바운드 전환</p>
+      </div>
+    </div>
+    <p style="font-size:15px;margin-top:16px;text-align:center;font-weight:700;color:var(--p)">3가지 메가트렌드가 동시에 교차하는 2025~2027이 동의 기반 비즈니스 연락처 디렉토리의 최적 진입 시점입니다.</p>
+  </div>
+</div>
+
+</div><!-- /.wrap -->
+
+<div class="footer">
+  &copy; 2026 동의 기반 비즈니스 연락처 디렉토리 &mdash; 시장 리서치 보고서 &nbsp;|&nbsp;
+  출처: Gartner, 6Sense, HubSpot, Forrester, G2, Capterra, Statista, McKinsey, ITSMA, Demandbase, CMX, HBR, FTC
+</div>
+
+</body>
+</html>

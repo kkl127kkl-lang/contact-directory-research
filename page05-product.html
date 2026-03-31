@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>#002 동의 기반 비즈니스 연락처 앱 — 제품 설계 / PRD</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#1a56db;--g:#0e9f6e;--w:#f59e0b;--r:#e02424;--t:#111827;--bg:#f0f4f8;--bd:#e5e7eb;--card:#fff}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.hero{background:linear-gradient(135deg,#1a56db,#0a2d8e);padding:42px 24px 36px;text-align:center;color:#fff}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 18px;font-size:13px;margin-bottom:14px}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:900;line-height:1.3;margin-bottom:8px}
+.hero p{font-size:15px;opacity:.85}
+.nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-inner{display:flex;gap:0;max-width:960px;margin:0 auto;padding:0 20px}
+.nav a{padding:14px 18px;font-size:14px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s;color:var(--t)}
+.nav a:hover,.nav a.on{color:var(--p);border-bottom-color:var(--p)}
+.sec{padding:36px 0}
+.sec-title{border-left:4px solid var(--p);padding-left:14px;font-size:21px;font-weight:800;margin-bottom:24px}
+.card{background:var(--card);border-radius:16px;padding:26px;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:20px}
+.card h3{font-size:17px;font-weight:700;margin-bottom:12px}
+.card-s{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:900px){.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}}
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.tb{background:#eff6ff;color:var(--p)}.tg{background:#ecfdf5;color:var(--g)}.tw{background:#fffbeb;color:var(--w)}.tr{background:#fef2f2;color:var(--r)}.tgr{background:#f3f4f6;color:#6b7280}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+.tbl th{background:#f8faff;padding:10px 12px;text-align:left;font-weight:700;border-bottom:2px solid var(--bd)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.tl{position:relative;padding-left:32px;margin:20px 0}
+.tl::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--p),#e5e7eb)}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-item::before{content:'';position:absolute;left:-25px;top:4px;width:12px;height:12px;background:var(--p);border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px var(--p)}
+.tl-item h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-item p{font-size:14px;color:#6b7280}
+.footer{background:#1e293b;color:#94a3b8;padding:32px 24px;text-align:center;font-size:13px;margin-top:40px}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">PAGE 05 / 07 &mdash; Product Design &amp; PRD</div>
+  <h1>제품 설계 &amp; PRD</h1>
+  <p>동의 기반 비즈니스 연락처 디렉토리 &mdash; 사용자 페르소나, 여정, 기능 우선순위, UX 설계, 온보딩, 리텐션, 화면 목록, API, DB 모델을 망라한 상세 제품 설계서</p>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">종합 대시보드</a>
+    <a href="page01-competitors.html">경쟁사 분석</a>
+    <a href="page02-customer.html">고객 니즈</a>
+    <a href="page03-investment.html">투자/IR 시장</a>
+    <a href="page04-financials.html">재무 시뮬레이션</a>
+    <a href="page05-product.html" class="on">제품 설계</a>
+    <a href="page06-legal.html">법률/규제</a>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 1. 사용자 페르소나 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="personas">
+  <h2 class="sec-title">1. 사용자 페르소나 (6개)</h2>
+
+  <div class="g2">
+
+    <!-- 페르소나 1 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">1</div>
+        <div>
+          <h3 style="margin-bottom:0">김영호 (34세)</h3>
+          <span class="tag tb">B2B SaaS 영업팀장</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:120px">직무 목표</td><td>SaaS 제품 신규 도입 의사결정자 직접 접근</td></tr>
+        <tr><td style="font-weight:700">현재 Pain</td><td>ZoomInfo 월 $200+ 비용 부담, 한국 데이터 부정확, 게이트키퍼 돌파 실패율 80%</td></tr>
+        <tr><td style="font-weight:700">지불 의향</td><td><strong>월 5~10만원</strong> (개인 결제 가능)</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>IT 담당자/CTO/구매 담당자의 직접 연락처, 회사 규모/산업 기반 필터, 연락 가능 시간대 정보</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>주 3~5회 검색, 일 5~15건 연락 요청</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>연락 승인율 30%+, 미팅 전환율 10%+</td></tr>
+        <tr><td style="font-weight:700">대안 서비스</td><td>ZoomInfo(비쌈), LinkedIn Sales Navigator(한국 데이터 부족), 리멤버(검색 제한)</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px"><strong>Quote:</strong> "한국 시장에서 IT 의사결정자를 직접 찾을 수 있다면 영업 효율이 3배는 올라갈 것 같습니다."</p>
+    </div>
+
+    <!-- 페르소나 2 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">2</div>
+        <div>
+          <h3 style="margin-bottom:0">이수진 (29세)</h3>
+          <span class="tag tg">스타트업 CEO</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:120px">직무 목표</td><td>시리즈 A 투자자, 전략적 파트너(대기업 사업개발팀) 연결</td></tr>
+        <tr><td style="font-weight:700">현재 Pain</td><td>Cold pitch 성공률 1% 미만, VC 심사역 이메일 찾기 어려움, 네트워킹 이벤트 ROI 불확실</td></tr>
+        <tr><td style="font-weight:700">지불 의향</td><td><strong>월 3~5만원</strong> (법인 카드 사용)</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>VC/엔젤 투자자 필터, 투자 관심 분야 확인, 소개 요청 경로 추천</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>주 2~3회 검색, 월 10~20건 연락 요청</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>VC 미팅 성사율 5%+, 첫 투자 미팅까지 소요 시간 2주 이내</td></tr>
+        <tr><td style="font-weight:700">대안 서비스</td><td>TIPS 매칭, 데모데이 참가, 지인 소개(한계), LinkedIn DM(무시당함)</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px"><strong>Quote:</strong> "투자자를 만나려면 최소 3다리를 거쳐야 하는데, 직접 연결될 수 있다면 시간을 엄청나게 아낄 수 있어요."</p>
+    </div>
+
+    <!-- 페르소나 3 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">3</div>
+        <div>
+          <h3 style="margin-bottom:0">박준혁 (37세)</h3>
+          <span class="tag tw">VC 심사역</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:120px">직무 목표</td><td>유망 스타트업 딜 소싱, 업계 트렌드 파악, 포트폴리오사 지원</td></tr>
+        <tr><td style="font-weight:700">현재 Pain</td><td>PitchBook 연간 $10,000+ 비용, 한국 초기 스타트업 데이터 부족, 좋은 딜 놓침</td></tr>
+        <tr><td style="font-weight:700">지불 의향</td><td><strong>월 20~50만원</strong> (회사 비용 처리, Enterprise 플랜 선호)</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>산업별/투자 단계별 창업자 검색, 회사 성장 지표 확인, 포트폴리오사 핵심 인재 채용 지원</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>주 5회 이상 검색, 월 30~50건 프로필 조회</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>딜 파이프라인 월 5건+, 포트폴리오사 인재 매칭 성공</td></tr>
+        <tr><td style="font-weight:700">대안 서비스</td><td>PitchBook(비쌈), Crunchbase(한국 부족), 업계 네트워크(한정적)</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px"><strong>Quote:</strong> "한국 초기 스타트업 생태계를 한눈에 볼 수 있는 플랫폼이 절실합니다."</p>
+    </div>
+
+    <!-- 페르소나 4 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#e02424,#b91c1c);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">4</div>
+        <div>
+          <h3 style="margin-bottom:0">최은정 (42세)</h3>
+          <span class="tag tr">대기업 구매 담당</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:120px">직무 목표</td><td>신규 공급업체 발굴, 벤더 비교 평가, 구매 다변화</td></tr>
+        <tr><td style="font-weight:700">현재 Pain</td><td>기존 벤더 풀 한정, 신규 업체 검증 어려움, 담당자 연락처 확보에 1~2주 소요</td></tr>
+        <tr><td style="font-weight:700">지불 의향</td><td><strong>월 5~15만원</strong> (기업 결제, 구매 비용 처리 가능)</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>산업별/제품별 공급업체 검색, 영업 담당자 직접 연락, 회사 인증 정보(사업자등록/인증서) 확인</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>월 1~2회 집중 검색 (프로젝트 기반), 분기 1회 벤더 리뷰</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>신규 공급업체 미팅까지 3일 이내, 벤더 후보 3개사+ 확보</td></tr>
+        <tr><td style="font-weight:700">대안 서비스</td><td>KOMPASS(비쌈/구식), 전시회 방문(시간 소모), 업계 소개(제한적)</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px"><strong>Quote:</strong> "검증된 신규 업체를 빠르게 찾을 수 있다면 구매 프로세스가 훨씬 효율적이 됩니다."</p>
+    </div>
+
+    <!-- 페르소나 5 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#8b5cf6,#6d28d9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">5</div>
+        <div>
+          <h3 style="margin-bottom:0">정민수 (32세)</h3>
+          <span class="tag tgr">시니어 개발자</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:120px">직무 목표</td><td>조건에 맞는 이직 기회 탐색 (적극적 구직이 아닌 수동적 탐색)</td></tr>
+        <tr><td style="font-weight:700">현재 Pain</td><td>헤드헌터 스팸 연락, 관심 없는 포지션 제안, 회사 문화 사전 파악 어려움</td></tr>
+        <tr><td style="font-weight:700">지불 의향</td><td><strong>무료~월 2만원</strong> (개인 결제, 유료 전환 저항 높음)</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>"받고 싶은 연락" 유형 설정, 기술 스택/연봉 범위 기반 매칭, 익명 프로필 옵션</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>월 1~2회 수동적 확인, 관심 기업 알림 설정</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>관련 없는 연락 80% 감소, 관심 포지션만 수신</td></tr>
+        <tr><td style="font-weight:700">대안 서비스</td><td>원티드(프로필 공개 부담), 프로그래머스(제한적), LinkedIn(스팸 많음)</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px"><strong>Quote:</strong> "제가 원하는 조건의 연락만 받을 수 있다면 프로필을 등록하겠습니다."</p>
+    </div>
+
+    <!-- 페르소나 6 -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#ec4899,#be185d);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">6</div>
+        <div>
+          <h3 style="margin-bottom:0">한지영 (45세)</h3>
+          <span class="tag tb">프리랜서 컨설턴트</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:120px">직무 목표</td><td>신규 고객(기업) 발굴, 전문성 노출, 프로젝트 수주</td></tr>
+        <tr><td style="font-weight:700">현재 Pain</td><td>개인 브랜딩 채널 부족, 기업 담당자 직접 접근 어려움, 프로젝트 간 공백 기간 발생</td></tr>
+        <tr><td style="font-weight:700">지불 의향</td><td><strong>월 3~7만원</strong> (사업 경비 처리 가능, ROI 민감)</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>전문 분야별 프로필 노출, 포트폴리오 첨부, "컨설팅 요청 가능" 배지, 프로젝트 이력 공개</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>주 1~2회 프로필 업데이트, 월 5~10건 인바운드 연락 기대</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>인바운드 문의 월 3건+, 프로젝트 수주까지 평균 2주 이내</td></tr>
+        <tr><td style="font-weight:700">대안 서비스</td><td>크몽(수수료 높음), 위시켓(IT 한정), LinkedIn(한국 기업 반응 낮음)</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px"><strong>Quote:</strong> "프로젝트 사이사이 공백 기간을 줄이려면 항상 파이프라인을 유지해야 합니다."</p>
+    </div>
+
+  </div><!-- /g2 -->
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 2. 사용자 여정 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="journey">
+  <h2 class="sec-title">2. 사용자 여정 (User Journey) 4개</h2>
+
+  <!-- Journey 1 -->
+  <div class="card">
+    <h3>Journey 1: 연락 요청자 여정 (검색 &rarr; 연결)</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:16px">페르소나: 김영호(영업팀장) &mdash; B2B 잠재 고객의 IT 담당자를 찾아 미팅을 요청하는 전체 흐름</p>
+    <div class="tl">
+      <div class="tl-item">
+        <h4>1단계: 가입 &amp; 회사 인증 <span class="tag tg" style="margin-left:8px">감정: 기대 +7</span></h4>
+        <p>이메일/소셜 가입 &rarr; 회사 이메일 도메인 인증 &rarr; 회사명/직책 입력 &rarr; 프로필 사진 업로드. 소요 시간 3~5분. 회사 인증 완료 시 "인증된 프로필" 배지 발급.</p>
+      </div>
+      <div class="tl-item">
+        <h4>2단계: 프로필 최적화 <span class="tag tb" style="margin-left:8px">감정: 보통 +5</span></h4>
+        <p>전문 분야 태그 설정(최대 10개), "받고 싶은 연락" 유형 선택 (영업 제안/파트너십/투자/채용 등), 공개 범위 설정 (전체/인증사용자/승인자), 자기소개 작성(500자). 프로필 완성도 점수(%) 표시.</p>
+      </div>
+      <div class="tl-item">
+        <h4>3단계: 검색 &amp; 탐색 <span class="tag tg" style="margin-left:8px">감정: 흥분 +8</span></h4>
+        <p>산업/직무/회사 규모/지역 필터 조합 검색. 검색 결과에서 프로필 미리보기(이름/회사/직책/태그). "이 사람에게 연락 가능한 유형" 아이콘 표시. 유료 사용자: 고급 필터(회사 매출 규모, 투자 라운드, 기술 스택). 검색당 평균 15~30초 소요 목표.</p>
+      </div>
+      <div class="tl-item">
+        <h4>4단계: 연락 요청 작성 <span class="tag tw" style="margin-left:8px">감정: 긴장 +4</span></h4>
+        <p>상대방이 허용한 연락 유형 중 선택. 요청 목적 300자 이내 작성 (템플릿 제공). 자신의 프로필 요약 자동 첨부. "보내기" 클릭. 무료: 월 5건, Pro: 월 50건, Enterprise: 무제한. 잔여 크레딧 실시간 표시.</p>
+      </div>
+      <div class="tl-item">
+        <h4>5단계: 승인 대기 <span class="tag tr" style="margin-left:8px">감정: 불안 +2</span></h4>
+        <p>상대방 승인 대기 (평균 24~48시간). 진행 상태 표시: 발송됨 &rarr; 읽음 &rarr; 승인/거절. 48시간 미응답 시 자동 리마인더 (1회). 거절 시 "거절 사유 선택" (선택사항): 관심 없음/시기 부적절/정보 부족.</p>
+      </div>
+      <div class="tl-item">
+        <h4>6단계: 대화 시작 <span class="tag tg" style="margin-left:8px">감정: 만족 +9</span></h4>
+        <p>승인 알림 수신 (푸시/이메일). 1:1 채팅방 자동 생성. 연락처 교환 (이메일/전화, 단계별 공개). 대화 후 "연결 유지/종료" 선택. 성공적 연결 시 양측 프로필에 "연결 완료" 카운트 증가.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey 2 -->
+  <div class="card">
+    <h3>Journey 2: 요청 수신자 여정 (승인/거절)</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:16px">페르소나: 정민수(시니어 개발자) &mdash; 스팸 없이 원하는 연락만 받는 흐름</p>
+    <div class="tl">
+      <div class="tl-item">
+        <h4>1단계: 알림 수신 <span class="tag tb" style="margin-left:8px">감정: 호기심 +6</span></h4>
+        <p>푸시 알림: "[회사명]의 [이름]님이 [목적] 관련 연락을 요청합니다". 알림 탭에 요약: 요청자 프로필 카드 + 요청 목적 미리보기 (100자). 일일 요약 이메일 (설정 가능): 미응답 요청 N건.</p>
+      </div>
+      <div class="tl-item">
+        <h4>2단계: 요청 상세 확인 <span class="tag tb" style="margin-left:8px">감정: 평가 +5</span></h4>
+        <p>요청자의 전체 프로필 열람 (회사/직책/경력/공통 연결). 요청 목적 전문 확인 (300자). 요청자의 프로필 신뢰 점수 확인: 회사 인증 여부, 프로필 완성도, 기존 연결 수, 응답률. "공통 연결 N명" 표시 (신뢰도 향상).</p>
+      </div>
+      <div class="tl-item">
+        <h4>3단계: 의사결정 &amp; 응답 <span class="tag tg" style="margin-left:8px">감정: 통제감 +8</span></h4>
+        <p>[승인]: 대화방 열림 + 공개할 연락처 범위 선택. [나중에]: 7일 후 다시 알림. [거절]: 사유 선택(선택) + 차단 옵션. [신고]: 스팸/사칭/부적절 내용 신고. 3초 내 빠른 응답 가능한 스와이프 UI (모바일).</p>
+      </div>
+      <div class="tl-item">
+        <h4>4단계: 연결 후 관리 <span class="tag tg" style="margin-left:8px">감정: 안도 +7</span></h4>
+        <p>대화 후 상대방 평가 (1~5점 + 한줄평). 연결 유지/해제 선택. 차단 설정 (특정 사용자/회사 단위). "받고 싶은 연락" 설정 미세 조정. 연결 이력 대시보드에서 통계 확인.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey 3 -->
+  <div class="card">
+    <h3>Journey 3: 무료 &rarr; 유료 전환 여정</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:16px">페르소나: 이수진(스타트업 CEO) &mdash; 무료에서 시작해 유료로 자연스럽게 전환되는 흐름</p>
+    <div class="tl">
+      <div class="tl-item">
+        <h4>1단계: 무료 체험 (가입 후 1~2주) <span class="tag tg" style="margin-left:8px">감정: 탐색 +6</span></h4>
+        <p>무료 월 5건 연락 요청 사용. 기본 검색 필터 사용. 프로필 등록 완료 &rarr; 인바운드 연락 1~2건 수신. "이 서비스가 유용하다" 인식 형성. 프로필 조회수/검색 노출 통계 확인.</p>
+      </div>
+      <div class="tl-item">
+        <h4>2단계: 한계 인식 (2~3주) <span class="tag tw" style="margin-left:8px">감정: 아쉬움 +3</span></h4>
+        <p>월 5건 크레딧 소진. 고급 필터(투자 단계별 검색) 잠금 화면 노출. "이 프로필을 보려면 Pro 플랜이 필요합니다" &mdash; 블러 처리된 결과 표시. 검색 결과 목록에서 Pro 전용 프로필 강조 (잠금 아이콘).</p>
+      </div>
+      <div class="tl-item">
+        <h4>3단계: 전환 트리거 (3~4주) <span class="tag tw" style="margin-left:8px">감정: 결심 +7</span></h4>
+        <p>"지난주 프로필 조회 12회, 연락 요청 대기 3건" 이메일 발송. 7일 무료 Pro 체험 제안 (인앱 배너). 유사 사용자 성공 사례: "같은 업종 CEO가 Pro 사용 후 투자자 3명과 미팅 성사". 연간 결제 20% 할인 프로모션.</p>
+      </div>
+      <div class="tl-item">
+        <h4>4단계: 결제 &amp; 활성화 <span class="tag tg" style="margin-left:8px">감정: 확신 +8</span></h4>
+        <p>Pro 플랜 월 49,000원 결제 (카드/법인카드). 즉시 고급 필터 해제 + 월 50건 연락 요청. "Pro 배지" 프로필에 표시 (신뢰도 향상). 결제 후 30일 내 만족하지 않으면 전액 환불 보장.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journey 4 -->
+  <div class="card">
+    <h3>Journey 4: 기업 관리자 여정 (팀 관리)</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:16px">페르소나: 최은정(대기업 구매 담당) &mdash; 팀 단위로 서비스를 도입하고 관리하는 흐름</p>
+    <div class="tl">
+      <div class="tl-item">
+        <h4>1단계: Enterprise 문의 &amp; 도입 <span class="tag tb" style="margin-left:8px">감정: 신중 +5</span></h4>
+        <p>Enterprise 플랜 문의 &rarr; 세일즈팀 데모 미팅. 회사 도메인 일괄 인증. 보안 검토: SSO 연동, 데이터 처리 동의서, SLA 확인. 관리자 계정 생성 + 초기 설정 가이드 제공.</p>
+      </div>
+      <div class="tl-item">
+        <h4>2단계: 팀원 초대 &amp; 온보딩 <span class="tag tb" style="margin-left:8px">감정: 기대 +6</span></h4>
+        <p>CSV/이메일 일괄 초대 (최대 500명). 팀별 역할 부여: 관리자/정규/제한. 팀 전용 온보딩 가이드 + 사용 교육 영상 제공. 회사 프로필 페이지 자동 생성 (로고/소개/채용 정보).</p>
+      </div>
+      <div class="tl-item">
+        <h4>3단계: 팀 활동 모니터링 <span class="tag tg" style="margin-left:8px">감정: 관리 +7</span></h4>
+        <p>관리자 대시보드: 팀원별 사용량(검색/요청/연결), 월별 사용 추이 차트, 잔여 크레딧, 비용 요약. 팀 전체 연결 네트워크 맵 (시각화). 이상 사용 알림 (과다 요청, 신고 접수). 월간 사용 리포트 자동 이메일.</p>
+      </div>
+      <div class="tl-item">
+        <h4>4단계: 갱신 &amp; 확장 <span class="tag tg" style="margin-left:8px">감정: 확장 +8</span></h4>
+        <p>연간 계약 갱신 시 ROI 리포트 자동 생성: 총 연결 수, 평균 응답 시간, 비즈니스 성과 추정. 추가 팀(영업팀/마케팅팀) 확장 제안. API 연동(CRM/ERP) 추가 옵션. 전담 CSM(Customer Success Manager) 배정.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 3. MoSCoW 기능 우선순위 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="moscow">
+  <h2 class="sec-title">3. MoSCoW 기능 우선순위</h2>
+
+  <!-- Must Have -->
+  <div class="card">
+    <h3 style="color:var(--r)">Must Have &mdash; MVP 핵심 기능 (12~16주 개발)</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:14px">이 기능이 없으면 제품이 성립하지 않음. MVP 출시에 반드시 포함.</p>
+    <table class="tbl">
+      <thead><tr><th style="width:30px">#</th><th style="width:200px">기능</th><th>상세 설명</th><th style="width:80px">예상 공수</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>프로필 등록/편집</strong></td><td>이름, 회사, 직책, 전문 분야 태그(10개), 자기소개(500자), 프로필 사진, 경력 요약. 프로필 완성도 % 점수 실시간 계산. 필수 필드: 이름/회사/직책/이메일.</td><td>3주</td></tr>
+        <tr><td>2</td><td><strong>검색 (기본 필터)</strong></td><td>키워드 전문 검색 + 필터 조합: 산업(25개), 직무(30개), 회사 규모(5단계), 지역(시/도). 결과 정렬: 관련도/최근활동/프로필완성도. 검색 결과당 최대 50건 표시, 무한 스크롤.</td><td>2주</td></tr>
+        <tr><td>3</td><td><strong>연락 요청/승인</strong></td><td>요청 목적 선택(5종) + 메시지 작성(300자) + 발송. 수신자: 승인/거절/나중에. 상태 추적: 발송&rarr;읽음&rarr;승인/거절. 거절 시 사유 선택(선택사항). 무료 월 5건 제한.</td><td>2주</td></tr>
+        <tr><td>4</td><td><strong>받고 싶은 연락 설정</strong></td><td>연락 유형 6종: 영업 제안/파트너십/투자/채용/컨설팅 요청/네트워킹. 각 유형별 ON/OFF + 세부 조건 설정. "모든 연락 차단" 토글. 변경 즉시 반영.</td><td>1.5주</td></tr>
+        <tr><td>5</td><td><strong>인앱 메시징</strong></td><td>1:1 텍스트 채팅. 파일 첨부(PDF/이미지, 10MB). 읽음 표시. 채팅방 목록 + 검색. 오프라인 메시지 저장. 알림: 푸시+이메일 선택. 대화 종료/차단 기능.</td><td>2.5주</td></tr>
+        <tr><td>6</td><td><strong>회사 이메일 인증</strong></td><td>@company.com 도메인 인증 이메일 발송 &rarr; 6자리 코드 입력 &rarr; 인증 완료. 인증 유효기간 1년 (자동 재인증 알림). 개인 이메일(gmail 등) 사용 시 "미인증" 표시. 인증 완료 시 "인증 배지" 발급.</td><td>1주</td></tr>
+        <tr><td>7</td><td><strong>알림 시스템</strong></td><td>푸시 알림 + 이메일 알림 + 인앱 알림 센터. 알림 유형: 연락 요청, 승인/거절, 새 메시지, 프로필 조회. 알림 빈도 설정: 즉시/1일1회/주1회. 알림 그룹핑 (같은 유형 묶음).</td><td>1.5주</td></tr>
+        <tr><td>8</td><td><strong>프로필 분석</strong></td><td>내 프로필 조회수 (일별/주별/월별 차트), 검색 노출 횟수, 연락 요청 수신 수, 승인/거절 비율, 연결 성공 수. 비교 지표: "같은 직무 평균 대비" 표시.</td><td>1.5주</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:var(--r);font-weight:700;margin-top:10px">총 예상 공수: 15주 (프론트엔드 2명 + 백엔드 2명 + 디자이너 1명 기준)</p>
+  </div>
+
+  <!-- Should Have -->
+  <div class="card">
+    <h3 style="color:var(--w)">Should Have &mdash; 출시 후 1~3개월 내 추가</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:14px">MVP에 없어도 출시 가능하나, 경쟁력과 리텐션을 위해 빠르게 추가해야 함.</p>
+    <table class="tbl">
+      <thead><tr><th style="width:30px">#</th><th style="width:200px">기능</th><th>상세 설명</th><th style="width:80px">예상 공수</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>명함 스캔 등록</strong></td><td>카메라/갤러리에서 명함 촬영 &rarr; OCR 자동 인식(이름/회사/직책/연락처) &rarr; 프로필 자동 완성. 인식률 목표 95%+. 수동 교정 UI 제공. 명함 이미지 저장(선택).</td><td>2주</td></tr>
+        <tr><td>2</td><td><strong>조직도 뷰</strong></td><td>회사 페이지에서 부서별 조직도 트리 구조 표시. 해당 부서 내 등록된 사용자 목록. "이 부서에 연락하기" 바로가기. 조직도 데이터: 사용자 등록 기반 자동 구성 + 관리자 수동 편집.</td><td>2.5주</td></tr>
+        <tr><td>3</td><td><strong>CRM 연동</strong></td><td>Salesforce, HubSpot, Pipedrive 연동. 연결 성공한 연락처 자동 CRM 동기화. 연락 이력 CRM에 메모로 기록. 양방향 동기화: CRM에서 상태 변경 시 앱에 반영.</td><td>3주</td></tr>
+        <tr><td>4</td><td><strong>팀 관리</strong></td><td>관리자 대시보드: 팀원 초대/삭제, 역할 부여, 사용량 모니터링. 팀 크레딧 풀 공유. 팀원별 활동 리포트 (일별/주별/월별). CSV 일괄 초대 지원.</td><td>2주</td></tr>
+        <tr><td>5</td><td><strong>고급 검색 필터</strong></td><td>회사 매출 규모, 직원 수, 투자 라운드, 기술 스택, 설립 연도 필터 추가. 불리언 검색 (AND/OR/NOT). 저장된 검색 (알림 설정 가능). 최근 검색 이력 20건 보관.</td><td>1.5주</td></tr>
+        <tr><td>6</td><td><strong>프로필 배지 시스템</strong></td><td>자동 발급 배지 8종: 인증됨, 응답 우수(24시간 내 90%+), 활발한 네트워커(월 연결 10건+), 업계 전문가(프로필 조회 100회+), 신뢰도 우수(평점 4.5+), 초기 사용자, Pro 사용자, 멘토. 프로필에 최대 3개 표시.</td><td>1주</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:var(--w);font-weight:700;margin-top:10px">총 예상 공수: 12주</p>
+  </div>
+
+  <!-- Could Have -->
+  <div class="card">
+    <h3 style="color:var(--p)">Could Have &mdash; 출시 후 3~6개월 내 고려</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:14px">있으면 좋지만 우선순위 낮음. 시장 반응에 따라 결정.</p>
+    <table class="tbl">
+      <thead><tr><th style="width:30px">#</th><th style="width:200px">기능</th><th>상세 설명</th><th style="width:80px">예상 공수</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>AI 연결 추천</strong></td><td>사용자 프로필/검색 패턴/산업 분석 기반 "연결 추천". 주 1회 "이번 주 추천 연결 5명" 이메일. 추천 이유 설명: "같은 산업, 상호보완적 역할". 추천 수락률 기반 알고리즘 학습.</td><td>4주</td></tr>
+        <tr><td>2</td><td><strong>인텐트 시그널</strong></td><td>사용자 행동 기반 관심 신호 감지: 특정 산업 반복 검색, 특정 회사 페이지 다회 방문, 유사 프로필 연속 조회. "이 사용자가 당신의 프로필에 관심을 보이고 있습니다" 알림. 프라이버시 보호: 누가 봤는지가 아닌 "N명이 관심" 형태.</td><td>3주</td></tr>
+        <tr><td>3</td><td><strong>분석 대시보드</strong></td><td>기업 관리자용 고급 분석: 팀 ROI 계산기(연결 성공 건수 x 평균 거래 규모), 산업별 연결 히트맵, 경쟁사 벤치마크(익명화), 분기별 트렌드 리포트 PDF 다운로드.</td><td>3주</td></tr>
+        <tr><td>4</td><td><strong>공개 API</strong></td><td>REST API + Webhook. 프로필 조회, 검색, 연락 요청 전송, 연결 관리. Rate limit: 무료 100건/일, Pro 10,000건/일. API 키 관리 대시보드. Swagger 문서 제공.</td><td>3주</td></tr>
+        <tr><td>5</td><td><strong>다국어 지원</strong></td><td>한국어(기본) + 영어 + 일본어. 프로필 다국어 작성 지원 (언어별 별도 입력). 검색 시 언어 필터. UI 자동 언어 감지 + 수동 전환.</td><td>2주</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:var(--p);font-weight:700;margin-top:10px">총 예상 공수: 15주</p>
+  </div>
+
+  <!-- Won't Have -->
+  <div class="card">
+    <h3 style="color:#6b7280">Won't Have &mdash; 초기 배제 (의도적 비포함)</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:14px">초기 버전에서 명시적으로 제외. 제품 방향성과 충돌하거나 리소스 대비 효과가 낮은 기능.</p>
+    <table class="tbl">
+      <thead><tr><th style="width:30px">#</th><th style="width:200px">기능</th><th>배제 사유</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>채용 플랫폼 기능</strong></td><td>원티드/사람인과 직접 경쟁하게 되어 포지셔닝 혼란 발생. "연결 플랫폼"과 "채용 플랫폼"은 별개 카테고리. 채용 기능은 기존 플레이어가 압도적 우위. 대신 "이직 관련 연락 수신 설정"으로 간접 지원.</td></tr>
+        <tr><td>2</td><td><strong>광고 플랫폼</strong></td><td>동의 기반 모델의 핵심 가치(사용자 통제권)와 충돌. 광고는 사용자 신뢰를 훼손하고 이탈률을 높임. 수익 모델은 구독(SaaS)에 집중. 광고 수익은 MAU 100만 이하에서 무의미한 수준.</td></tr>
+        <tr><td>3</td><td><strong>결제 중개</strong></td><td>PG/에스크로 규제 부담 (전자금융업 등록 필요). MVP 복잡도 급증. 기존 결제 수단(법인카드/계좌이체)으로 충분. 결제 분쟁 리스크 부담.</td></tr>
+        <tr><td>4</td><td><strong>화상 회의</strong></td><td>Zoom/Google Meet/Teams 대비 경쟁 불가. 연동(링크 공유)으로 충분히 해결 가능. 인프라 비용 과다 (WebRTC 서버). 핵심 가치와 무관한 부가 기능.</td></tr>
+        <tr><td>5</td><td><strong>소셜 피드/게시글</strong></td><td>LinkedIn과 직접 경쟁하는 레드오션 영역. 콘텐츠 모더레이션 인력/비용 필요. "연락처 디렉토리"의 핵심 포커스 희석. 사용자 기대: SNS가 아닌 "전화번호부+알파" 수준의 도구.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 4. 동의 기반 UX 설계 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="consent-ux">
+  <h2 class="sec-title">4. "동의 기반" UX 설계</h2>
+
+  <!-- 연락 요청 승인률 높이는 원칙 -->
+  <div class="card">
+    <h3>연락 요청 UI &mdash; 승인률을 높이는 5가지 원칙</h3>
+    <div class="g2" style="margin-top:14px">
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--p);margin-bottom:6px">원칙 1: 투명한 목적 제시</div>
+        <p style="font-size:14px">요청 목적을 5가지 유형 중 선택하도록 강제 (영업 제안/파트너십/투자/채용/네트워킹). "기타" 옵션은 제공하지 않음 &mdash; 모호한 목적은 거절률을 60% 높임. 수신자가 목적을 한눈에 파악할 수 있도록 아이콘+색상으로 시각 구분.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--p);margin-bottom:6px">원칙 2: 상호 프로필 노출</div>
+        <p style="font-size:14px">요청자의 프로필이 수신자에게 100% 공개됨 (비공개 요청 불가). 이름/회사/직책/프로필 사진/경력 요약/공통 연결 수. "상대방도 나를 볼 수 있다"는 심리적 안전감이 승인률을 2배 높임.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--p);margin-bottom:6px">원칙 3: 연락 비용 부과</div>
+        <p style="font-size:14px">연락 요청에 크레딧 소모 (무료 1건/유료 1건). 비용이 있으면 스팸성 대량 발송 억제. 크레딧 잔량 실시간 표시로 "아끼게" 유도. 승인되면 크레딧 반환 없음, 거절 시 50% 반환.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--p);margin-bottom:6px">원칙 4: 응답 시간 제한</div>
+        <p style="font-size:14px">수신자가 72시간 내 응답하지 않으면 자동 만료 + 크레딧 100% 환불. 24시간 후 리마인더 1회 자동 발송. 만료된 요청은 30일 후 재요청 가능. 빠른 응답자에게 "빠른 응답 배지" 부여.</p>
+      </div>
+      <div class="card-s" style="grid-column:1/-1">
+        <div style="font-weight:700;color:var(--p);margin-bottom:6px">원칙 5: 거절의 부담 최소화</div>
+        <p style="font-size:14px">거절 시 요청자에게 "현재 새로운 연결을 받지 않습니다"로 표시 (개인적 거절 느낌 방지). 거절 사유는 선택사항이며 익명 처리. "나중에" 옵션으로 즉각적 의사결정 부담 제거. 거절해도 상대 프로필에 부정적 영향 없음.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3단계 프로필 공개 범위 -->
+  <div class="card">
+    <h3>3단계 프로필 공개 범위</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th style="width:120px">공개 수준</th><th>볼 수 있는 사람</th><th>공개 정보</th><th>비공개 정보</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tg">Level 1: 공개</span></td>
+          <td>비로그인 포함 모든 사람</td>
+          <td>이름, 회사명, 직책, 산업, 프로필 사진</td>
+          <td>이메일, 전화번호, 자세한 경력, 연결 목록</td>
+        </tr>
+        <tr>
+          <td><span class="tag tb">Level 2: 인증 사용자</span></td>
+          <td>회사 이메일 인증 완료한 로그인 사용자</td>
+          <td>Level 1 + 자기소개, 전문 분야 태그, 프로필 완성도, 경력 요약, "연락 요청" 버튼</td>
+          <td>이메일, 전화번호, 상세 연결 목록</td>
+        </tr>
+        <tr>
+          <td><span class="tag tw">Level 3: 승인자</span></td>
+          <td>내가 연락 요청을 승인한 사용자만</td>
+          <td>Level 2 + 이메일 주소, 전화번호(선택), 상세 경력, 포트폴리오, SNS 링크, 연결 공통 인맥</td>
+          <td>없음 (모두 공개)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:10px">사용자는 각 항목별로 공개 범위를 개별 설정할 수 있음 (예: 전화번호는 Level 3에서도 비공개 유지). 기본값은 최대 프라이버시 보호(Level 1 최소 공개)로 설정.</p>
+  </div>
+
+  <!-- 받고 싶은 연락 유형 설정 -->
+  <div class="card">
+    <h3>"받고 싶은 연락 유형" 설정 UX</h3>
+    <table class="tbl">
+      <thead>
+        <tr><th style="width:160px">연락 유형</th><th>설명</th><th style="width:100px">기본값</th><th>세부 조건 설정</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="tag tb">영업 제안</span></td><td>SaaS/솔루션/서비스 도입 제안</td><td>OFF</td><td>관심 제품 카테고리, 예산 범위, 도입 시기</td></tr>
+        <tr><td><span class="tag tg">파트너십</span></td><td>사업 협력, 공동 프로젝트, MOU 제안</td><td>ON</td><td>협력 유형(기술/마케팅/영업), 선호 산업</td></tr>
+        <tr><td><span class="tag tw">투자 관련</span></td><td>투자 유치, 투자 제안, 엑싯 관련</td><td>ON</td><td>투자 단계(시드~시리즈C), 투자 규모, 선호 섹터</td></tr>
+        <tr><td><span class="tag tgr">채용/이직</span></td><td>포지션 제안, 이직 상담, 헤드헌팅</td><td>OFF</td><td>희망 직무, 연봉 범위, 희망 회사 규모, 원격근무 여부</td></tr>
+        <tr><td><span class="tag tb">컨설팅 요청</span></td><td>전문 지식 문의, 자문 요청</td><td>ON</td><td>전문 분야, 가능 시간대, 유료/무료 여부</td></tr>
+        <tr><td style="color:#6b7280">네트워킹</td><td>업계 교류, 정보 교환, 커뮤니티</td><td>ON</td><td>관심 분야, 모임 형태(온라인/오프라인)</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:10px">각 유형별 "자동 거절 조건" 설정 가능: 프로필 완성도 50% 미만, 미인증 사용자, 특정 산업 제외. "모든 연락 차단" 마스터 토글로 일시적 비활성화 지원 (휴가/바쁜 기간).</p>
+  </div>
+
+  <!-- 스팸 방지 메커니즘 -->
+  <div class="card">
+    <h3>스팸 방지 8가지 메커니즘</h3>
+    <div class="g2" style="margin-top:10px">
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">1. 크레딧 기반 요청 제한</div>
+        <p style="font-size:13px;color:#6b7280">무료 월 5건, Pro 월 50건, Enterprise 무제한(단 일 100건 제한). 크레딧 소진 시 추가 구매 불가(월 리셋만 가능). 대량 발송의 경제적 비용 부과.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">2. 프로필 완성도 게이트</div>
+        <p style="font-size:13px;color:#6b7280">프로필 완성도 70% 미만 사용자는 연락 요청 불가. 필수 항목: 실명, 회사, 직책, 프로필 사진, 자기소개. 불완전 프로필 = 스팸 계정 가능성 높음.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">3. 회사 이메일 인증 필수</div>
+        <p style="font-size:13px;color:#6b7280">개인 이메일(gmail/naver) 사용자는 검색만 가능, 연락 요청 불가. 회사 이메일 인증 시 스팸 계정 생성 비용 급증. 1개 도메인당 최대 등록 수 제한.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">4. 거절률 기반 제재</div>
+        <p style="font-size:13px;color:#6b7280">최근 30일 거절률 70% 초과 시 경고 &rarr; 80% 초과 시 요청 수 50% 감소 &rarr; 90% 초과 시 7일 요청 차단. 신고 3회 이상 시 즉시 리뷰 &rarr; 영구 차단 가능.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">5. 메시지 내용 AI 필터</div>
+        <p style="font-size:13px;color:#6b7280">요청 메시지 발송 전 AI 자동 검토. 감지 대상: 욕설, 성희롱, 피싱 URL, 동일 메시지 복사붙여넣기 패턴, 과도한 이모지. 의심 메시지: 발송 지연 + 수동 리뷰 큐.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">6. 동일 대상 재요청 제한</div>
+        <p style="font-size:13px;color:#6b7280">거절된 대상에게 30일 내 재요청 불가. 만료(미응답)된 요청은 7일 후 재요청 가능(1회). 차단된 대상에게는 영구 요청 불가. 우회 시도(새 계정) 탐지.</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">7. 사용자 신고 시스템</div>
+        <p style="font-size:13px;color:#6b7280">신고 유형 4종: 스팸/사칭/부적절 내용/기타. 신고 접수 24시간 내 1차 리뷰. 사칭 확인 시 즉시 계정 정지. 월 신고 통계 공개(투명성 리포트).</p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;margin-bottom:4px">8. 행동 패턴 분석</div>
+        <p style="font-size:13px;color:#6b7280">이상 행동 자동 감지: 분당 검색 10회 초과, 1시간 내 연락 요청 20건 초과, 새벽 2~6시 대량 활동. 봇/스크래퍼 탐지: User-Agent/요청 패턴 분석. 의심 계정 자동 플래그 + 수동 리뷰.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 게이미피케이션 -->
+  <div class="card">
+    <h3>게이미피케이션: 배지, 레벨, 응답률</h3>
+    <div class="g3" style="margin-top:10px">
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--p);margin-bottom:6px">배지 시스템 (8종)</div>
+        <p style="font-size:13px;color:#6b7280">
+          <strong>인증됨</strong>: 회사 이메일 인증 완료<br>
+          <strong>빠른 응답</strong>: 24시간 내 응답률 90%+<br>
+          <strong>활발한 네트워커</strong>: 월 연결 10건+<br>
+          <strong>업계 전문가</strong>: 프로필 조회 100회+<br>
+          <strong>신뢰도 우수</strong>: 평점 4.5/5.0+<br>
+          <strong>초기 사용자</strong>: 출시 3개월 내 가입<br>
+          <strong>Pro 사용자</strong>: 유료 구독 중<br>
+          <strong>멘토</strong>: 컨설팅 연결 20건+ 완료
+        </p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--g);margin-bottom:6px">레벨 시스템 (5단계)</div>
+        <p style="font-size:13px;color:#6b7280">
+          <strong>Lv.1 Newcomer</strong> (0~49 XP): 가입 완료<br>
+          <strong>Lv.2 Active</strong> (50~199 XP): 프로필 완성 + 첫 연결<br>
+          <strong>Lv.3 Connector</strong> (200~499 XP): 연결 10건+<br>
+          <strong>Lv.4 Influencer</strong> (500~999 XP): 연결 50건+<br>
+          <strong>Lv.5 Leader</strong> (1,000+ XP): 연결 100건+<br><br>
+          XP 획득: 프로필 완성(+20), 연결 성공(+10), 요청 승인(+5), 빠른 응답(+3), 프로필 조회 10회(+5)
+        </p>
+      </div>
+      <div class="card-s">
+        <div style="font-weight:700;color:var(--w);margin-bottom:6px">응답률 인센티브</div>
+        <p style="font-size:13px;color:#6b7280">
+          <strong>응답률 표시</strong>: 프로필에 "평균 응답 시간 N시간" 표시<br>
+          <strong>검색 가산점</strong>: 응답률 높은 사용자가 검색 결과 상위 노출<br>
+          <strong>배지 보상</strong>: 90%+ 응답률 유지 시 "빠른 응답" 배지<br>
+          <strong>크레딧 보너스</strong>: 월 응답률 95%+ 시 다음 달 크레딧 +5건<br>
+          <strong>패널티</strong>: 응답률 20% 미만 지속 시 검색 노출 감소
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 5. 온보딩 벤치마크 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="onboarding">
+  <h2 class="sec-title">5. 온보딩 벤치마크</h2>
+
+  <div class="g2">
+    <div class="card">
+      <h3>LinkedIn 온보딩 분석</h3>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:130px">가입 단계</td><td>이메일 &rarr; 이름/직책 &rarr; 연락처 동기화 &rarr; 관심사 &rarr; 프로필 사진 (5단계, 약 3~5분)</td></tr>
+        <tr><td style="font-weight:700">핵심 전략</td><td>프로그레스 바로 완성도 시각화 &rarr; "프로필 완성도 X%" 반복 노출로 프로필 보강 유도</td></tr>
+        <tr><td style="font-weight:700">네트워크 부트스트랩</td><td>이메일 연락처 동기화 &rarr; "알 수 있는 사람" 추천 &rarr; 가입 즉시 연결 가능</td></tr>
+        <tr><td style="font-weight:700">약점</td><td>스팸 InMail 과다, "모든 것을 하려는" 복잡성, 프로필 공개 범위 설정 복잡</td></tr>
+        <tr><td style="font-weight:700">벤치마크</td><td>가입 7일 내 연결 1건+ 사용자의 90일 리텐션: 65%</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>리멤버 온보딩 분석</h3>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:130px">가입 단계</td><td>명함 스캔 &rarr; AI 인식 + 수동 교정 &rarr; 프로필 자동 생성 (3단계, 약 1~2분)</td></tr>
+        <tr><td style="font-weight:700">핵심 전략</td><td>명함 스캔 = 극도로 낮은 진입 장벽. 기존 명함을 활용하므로 "새로 입력"하는 부담 제거.</td></tr>
+        <tr><td style="font-weight:700">네트워크 부트스트랩</td><td>명함 교환 상대방 자동 연결 제안 &rarr; 오프라인 관계의 온라인 전환</td></tr>
+        <tr><td style="font-weight:700">약점</td><td>명함 없는 사용자 진입 어려움, 검색/필터 제한적, 프리미엄 기능 인지도 낮음</td></tr>
+        <tr><td style="font-weight:700">벤치마크</td><td>명함 스캔 후 7일 내 2번째 명함 스캔 사용자의 30일 리텐션: 72%</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>B2B SaaS 온보딩 핵심 지표</h3>
+    <div class="g3" style="margin-top:10px">
+      <div class="card-s" style="text-align:center">
+        <div style="font-size:32px;font-weight:900;color:var(--p)">40~60%</div>
+        <div style="font-size:13px;color:#6b7280;margin-top:4px">B2B SaaS 평균<br>온보딩 완료율</div>
+        <p style="font-size:12px;color:#9ca3af;margin-top:8px">우리 목표: <strong>70%</strong><br>(명함 스캔 + 최소 필수 필드)</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <div style="font-size:32px;font-weight:900;color:var(--g)">3~5분</div>
+        <div style="font-size:13px;color:#6b7280;margin-top:4px">이상적인<br>온보딩 소요 시간</div>
+        <p style="font-size:12px;color:#9ca3af;margin-top:8px">우리 목표: <strong>3분 이내</strong><br>(필수 3단계만 강제)</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <div style="font-size:32px;font-weight:900;color:var(--w)">7일</div>
+        <div style="font-size:13px;color:#6b7280;margin-top:4px">Aha Moment<br>도달 기한</div>
+        <p style="font-size:12px;color:#9ca3af;margin-top:8px"><strong>Aha Moment 정의:</strong><br>"가입 7일 내 1명 이상<br>양방향 연결 성공"</p>
+      </div>
+    </div>
+    <div style="background:#f0f4f8;border-radius:10px;padding:16px;margin-top:14px">
+      <p style="font-size:14px;font-weight:700;margin-bottom:6px">Aha Moment 달성 전략:</p>
+      <p style="font-size:13px;color:#6b7280">
+        1. 가입 직후 "추천 연결 5명" 즉시 표시 (프로필 매칭 기반)<br>
+        2. 가입 24시간 후 "프로필을 조회한 사람 N명" 알림 발송<br>
+        3. 가입 3일 후 미연결 사용자에게 "첫 연결 보너스 크레딧 +3건" 제공<br>
+        4. 가입 5일 후 "같은 산업 사용자 N명이 가입했습니다" 이메일<br>
+        5. 가입 7일 후 미활성 사용자에게 "프로필 완성도 X%, 완성하면 노출 3배 증가" 푸시
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 6. 리텐션 전략 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="retention">
+  <h2 class="sec-title">6. 리텐션 전략</h2>
+
+  <div class="g2">
+    <div class="card">
+      <h3>DAU/MAU 목표</h3>
+      <table class="tbl">
+        <tr><th>시기</th><th>DAU/MAU 목표</th><th>MAU 목표</th><th>핵심 지표</th></tr>
+        <tr><td>출시 3개월</td><td>8%</td><td>5,000명</td><td>가입 전환율 30%+</td></tr>
+        <tr><td>출시 6개월</td><td>10%</td><td>20,000명</td><td>월 연결 성공 500건+</td></tr>
+        <tr><td>출시 12개월</td><td><strong>15%</strong></td><td>50,000명</td><td>유료 전환율 5%+</td></tr>
+        <tr><td>출시 18개월</td><td>18%</td><td>100,000명</td><td>NPS 50+</td></tr>
+        <tr><td>출시 24개월</td><td>20%</td><td>200,000명</td><td>네트워크 효과 자생</td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">참고: B2B SaaS 평균 DAU/MAU 10~15%, 네트워크 효과 강한 플랫폼(LinkedIn) 25~30%</p>
+    </div>
+    <div class="card">
+      <h3>네트워크 효과 임계점</h3>
+      <table class="tbl">
+        <tr><th>단계</th><th>사용자 수</th><th>네트워크 밀도</th><th>상태</th></tr>
+        <tr><td>시드</td><td>0~1,000명</td><td>매우 낮음</td><td><span class="tag tr">수동 매칭 필요</span></td></tr>
+        <tr><td>초기 성장</td><td>1,000~5,000명</td><td>낮음</td><td><span class="tag tw">검색 결과 빈약</span></td></tr>
+        <tr><td><strong>임계점</strong></td><td><strong>5,000~10,000명</strong></td><td><strong>중간</strong></td><td><span class="tag tg">자연 발견 시작</span></td></tr>
+        <tr><td>성장기</td><td>10,000~50,000명</td><td>높음</td><td><span class="tag tg">네트워크 효과 가속</span></td></tr>
+        <tr><td>성숙기</td><td>50,000명+</td><td>매우 높음</td><td><span class="tag tb">자생적 성장</span></td></tr>
+      </table>
+      <p style="font-size:13px;color:#6b7280;margin-top:8px">핵심: 산업별로 각 100~500명만 확보하면 해당 산업 내 네트워크 효과 발생. 전체 사용자 수보다 산업별 밀도가 더 중요.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Cold Start 해결 5단계</h3>
+    <div class="tl">
+      <div class="tl-item">
+        <h4>1단계: 시드 사용자 확보 (출시 전 2개월) <span class="tag tb" style="margin-left:8px">목표: 500명</span></h4>
+        <p>스타트업 커뮤니티(디캠프/마루180) 파트너십으로 초기 사용자 유치. 초기 사용자 전원 "Founding Member" 배지 + Pro 기능 3개월 무료. VC/엔젤 투자자 50명 직접 초대 (대표가 직접 이메일). 테크 밋업/컨퍼런스에서 명함 스캔 이벤트.</p>
+      </div>
+      <div class="tl-item">
+        <h4>2단계: 공급 측 집중 (출시 후 1~2개월) <span class="tag tg" style="margin-left:8px">목표: 2,000명</span></h4>
+        <p>"받고 싶은 연락만 받는다"는 가치 제안으로 수요자(연락 받는 사람) 먼저 확보. 시니어 개발자/CTO/부서장 등 "연락 받고 싶은 사람"이 먼저 프로필 등록. 영업 제안 수신 설정 시 "관심 있는 제품 카테고리" 등록 &rarr; 매칭 가능 데이터 축적.</p>
+      </div>
+      <div class="tl-item">
+        <h4>3단계: 수요 측 유입 (출시 후 2~4개월) <span class="tag tw" style="margin-left:8px">목표: 5,000명</span></h4>
+        <p>"검색 가능한 의사결정자 N명" 마케팅으로 영업 담당자/VC 유입. 콘텐츠 마케팅: "B2B 영업 담당자가 알아야 할 효율적 네트워킹 법" 블로그/뉴스레터. 리퍼럴 프로그램: 초대한 친구가 가입 시 양측 모두 크레딧 +5건.</p>
+      </div>
+      <div class="tl-item">
+        <h4>4단계: 산업별 클러스터 형성 (출시 후 4~6개월) <span class="tag tg" style="margin-left:8px">목표: 10,000명</span></h4>
+        <p>IT/핀테크/바이오 등 특정 산업에 집중 공략 &rarr; 산업 내 네트워크 밀도 확보. 산업별 "커뮤니티 리더" 임명 (인플루언서 10명) &rarr; 해당 산업 사용자 유치 위임. 산업별 네트워킹 이벤트 (온라인/오프라인) 월 1회 개최.</p>
+      </div>
+      <div class="tl-item">
+        <h4>5단계: 바이럴 루프 가동 (출시 후 6개월+) <span class="tag tg" style="margin-left:8px">목표: 자생 성장</span></h4>
+        <p>연결 성공 시 "이 서비스에서 [이름]님과 연결되었습니다" 소셜 공유 유도. 기업 관리자가 팀원 초대 &rarr; B2B 바이럴 (팀 단위 도입). "연결 추천" 알림으로 비활성 사용자 재활성화. 월간 "네트워크 인사이트" 이메일 (프로필 조회수, 산업 트렌드).</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 7. MVP 화면 목록 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="screens">
+  <h2 class="sec-title">7. MVP 화면 목록 (20개)</h2>
+
+  <div class="card">
+    <table class="tbl">
+      <thead>
+        <tr><th style="width:30px">#</th><th style="width:180px">화면명</th><th>주요 기능</th><th style="width:80px">플랫폼</th><th style="width:80px">우선순위</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>스플래시</td><td>앱 로고 + 로딩 애니메이션 + 자동 로그인 체크 (토큰 유효성 확인)</td><td>모바일</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>2</td><td>회원가입</td><td>이메일/소셜(Google, Apple) 가입 + 약관 동의 + 회사 이메일 인증 + 기본 정보(이름/회사/직책)</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>3</td><td>로그인</td><td>이메일+비밀번호 / 소셜 로그인 / 비밀번호 재설정 / 자동 로그인(Remember me)</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>4</td><td>프로필 편집</td><td>기본 정보, 전문 분야 태그(10개), 자기소개(500자), 경력, 프로필 사진, 포트폴리오 링크. 완성도 % 실시간 계산.</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>5</td><td>홈 피드</td><td>추천 연결 5명 + 최근 프로필 조회자(블러) + 미응답 요청 알림 배지 + 프로필 분석 요약 카드</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>6</td><td>검색</td><td>키워드 입력 + 필터 패널(산업/직무/회사규모/지역) + 최근 검색어 + 저장된 검색</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>7</td><td>검색 결과</td><td>프로필 카드 리스트(이름/회사/직책/태그/매칭도) + 무한 스크롤 + Pro 잠금 결과 표시 + 정렬 옵션</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>8</td><td>회사 페이지</td><td>회사 로고/소개/산업/규모/위치 + 등록된 직원 목록 + 부서별 보기 + "이 회사에 연락하기" 바로가기</td><td>공통</td><td><span class="tag tw">P1</span></td></tr>
+        <tr><td>9</td><td>사용자 프로필</td><td>프로필 전체 보기(공개 범위별) + 배지 + 응답 시간 + 공통 연결 + "연락 요청" 버튼 + 신고/차단</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>10</td><td>연락 요청</td><td>목적 선택(5종) + 메시지 작성(300자/템플릿) + 내 프로필 미리보기 + 잔여 크레딧 표시 + 발송 확인</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>11</td><td>받은 요청 목록</td><td>요청 카드 리스트 + 필터(읽음/안읽음/목적별) + 요청자 프로필 미리보기 + 빠른 응답(승인/거절/나중에) 버튼</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>12</td><td>메시지 목록</td><td>대화방 리스트(최근 메시지 미리보기) + 읽지 않은 메시지 배지 + 검색 + 대화방 삭제/아카이브</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>13</td><td>채팅</td><td>1:1 텍스트 채팅 + 파일 첨부(10MB) + 읽음 표시 + 대화 종료 버튼 + 상대 프로필 바로가기</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>14</td><td>알림</td><td>알림 리스트(시간순) + 유형별 아이콘 + 읽음/안읽음 표시 + 모두 읽음 처리 + 알림 설정 바로가기</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>15</td><td>설정</td><td>계정 설정(이메일/비밀번호), 알림 설정(유형별 ON/OFF, 빈도), 개인정보 설정, 로그아웃, 계정 삭제</td><td>공통</td><td><span class="tag tw">P1</span></td></tr>
+        <tr><td>16</td><td>프로필 공개 범위</td><td>항목별 공개 수준 설정(전체/인증사용자/승인자) + 미리보기(각 수준에서 보이는 모습) + 기본값 리셋</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>17</td><td>연락 선호 설정</td><td>6가지 유형별 ON/OFF + 세부 조건(산업/규모/키워드) + 자동 거절 규칙 + 마스터 차단 토글</td><td>공통</td><td><span class="tag tr">P0</span></td></tr>
+        <tr><td>18</td><td>결제/구독</td><td>플랜 비교표(Free/Pro/Enterprise) + 결제 수단 등록(카드/법인카드) + 결제 이력 + 영수증 다운로드 + 플랜 변경/해지</td><td>공통</td><td><span class="tag tw">P1</span></td></tr>
+        <tr><td>19</td><td>팀 관리</td><td>팀원 목록(이름/역할/사용량) + 초대(이메일/CSV) + 역할 변경 + 팀 크레딧 잔량 + 월간 사용 리포트</td><td>웹</td><td><span class="tag tw">P1</span></td></tr>
+        <tr><td>20</td><td>관리자 대시보드</td><td>전체 사용자 통계(가입/DAU/MAU) + 연결 성공률 + 신고 처리 큐 + 매출 요약 + 시스템 상태</td><td>웹</td><td><span class="tag tw">P1</span></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:10px">P0 = MVP 필수 (14개), P1 = MVP 직후 1개월 내 추가 (6개). 모바일: React Native(iOS/Android 동시). 웹: Next.js.</p>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 8. API 엔드포인트 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="api">
+  <h2 class="sec-title">8. API 엔드포인트 (38개)</h2>
+
+  <!-- Auth -->
+  <div class="card">
+    <h3><span class="tag tb" style="margin-right:8px">Auth</span> 인증 API (4개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/auth/register</td><td>회원가입 (이메일, 비밀번호, 이름, 회사, 직책). 가입 확인 이메일 발송. 중복 이메일 검증.</td><td>-</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/auth/login</td><td>로그인 (이메일+비밀번호 / 소셜 OAuth). JWT 토큰 발급 (Access 15분 + Refresh 30일).</td><td>-</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/auth/refresh</td><td>Access 토큰 갱신 (Refresh 토큰으로). 만료된 Refresh 토큰 시 401 반환.</td><td>Refresh</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/auth/verify-email</td><td>이메일 인증 코드 확인 (6자리, 10분 유효). 인증 완료 시 "verified" 배지 발급.</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Profile -->
+  <div class="card">
+    <h3><span class="tag tg" style="margin-right:8px">Profile</span> 프로필 API (6개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/profiles/me</td><td>내 프로필 조회 (전체 정보 + 완성도 % + 배지 목록 + 분석 요약).</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/profiles/me</td><td>프로필 수정 (이름, 직책, 자기소개, 태그, 경력 등). 부분 업데이트 지원.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/profiles/:id</td><td>타인 프로필 조회 (공개 범위에 따른 필드 필터링). 조회 로그 기록.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/profiles/me/photo</td><td>프로필 사진 업로드 (JPEG/PNG, 최대 5MB). S3 업로드 + 리사이즈(200x200, 400x400).</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/profiles/me/analytics</td><td>프로필 분석 (조회수, 검색 노출, 연락 요청 수신, 승인률). 일별/주별/월별.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/profiles/me/preferences</td><td>연락 선호 설정 수정 (유형별 ON/OFF, 세부 조건, 자동 거절 규칙).</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Search -->
+  <div class="card">
+    <h3><span class="tag tw" style="margin-right:8px">Search</span> 검색 API (4개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/search/profiles</td><td>프로필 검색 (키워드 + 필터: 산업/직무/규모/지역). 페이지네이션(50건). 관련도 정렬. Pro: 고급 필터.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/search/companies</td><td>회사 검색 (이름/산업/규모/위치). 회사 페이지 링크 포함. 등록 직원 수 표시.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/search/suggestions</td><td>검색어 자동완성 (인기 검색어 + 최근 검색어). 입력 2자 이상 시 실시간 추천.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/search/saved</td><td>저장된 검색 목록 조회 (검색 조건 + 알림 설정 + 마지막 실행 결과 수).</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Connection -->
+  <div class="card">
+    <h3><span class="tag tr" style="margin-right:8px">Connection</span> 연락 요청 API (6개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/connections/request</td><td>연락 요청 발송 (대상ID, 목적, 메시지 300자). 크레딧 차감. AI 스팸 필터링. 72시간 만료.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/connections/sent</td><td>보낸 요청 목록 (상태별 필터: 대기/승인/거절/만료). 페이지네이션.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/connections/received</td><td>받은 요청 목록 (읽음/안읽음 필터). 요청자 프로필 미리보기 포함.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/connections/:id/respond</td><td>요청 응답 (승인/거절/나중에). 승인 시 대화방 자동 생성. 거절 시 사유(선택).</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/connections</td><td>연결된 사용자 목록 (이름/회사 검색, 연결일 정렬). 연결 해제 포함.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tr">DELETE</span></td><td>/api/connections/:id</td><td>연결 해제. 양측 대화 내역 아카이브 처리. 재연결 시 새 요청 필요.</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Message -->
+  <div class="card">
+    <h3><span class="tag tg" style="margin-right:8px">Message</span> 메시지 API (5개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/conversations</td><td>대화방 목록 (최근 메시지 미리보기, 읽지 않은 수, 마지막 활동 시간 정렬).</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/conversations/:id/messages</td><td>대화방 메시지 조회 (역순 페이지네이션 50건). 읽음 표시 자동 업데이트.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/conversations/:id/messages</td><td>메시지 발송 (텍스트 + 파일 첨부 10MB). 실시간 WebSocket 전송. AI 내용 필터링.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/conversations/:id/files</td><td>파일 업로드 (PDF/JPEG/PNG, 10MB). S3 저장 + 바이러스 스캔. 다운로드 URL 반환.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tr">DELETE</span></td><td>/api/conversations/:id</td><td>대화방 나가기 (내 메시지 아카이브, 상대방에겐 "대화방을 나갔습니다" 표시).</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Notification -->
+  <div class="card">
+    <h3><span class="tag tgr" style="margin-right:8px">Notification</span> 알림 API (3개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/notifications</td><td>알림 목록 (유형별 필터, 읽음/안읽음 필터, 최근 50건). 그룹핑(같은 유형 묶음).</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/notifications/read</td><td>알림 읽음 처리 (단건 ID 또는 "all" 전체 읽음). 인앱 배지 카운트 업데이트.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/notifications/settings</td><td>알림 설정 변경 (유형별 ON/OFF, 채널별 ON/OFF: 푸시/이메일/인앱, 빈도: 즉시/일1회/주1회).</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Company -->
+  <div class="card">
+    <h3><span class="tag tb" style="margin-right:8px">Company</span> 회사 API (4개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/companies/:id</td><td>회사 상세 (이름/산업/규모/위치/소개/로고 + 등록 직원 수 + 부서 목록).</td><td>JWT</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/companies/:id/members</td><td>회사 소속 사용자 목록 (부서별 필터, 직급별 정렬). 공개 범위 필터링 적용.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/companies/:id</td><td>회사 정보 수정 (관리자 권한). 로고/소개/채용 정보 업데이트.</td><td>JWT+Admin</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/companies/:id/verify</td><td>회사 인증 요청 (사업자등록증 업로드). 수동 심사 (영업일 1~3일). 인증 완료 시 회사 배지.</td><td>JWT+Admin</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Subscription -->
+  <div class="card">
+    <h3><span class="tag tw" style="margin-right:8px">Subscription</span> 구독/결제 API (3개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/subscriptions/me</td><td>현재 구독 정보 (플랜/잔여크레딧/다음결제일/결제수단). Enterprise: 팀 크레딧 잔량.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/subscriptions/checkout</td><td>구독 결제 (플랜ID + 결제수단). PG사 연동(토스/아임포트). 결제 완료 시 즉시 플랜 업그레이드.</td><td>JWT</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/subscriptions/cancel</td><td>구독 해지 (현재 결제 기간 종료 후 Free 전환). 해지 사유 수집. 해지 30일 전 알림.</td><td>JWT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Admin -->
+  <div class="card">
+    <h3><span class="tag tgr" style="margin-right:8px">Admin</span> 관리자 API (3개)</h3>
+    <table class="tbl">
+      <thead><tr><th style="width:80px">Method</th><th style="width:280px">Endpoint</th><th>설명</th><th style="width:70px">인증</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/admin/dashboard</td><td>관리자 대시보드 데이터 (DAU/MAU/가입수/연결수/매출/신고수). 일별/주별/월별.</td><td>Admin</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/admin/reports</td><td>신고 처리 큐 (미처리/처리중/완료 필터). 신고 상세 + 해당 사용자 프로필 + 조치 이력.</td><td>Admin</td></tr>
+        <tr><td><span class="tag tw">PATCH</span></td><td>/api/admin/users/:id/status</td><td>사용자 상태 변경 (활성/경고/정지/영구차단). 조치 사유 기록. 차단 시 이메일 통보.</td><td>Admin</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ============================================ -->
+<!-- 9. DB 모델 -->
+<!-- ============================================ -->
+<div class="wrap">
+<div class="sec" id="db">
+  <h2 class="sec-title">9. DB 모델 (13개)</h2>
+
+  <div class="card">
+    <table class="tbl">
+      <thead>
+        <tr><th style="width:30px">#</th><th style="width:190px">모델명</th><th>주요 필드</th><th style="width:130px">관계</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>User</strong></td>
+          <td>id (UUID), email (UNIQUE), passwordHash, name, role (USER/ADMIN), status (ACTIVE/WARNED/SUSPENDED/BANNED), emailVerified (Boolean), createdAt, lastLoginAt, deletedAt (soft delete)</td>
+          <td>1:1 Profile, 1:N Subscription, 1:N Notification</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Company</strong></td>
+          <td>id (UUID), name, industry (Enum 25종), size (SEED/SMALL/MEDIUM/LARGE/ENTERPRISE), location, website, logoUrl, description, foundedYear, isVerified (Boolean), verifiedAt</td>
+          <td>1:N Department, 1:N Profile, 1:N CompanyVerification</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Department</strong></td>
+          <td>id (UUID), companyId (FK), name, parentDepartmentId (FK, self-ref), level (Int), sortOrder</td>
+          <td>N:1 Company, 1:N Profile</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Profile</strong></td>
+          <td>id (UUID), userId (FK, UNIQUE), companyId (FK), departmentId (FK), title, bio (500자), tags (JSON, max 10), career (JSON), photoUrl, portfolioUrl, completionScore (Int 0~100), level (Int 1~5), xp (Int), visibilitySettings (JSON)</td>
+          <td>1:1 User, N:1 Company, 1:1 ContactPreference</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>ConnectionRequest</strong></td>
+          <td>id (UUID), senderId (FK User), receiverId (FK User), purpose (Enum: SALES/PARTNERSHIP/INVESTMENT/HIRING/CONSULTING/NETWORKING), message (300자), status (PENDING/APPROVED/REJECTED/EXPIRED/LATER), rejectionReason, respondedAt, expiresAt (72h), creditSpent (Int)</td>
+          <td>N:1 User (sender), N:1 User (receiver)</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Message</strong></td>
+          <td>id (UUID), conversationId (FK), senderId (FK User), content (TEXT), fileUrl, fileName, fileSize, isRead (Boolean), readAt, createdAt</td>
+          <td>N:1 Conversation, N:1 User</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Conversation</strong></td>
+          <td>id (UUID), participant1Id (FK User), participant2Id (FK User), connectionRequestId (FK), lastMessageAt, isActive (Boolean), createdAt</td>
+          <td>1:N Message, N:1 User (x2), 1:1 ConnectionRequest</td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>ContactPreference</strong></td>
+          <td>id (UUID), profileId (FK, UNIQUE), salesEnabled (Boolean), partnershipEnabled (Boolean), investmentEnabled (Boolean), hiringEnabled (Boolean), consultingEnabled (Boolean), networkingEnabled (Boolean), detailedConditions (JSON), autoRejectRules (JSON), masterBlock (Boolean)</td>
+          <td>1:1 Profile</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td><strong>Subscription</strong></td>
+          <td>id (UUID), userId (FK), plan (FREE/PRO/ENTERPRISE), creditsRemaining (Int), creditsTotal (Int), startDate, endDate, autoRenew (Boolean), paymentMethod (JSON), pgTransactionId, cancelledAt</td>
+          <td>N:1 User</td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td><strong>Notification</strong></td>
+          <td>id (UUID), userId (FK), type (Enum: REQUEST_RECEIVED/REQUEST_RESPONDED/NEW_MESSAGE/PROFILE_VIEW/SYSTEM), title, body, isRead (Boolean), readAt, relatedEntityId, relatedEntityType, createdAt</td>
+          <td>N:1 User</td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td><strong>CompanyVerification</strong></td>
+          <td>id (UUID), companyId (FK), requestedBy (FK User), documentUrl (사업자등록증), status (PENDING/APPROVED/REJECTED), reviewedBy, reviewedAt, rejectionReason</td>
+          <td>N:1 Company, N:1 User</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td><strong>SearchLog</strong></td>
+          <td>id (UUID), userId (FK), query (TEXT), filters (JSON), resultCount (Int), clickedProfileIds (JSON), createdAt</td>
+          <td>N:1 User</td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td><strong>Block</strong></td>
+          <td>id (UUID), blockerId (FK User), blockedId (FK User), blockedCompanyId (FK Company, nullable), reason, createdAt</td>
+          <td>N:1 User (blocker), N:1 User (blocked), N:1 Company (optional)</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="background:#f0f4f8;border-radius:10px;padding:16px;margin-top:14px">
+      <p style="font-size:14px;font-weight:700;margin-bottom:8px">DB 설계 원칙:</p>
+      <p style="font-size:13px;color:#6b7280">
+        1. <strong>Soft Delete</strong>: User, Company, Conversation에 deletedAt 필드 적용 (데이터 영구 삭제 방지)<br>
+        2. <strong>JSON 필드</strong>: 유연한 스키마가 필요한 곳(태그, 경력, 필터 조건)에 JSON 사용, 인덱싱은 GIN으로<br>
+        3. <strong>UUID PK</strong>: 모든 테이블 UUID v4 사용 (순차 ID 노출 방지, 분산 DB 호환)<br>
+        4. <strong>인덱스</strong>: email(UNIQUE), companyId(FK), senderId+status(복합), userId+createdAt(복합), query+userId(검색 로그)<br>
+        5. <strong>GDPR 준수</strong>: 계정 삭제 시 개인 정보 익명화 처리 (이름/이메일 해시 대체), 메시지 내용 삭제, 연결 이력 익명화
+      </p>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>동의 기반 비즈니스 연락처 디렉토리 &mdash; 제품 설계 &amp; PRD &copy; 2026</p>
+  <p style="margin-top:6px">이 문서는 사업 타당성 분석 시리즈의 일부입니다.</p>
+</div>
+
+</body>
+</html>
