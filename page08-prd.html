@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>#002 동의 기반 비즈니스 연락처 앱 — PRD (Product Requirements Document)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#1a56db;--g:#0e9f6e;--w:#f59e0b;--r:#e02424;--t:#111827;--bg:#f0f4f8;--bd:#e5e7eb;--card:#fff}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.hero{background:linear-gradient(135deg,#1a56db,#0a2d8e);padding:42px 24px 36px;text-align:center;color:#fff}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 18px;font-size:13px;margin-bottom:14px}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:900;line-height:1.3;margin-bottom:8px}
+.hero p{font-size:15px;opacity:.85}
+.nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-inner{display:flex;gap:0;max-width:960px;margin:0 auto;padding:0 20px}
+.nav a{padding:14px 18px;font-size:14px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s;color:var(--t)}
+.nav a:hover,.nav a.on{color:var(--p);border-bottom-color:var(--p)}
+.sec{padding:36px 0}
+.sec-title{border-left:4px solid var(--p);padding-left:14px;font-size:21px;font-weight:800;margin-bottom:24px}
+.card{background:var(--card);border-radius:16px;padding:26px;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:20px}
+.card h3{font-size:17px;font-weight:700;margin-bottom:12px}
+.card-s{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+@media(max-width:900px){.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.tb{background:#eff6ff;color:var(--p)}.tg{background:#ecfdf5;color:var(--g)}.tw{background:#fffbeb;color:var(--w)}.tr{background:#fef2f2;color:var(--r)}.tgr{background:#f3f4f6;color:#6b7280}
+.tp{background:#f5f3ff;color:#7c3aed}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+.tbl th{background:#f8faff;padding:10px 12px;text-align:left;font-weight:700;border-bottom:2px solid var(--bd)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.tl{position:relative;padding-left:32px;margin:20px 0}
+.tl::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--p),#e5e7eb)}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-item::before{content:'';position:absolute;left:-25px;top:4px;width:12px;height:12px;background:var(--p);border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px var(--p)}
+.tl-item h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-item p{font-size:14px;color:#6b7280}
+.footer{background:#1e293b;color:#94a3b8;padding:32px 24px;text-align:center;font-size:13px;margin-top:40px}
+.flow-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:18px}
+.flow-num{min-width:36px;height:36px;background:linear-gradient(135deg,var(--p),#0a2d8e);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;flex-shrink:0}
+.flow-body h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.flow-body p{font-size:14px;color:#6b7280}
+.kpi-card{text-align:center;padding:24px 16px}
+.kpi-card .kpi-val{font-size:32px;font-weight:900;color:var(--p);margin-bottom:4px}
+.kpi-card .kpi-label{font-size:13px;color:#6b7280;font-weight:600}
+.kpi-card .kpi-target{font-size:12px;color:var(--g);margin-top:4px;font-weight:600}
+.principle-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:14px}
+.screen-group{margin-bottom:28px}
+.screen-group h4{font-size:16px;font-weight:700;color:var(--p);margin-bottom:12px;padding:8px 12px;background:#eff6ff;border-radius:8px}
+.moscow-must{border-left:4px solid var(--p);padding-left:12px}
+.moscow-should{border-left:4px solid var(--g);padding-left:12px}
+.moscow-could{border-left:4px solid var(--w);padding-left:12px}
+.moscow-wont{border-left:4px solid #9ca3af;padding-left:12px}
+.noti-example{background:#f8faff;border-radius:12px;padding:16px;margin:8px 0;border-left:3px solid var(--p)}
+.noti-example .noti-title{font-weight:700;font-size:14px;margin-bottom:4px}
+.noti-example .noti-body{font-size:13px;color:#6b7280}
+.arch-box{background:linear-gradient(135deg,#f8faff,#eff6ff);border:1px solid #dbeafe;border-radius:12px;padding:16px;text-align:center;font-weight:700;font-size:14px}
+.arch-arrow{text-align:center;font-size:24px;color:var(--p);padding:8px 0}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">PAGE 08 / 09 &mdash; Product Requirements Document</div>
+  <h1>PRD &mdash; 제품 요구사항 정의서</h1>
+  <p>동의 기반 비즈니스 연락처 디렉토리 &mdash; &ldquo;3클릭 이내에 원하는 담당자를 찾고, 연락처를 요청할 수 있어야 한다&rdquo;<br>화면별 상세 명세, UX 원칙, 데이터 모델, API, 알림 전략, 개발 일정을 망라한 완전한 PRD</p>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">종합 대시보드</a>
+    <a href="page01-competitors.html">경쟁사 분석</a>
+    <a href="page02-customer.html">고객 니즈</a>
+    <a href="page03-investment.html">투자/IR 시장</a>
+    <a href="page04-financials.html">재무 시뮬레이션</a>
+    <a href="page05-product.html">제품 설계</a>
+    <a href="page06-legal.html">법률/규제</a>
+    <a href="page07-business-plan.html">사업계획서</a>
+    <a href="page08-prd.html" class="on">PRD</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============================================ -->
+<!-- 1. 제품 비전 & 원칙 -->
+<!-- ============================================ -->
+<div class="sec" id="vision">
+  <h2 class="sec-title">1. 제품 비전 &amp; 원칙</h2>
+
+  <div class="card" style="background:linear-gradient(135deg,#1a56db,#0a2d8e);color:#fff;text-align:center;padding:36px 26px">
+    <div style="font-size:14px;opacity:.7;margin-bottom:6px">PRODUCT VISION</div>
+    <h3 style="font-size:24px;font-weight:900;margin-bottom:12px;color:#fff">&ldquo;비즈니스 세계의 114&rdquo;</h3>
+    <p style="font-size:15px;opacity:.9;max-width:600px;margin:0 auto">아무 회사, 아무 부서, 아무 담당자를 &mdash; <strong>동의 하에</strong> &mdash; 찾아 연락할 수 있는 세상.<br>오프라인 명함 교환의 신뢰와 예의를 디지털로 그대로 옮긴 서비스.</p>
+  </div>
+
+  <div style="margin-top:24px">
+    <h3 style="font-size:18px;font-weight:800;margin-bottom:16px">5가지 디자인 원칙</h3>
+    <div class="g3">
+
+      <div class="card-s">
+        <div class="principle-icon" style="background:#eff6ff">&#128269;</div>
+        <h3 style="color:var(--p)">1. 3클릭 원칙</h3>
+        <p style="font-size:14px;color:#6b7280">검색 &rarr; 프로필 확인 &rarr; 요청 완료. 어떤 사용 흐름이든 3클릭 이내에 핵심 목표를 달성할 수 있어야 한다.</p>
+        <div style="margin-top:10px"><span class="tag tb">핵심 UX 원칙</span></div>
+      </div>
+
+      <div class="card-s">
+        <div class="principle-icon" style="background:#ecfdf5">&#129309;</div>
+        <h3 style="color:var(--g)">2. 명함 교환 비유</h3>
+        <p style="font-size:14px;color:#6b7280">오프라인에서 명함을 교환하는 것처럼, 서로 동의해야 연락처가 공개된다. 일방적 정보 제공이 아닌 양방향 합의.</p>
+        <div style="margin-top:10px"><span class="tag tg">신뢰 모델</span></div>
+      </div>
+
+      <div class="card-s">
+        <div class="principle-icon" style="background:#fef2f2">&#128081;</div>
+        <h3 style="color:var(--r)">3. 받는 사람이 왕</h3>
+        <p style="font-size:14px;color:#6b7280">연락을 받는 사람이 항상 통제권을 보유한다. 수락/거부/차단 모두 수신자의 자유이며, 어떤 압력도 없어야 한다.</p>
+        <div style="margin-top:10px"><span class="tag tr">프라이버시</span></div>
+      </div>
+
+      <div class="card-s">
+        <div class="principle-icon" style="background:#fffbeb">&#128274;</div>
+        <h3 style="color:var(--w)">4. 스팸 제로</h3>
+        <p style="font-size:14px;color:#6b7280">구조적으로 원치 않는 연락이 불가능하다. 목적 명시 필수, 승인 전 번호 비공개, 일일 요청 횟수 제한 등 다층 방어.</p>
+        <div style="margin-top:10px"><span class="tag tw">보안 설계</span></div>
+      </div>
+
+      <div class="card-s">
+        <div class="principle-icon" style="background:#f5f3ff">&#9889;</div>
+        <h3 style="color:#7c3aed">5. 1분 온보딩</h3>
+        <p style="font-size:14px;color:#6b7280">가입부터 첫 검색까지 60초 이내. 최소한의 정보만 입력하고, 나머지는 나중에 천천히 채울 수 있다.</p>
+        <div style="margin-top:10px"><span class="tag tp">사용성</span></div>
+      </div>
+
+      <div class="card-s">
+        <div class="principle-icon" style="background:#f3f4f6">&#127919;</div>
+        <h3 style="color:#6b7280">핵심 지표 요약</h3>
+        <table class="tbl" style="margin:0">
+          <tr><td style="font-weight:700">온보딩 완료</td><td>&lt; 60초</td></tr>
+          <tr><td style="font-weight:700">핵심 흐름</td><td>&le; 3클릭</td></tr>
+          <tr><td style="font-weight:700">요청 승인율</td><td>40%+</td></tr>
+          <tr><td style="font-weight:700">NPS</td><td>50+</td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 2. 사용자 정의 & 핵심 페르소나 -->
+<!-- ============================================ -->
+<div class="sec" id="personas">
+  <h2 class="sec-title">2. 사용자 정의 &amp; 핵심 페르소나</h2>
+
+  <p style="font-size:14px;color:#6b7280;margin-bottom:20px">MVP에서 집중할 3개 핵심 페르소나. 모든 기능은 이 3명의 관점에서 검증한다.</p>
+
+  <div class="g3">
+
+    <!-- 페르소나 A -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px">A</div>
+        <div>
+          <h3 style="margin-bottom:0">영업 담당자</h3>
+          <span class="tag tw">연락처를 찾는 사람</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:100px">목표</td><td>잠재 고객사의 구매 의사결정자를 찾아 미팅을 잡고 싶다</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>회사/부서/직책 기반 검색, 연락 요청 시 목적 전달, 승인 여부 실시간 확인</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>요청 승인율 30%+, 주 5건+ 신규 미팅</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>주 3~5회, 일 5~15건 요청</td></tr>
+      </table>
+    </div>
+
+    <!-- 페르소나 B -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px">B</div>
+        <div>
+          <h3 style="margin-bottom:0">구매/발주 담당자</h3>
+          <span class="tag tb">공급업체를 찾는 사람</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:100px">목표</td><td>새로운 공급업체의 영업 담당자를 빠르게 찾아 견적을 받고 싶다</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>산업/제품 기반 업체 검색, 회사 인증 여부 확인, 복수 업체 동시 비교</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>신규 업체 미팅까지 3일 이내, 후보 3개사+ 확보</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>월 1~2회 집중 검색 (프로젝트 기반)</td></tr>
+      </table>
+    </div>
+
+    <!-- 페르소나 C -->
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,#10b981,#059669);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:20px">C</div>
+        <div>
+          <h3 style="margin-bottom:0">수신자</h3>
+          <span class="tag tg">연락 요청을 받는 사람</span>
+        </div>
+      </div>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:100px">목표</td><td>가치 있는 비즈니스 기회만 선별해서 수락하고, 스팸은 원천 차단하고 싶다</td></tr>
+        <tr><td style="font-weight:700">핵심 니즈</td><td>요청자 신원 확인, 목적별 자동 필터, 차단/신고 기능, 알림 커스텀</td></tr>
+        <tr><td style="font-weight:700">성공 지표</td><td>원치 않는 연락 0건, 유용한 비즈니스 연결 월 2건+</td></tr>
+        <tr><td style="font-weight:700">사용 빈도</td><td>주 2~3회 수신함 확인, 즉시 푸시로 응답</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 3. 핵심 사용자 흐름 (User Flows) -->
+<!-- ============================================ -->
+<div class="sec" id="flows">
+  <h2 class="sec-title">3. 핵심 사용자 흐름 (User Flows)</h2>
+
+  <!-- Flow 1: 온보딩 -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span class="tag tg" style="font-size:14px;padding:6px 14px">Flow 1</span>
+      <h3 style="margin-bottom:0">회원가입 &amp; 온보딩 (&lt; 2분)</h3>
+    </div>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:18px">가입부터 첫 검색까지 2분 이내 완료. 필수 입력은 최소화하고, 나머지는 선택 사항으로 나중에 채울 수 있다.</p>
+
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <h4>로그인 방식 선택</h4>
+        <p>이메일+비밀번호 / 카카오 / 구글 / 애플 소셜 로그인. 소셜 로그인 시 이름과 이메일 자동 채워짐.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <h4>기본 정보 입력 (30초)</h4>
+        <p>이름 / 회사명 / 부서 / 직책. 회사명은 자동완성으로 빠르게 입력. 직책은 드롭다운 선택.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <h4>전화번호 인증 (20초)</h4>
+        <p>전화번호 입력 &rarr; SMS 인증번호 6자리 수신 &rarr; 자동 입력(안드로이드). 이 번호는 상대방 승인 전에는 절대 노출되지 않는다.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">
+        <h4>명함 사진 OCR (선택, 10초)</h4>
+        <p>명함 사진 촬영 &rarr; AI가 이름/회사/부서/직책/이메일 자동 추출 &rarr; 사용자 확인. <span class="tag tgr">선택 단계</span> &mdash; 건너뛰기 가능.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-body">
+        <h4>완료 &amp; 첫 검색 유도</h4>
+        <p>&ldquo;가입 완료! 지금 바로 찾고 싶은 담당자를 검색해보세요&rdquo; &rarr; 검색바 포커스 + 인기 검색어 표시.</p>
+      </div>
+    </div>
+
+    <div class="card-s" style="background:#ecfdf5;margin-top:12px">
+      <strong style="color:var(--g)">UX 포인트:</strong> 소셜 로그인 시 Step 1~2가 합쳐져 실질 3단계. 전화번호 인증 포함 총 소요 시간 60~90초.
+    </div>
+  </div>
+
+  <!-- Flow 2: 검색 & 요청 -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span class="tag tb" style="font-size:14px;padding:6px 14px">Flow 2</span>
+      <h3 style="margin-bottom:0">연락처 검색 &amp; 요청 (&le; 3클릭)</h3>
+    </div>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:18px">핵심 흐름. 홈 화면에서 검색하고, 프로필을 확인하고, 연락처를 요청하는 3단계.</p>
+
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <h4>클릭 1 &mdash; 검색</h4>
+        <p>홈 화면 상단 검색바에 &ldquo;삼성전자 구매팀&rdquo; 입력. 실시간 자동완성(회사명, 부서명, 이름)이 드롭다운으로 표시. 검색 버튼 클릭 또는 엔터.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <h4>클릭 2 &mdash; 프로필 선택</h4>
+        <p>검색 결과 리스트: <strong>이름 / 회사 / 부서 / 직책</strong> 표시. 전화번호는 &ldquo;***-****-****&rdquo;로 마스킹. 원하는 사람의 카드를 탭.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <h4>클릭 3 &mdash; 연락처 요청</h4>
+        <p>[연락처 요청] 버튼 클릭 &rarr; 목적 선택 (영업/구매/협업/투자/채용 중 택 1) + 한줄 메시지 입력(선택) &rarr; [보내기] 클릭.</p>
+      </div>
+    </div>
+
+    <div class="card-s" style="background:#eff6ff;margin-top:12px">
+      <strong style="color:var(--p)">전송 후:</strong> &ldquo;요청이 전송되었습니다. 상대방이 수락하면 알려드릴게요!&rdquo; 메시지 표시 + 수신자에게 즉시 푸시 알림 발송.
+    </div>
+  </div>
+
+  <!-- Flow 3: 수신 & 처리 -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span class="tag tg" style="font-size:14px;padding:6px 14px">Flow 3</span>
+      <h3 style="margin-bottom:0">연락 요청 수신 &amp; 처리</h3>
+    </div>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:18px">수신자 관점의 흐름. 푸시 알림을 받고, 요청자 정보를 확인하고, 수락 또는 거부를 결정한다.</p>
+
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body">
+        <h4>푸시 알림 수신</h4>
+        <p>&ldquo;김영호 (A식품 영업팀)님이 <strong>영업</strong> 목적으로 연락처를 요청했습니다&rdquo; &mdash; 탭하면 앱 수신함으로 이동.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">
+        <h4>요청자 프로필 확인</h4>
+        <p>요청자의 이름, 회사, 부서, 직책, 요청 목적, 한줄 메시지를 확인. 요청자의 회사 인증 배지, 가입일, 승인율 정보도 표시.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">
+        <h4>수락 또는 거부</h4>
+        <p><span class="tag tg">[수락]</span> &rarr; 서로의 전화번호가 <strong>동시에</strong> 공개됨 + 양쪽 알림 발송 + 주소록에 자동 추가.<br>
+        <span class="tag tr">[거부]</span> &rarr; 요청자에게 &ldquo;거부되었습니다&rdquo; 알림 (사유 선택 가능: 관심 없음/시기 적절하지 않음/기타).</p>
+      </div>
+    </div>
+
+    <div class="g2" style="margin-top:16px">
+      <div class="card-s" style="background:#ecfdf5">
+        <strong style="color:var(--g)">수락 시 화면:</strong><br>
+        <span style="font-size:14px;color:#6b7280">&ldquo;연락처가 교환되었습니다!<br>김영호님의 연락처: 010-1234-5678<br>지금 바로 전화하시겠습니까?&rdquo;<br>[전화하기] [메시지 보내기] [나중에]</span>
+      </div>
+      <div class="card-s" style="background:#fef2f2">
+        <strong style="color:var(--r)">거부 시 화면:</strong><br>
+        <span style="font-size:14px;color:#6b7280">&ldquo;요청을 거부했습니다.&rdquo;<br>사유 선택(선택): 관심 없음 / 시기 적절하지 않음 / 기타<br>[이 사람 차단하기] (선택)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flow 4: 주소록 관리 -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span class="tag tw" style="font-size:14px;padding:6px 14px">Flow 4</span>
+      <h3 style="margin-bottom:0">내 연락처(주소록) 관리</h3>
+    </div>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:12px">수락된 연락처를 관리하는 개인 주소록. 검색, 필터, 메모 추가, 연락 이력 확인이 가능하다.</p>
+    <table class="tbl">
+      <tr><th style="width:160px">기능</th><th>설명</th></tr>
+      <tr><td style="font-weight:700">연락처 목록</td><td>수락된 연락처를 이름/회사/부서별로 정렬. 최근 연락 순, 가나다 순 토글.</td></tr>
+      <tr><td style="font-weight:700">검색 &amp; 필터</td><td>이름, 회사, 부서, 직책으로 검색. 목적별(영업/구매/협업) 필터.</td></tr>
+      <tr><td style="font-weight:700">메모 추가</td><td>각 연락처에 개인 메모 작성 가능 (&ldquo;2월 미팅 예정&rdquo;, &ldquo;견적 요청 중&rdquo; 등)</td></tr>
+      <tr><td style="font-weight:700">연락 이력</td><td>연결된 날짜, 최초 요청 목적, 메모 히스토리 확인</td></tr>
+      <tr><td style="font-weight:700">연락처 내보내기</td><td>선택한 연락처를 CSV/vCard로 내보내기 (유료 기능)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 4. 화면 목록 & 상세 명세 -->
+<!-- ============================================ -->
+<div class="sec" id="screens">
+  <h2 class="sec-title">4. 화면 목록 &amp; 상세 명세 (MVP 20개 화면)</h2>
+
+  <!-- 인증 -->
+  <div class="screen-group">
+    <h4>&#128274; 인증 (4개 화면)</h4>
+    <table class="tbl">
+      <tr><th style="width:70px">화면 ID</th><th style="width:130px">화면 이름</th><th>설명</th><th style="width:160px">주요 컴포넌트</th></tr>
+      <tr><td>S-01</td><td style="font-weight:700">로그인</td><td>이메일+비밀번호 로그인 또는 소셜 로그인 (카카오/구글/애플). 비밀번호 찾기 링크.</td><td>이메일 입력, 비밀번호 입력, 소셜 버튼 3개, 회원가입 링크</td></tr>
+      <tr><td>S-02</td><td style="font-weight:700">회원가입</td><td>이메일+비밀번호 또는 소셜 가입. 약관 동의 (서비스 이용약관, 개인정보처리방침 필수 / 마케팅 선택).</td><td>입력폼, 약관 체크박스, 가입 버튼</td></tr>
+      <tr><td>S-03</td><td style="font-weight:700">전화번호 인증</td><td>휴대폰 번호 입력 &rarr; SMS 인증번호 6자리 입력 &rarr; 인증 완료. 재전송 버튼 (60초 쿨다운).</td><td>전화번호 입력, 인증번호 입력, 타이머, 재전송 버튼</td></tr>
+      <tr><td>S-04</td><td style="font-weight:700">온보딩</td><td>이름/회사/부서/직책 입력 + 명함 OCR(선택). 프로그레스바로 진행 상황 표시.</td><td>입력폼 4개, 명함 촬영 버튼, 프로그레스바, 건너뛰기</td></tr>
+    </table>
+    <div class="card-s" style="margin-top:8px">
+      <strong>에러 케이스:</strong>
+      <ul style="font-size:13px;color:#6b7280;margin-top:6px;padding-left:18px">
+        <li>이메일 중복: &ldquo;이미 가입된 이메일입니다. 로그인하시겠어요?&rdquo;</li>
+        <li>인증번호 오류: &ldquo;인증번호가 맞지 않아요. 다시 확인해주세요.&rdquo; (3회 초과 시 재전송 유도)</li>
+        <li>네트워크 오류: &ldquo;네트워크가 불안정합니다. 잠시 후 다시 시도해주세요.&rdquo;</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 검색 -->
+  <div class="screen-group">
+    <h4>&#128269; 검색 (3개 화면)</h4>
+    <table class="tbl">
+      <tr><th style="width:70px">화면 ID</th><th style="width:130px">화면 이름</th><th>설명</th><th style="width:160px">주요 컴포넌트</th></tr>
+      <tr><td>S-05</td><td style="font-weight:700">홈 / 검색</td><td>앱의 메인 화면. 상단에 큰 검색바, 인기 검색어 태그, 최근 검색 이력, 추천 프로필 카드.</td><td>검색바, 인기 태그, 최근 검색, 추천 카드 리스트</td></tr>
+      <tr><td>S-06</td><td style="font-weight:700">검색 결과</td><td>검색어에 매칭되는 사용자 리스트. 카드 형태 (이름/회사/부서/직책 표시, 전화번호 마스킹). 필터 (산업, 직책, 회사 규모).</td><td>결과 카드 리스트, 필터 버튼, 정렬 옵션, 결과 개수</td></tr>
+      <tr><td>S-07</td><td style="font-weight:700">프로필 상세</td><td>선택한 사용자의 상세 프로필. 이름, 회사, 부서, 직책, 자기소개. [연락처 요청] CTA 버튼 강조 배치.</td><td>프로필 카드, 회사 정보, [연락처 요청] 버튼, 신고 버튼</td></tr>
+    </table>
+    <div class="card-s" style="margin-top:8px">
+      <strong>에러/빈 상태:</strong>
+      <ul style="font-size:13px;color:#6b7280;margin-top:6px;padding-left:18px">
+        <li>검색 결과 없음: &ldquo;아직 등록된 분이 없어요. 직접 초대해보시겠어요?&rdquo; + [초대하기] 버튼</li>
+        <li>필터 결과 없음: &ldquo;조건에 맞는 분이 없어요. 필터를 조정해보세요.&rdquo;</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 요청 -->
+  <div class="screen-group">
+    <h4>&#128172; 요청 (3개 화면)</h4>
+    <table class="tbl">
+      <tr><th style="width:70px">화면 ID</th><th style="width:130px">화면 이름</th><th>설명</th><th style="width:160px">주요 컴포넌트</th></tr>
+      <tr><td>S-08</td><td style="font-weight:700">연락처 요청</td><td>목적 선택 (영업/구매/협업/투자/채용) + 한줄 메시지 입력(선택, 100자). 미리보기로 상대방에게 어떻게 보이는지 확인.</td><td>목적 칩 5개, 메시지 입력, 미리보기, [보내기] 버튼</td></tr>
+      <tr><td>S-09</td><td style="font-weight:700">요청 확인</td><td>&ldquo;정말 보내시겠습니까?&rdquo; 최종 확인 모달. 일일 잔여 요청 횟수 표시.</td><td>확인 모달, 잔여 횟수, [보내기]/[취소] 버튼</td></tr>
+      <tr><td>S-10</td><td style="font-weight:700">요청 완료</td><td>&ldquo;요청이 전송되었습니다!&rdquo; 성공 화면. 예상 응답 시간 안내. [홈으로]/[다른 사람 검색] 버튼.</td><td>성공 아이콘, 안내 문구, CTA 버튼 2개</td></tr>
+    </table>
+  </div>
+
+  <!-- 수신 -->
+  <div class="screen-group">
+    <h4>&#128232; 수신 (3개 화면)</h4>
+    <table class="tbl">
+      <tr><th style="width:70px">화면 ID</th><th style="width:130px">화면 이름</th><th>설명</th><th style="width:160px">주요 컴포넌트</th></tr>
+      <tr><td>S-11</td><td style="font-weight:700">수신함</td><td>받은 연락 요청 목록. 미응답/수락/거부 탭 분류. 미응답 건수 배지 표시.</td><td>탭 3개, 요청 카드 리스트, 배지, 스와이프 액션</td></tr>
+      <tr><td>S-12</td><td style="font-weight:700">요청 상세</td><td>개별 요청의 상세 정보. 요청자 프로필 + 목적 + 메시지 + 회사 인증 배지. [수락]/[거부] 버튼.</td><td>요청자 프로필, 목적 태그, 메시지, 액션 버튼 2개</td></tr>
+      <tr><td>S-13</td><td style="font-weight:700">승인/거부 완료</td><td>처리 완료 화면. 수락 시: 상대방 연락처 표시 + [전화하기]/[메시지]. 거부 시: 완료 확인 + [차단] 옵션.</td><td>결과 카드, 연락처 정보(수락 시), 추가 액션 버튼</td></tr>
+    </table>
+    <div class="card-s" style="margin-top:8px">
+      <strong>인터랙션:</strong>
+      <span style="font-size:13px;color:#6b7280">수신함에서 카드를 오른쪽으로 스와이프하면 수락, 왼쪽으로 스와이프하면 거부. 스와이프 시 초록/빨강 배경색으로 시각적 피드백.</span>
+    </div>
+  </div>
+
+  <!-- 주소록 -->
+  <div class="screen-group">
+    <h4>&#128214; 주소록 (3개 화면)</h4>
+    <table class="tbl">
+      <tr><th style="width:70px">화면 ID</th><th style="width:130px">화면 이름</th><th>설명</th><th style="width:160px">주요 컴포넌트</th></tr>
+      <tr><td>S-14</td><td style="font-weight:700">연락처 목록</td><td>수락된 연락처 주소록. 이름/회사/부서 표시. 검색/정렬/필터. 연결된 날짜 표시.</td><td>검색바, 정렬 토글, 필터, 연락처 카드 리스트</td></tr>
+      <tr><td>S-15</td><td style="font-weight:700">연락처 상세</td><td>개별 연락처 상세: 이름, 회사, 부서, 직책, 전화번호, 이메일. 메모 추가/편집. 연결 날짜.</td><td>프로필 카드, 연락처 정보, 메모 에디터, [전화하기] 버튼</td></tr>
+      <tr><td>S-16</td><td style="font-weight:700">연락 이력</td><td>해당 연락처와의 상호작용 이력 (연결일, 메모 변경, 통화 기록 등) 타임라인 형태.</td><td>타임라인 리스트, 메모 필터, 날짜 필터</td></tr>
+    </table>
+  </div>
+
+  <!-- 설정 -->
+  <div class="screen-group">
+    <h4>&#9881; 설정 (4개 화면)</h4>
+    <table class="tbl">
+      <tr><th style="width:70px">화면 ID</th><th style="width:130px">화면 이름</th><th>설명</th><th style="width:160px">주요 컴포넌트</th></tr>
+      <tr><td>S-17</td><td style="font-weight:700">내 프로필</td><td>내 정보 확인/수정. 이름, 회사, 부서, 직책, 자기소개, 프로필 사진. 프로필 완성도 표시.</td><td>프로필 카드, 편집 폼, 완성도 프로그레스바</td></tr>
+      <tr><td>S-18</td><td style="font-weight:700">알림 설정</td><td>알림 카테고리별 ON/OFF 토글. 방해금지 시간 설정. 이메일 알림 / 푸시 알림 분리.</td><td>카테고리 토글 리스트, 시간 설정, 채널 선택</td></tr>
+      <tr><td>S-19</td><td style="font-weight:700">프라이버시 설정</td><td>검색 노출 ON/OFF, 수신 가능 목적 필터(영업/구매/협업/투자/채용 개별 토글), 차단 목록 관리.</td><td>노출 토글, 목적 필터 체크박스, 차단 리스트</td></tr>
+      <tr><td>S-20</td><td style="font-weight:700">구독 관리</td><td>현재 플랜 확인, 플랜 변경, 결제 수단 관리, 결제 이력. Free/Pro/Enterprise 비교표.</td><td>현재 플랜 카드, 비교표, 결제 수단, 결제 이력</td></tr>
+    </table>
+  </div>
+
+  <div class="card-s" style="background:#fffbeb">
+    <strong style="color:var(--w)">화면 총 20개 &mdash; MVP 범위:</strong> 인증 4 + 검색 3 + 요청 3 + 수신 3 + 주소록 3 + 설정 4. 추가 화면(관리자, CRM 연동 등)은 V1.1 이후 순차 추가.
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 5. UX 디자인 원칙 & 가이드라인 -->
+<!-- ============================================ -->
+<div class="sec" id="ux">
+  <h2 class="sec-title">5. UX 디자인 원칙 &amp; 가이드라인</h2>
+
+  <div class="g2">
+
+    <div class="card">
+      <h3 style="color:var(--p)">&#128241; 모바일 퍼스트</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:12px">사용자의 80%+ 가 모바일에서 접속. 모든 화면은 모바일에서 먼저 설계하고, 데스크톱은 반응형으로 확장.</p>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:130px">기본 해상도</td><td>375 x 812 (iPhone SE 기준)</td></tr>
+        <tr><td style="font-weight:700">터치 영역</td><td>최소 44 x 44px (Apple HIG 준수)</td></tr>
+        <tr><td style="font-weight:700">한 손 조작</td><td>핵심 CTA는 화면 하단 1/3에 배치</td></tr>
+        <tr><td style="font-weight:700">가로 스크롤</td><td>금지. 모든 콘텐츠는 세로 스크롤로 탐색</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3 style="color:var(--g)">&#128400; 제스처 &amp; 인터랙션</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:12px">직관적인 제스처로 빠른 처리. 모든 제스처에는 시각적 피드백이 수반된다.</p>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:130px">오른쪽 스와이프</td><td>수락 (초록색 배경 + 체크 아이콘)</td></tr>
+        <tr><td style="font-weight:700">왼쪽 스와이프</td><td>거부 (빨간색 배경 + X 아이콘)</td></tr>
+        <tr><td style="font-weight:700">당겨서 새로고침</td><td>수신함, 주소록에서 최신 데이터 로드</td></tr>
+        <tr><td style="font-weight:700">길게 누르기</td><td>연락처 카드 미리보기 팝업</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3 style="color:#7c3aed">&#127912; 색상 시스템</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:12px">목적별 색상 코딩으로 한눈에 구분. 색약/색맹 사용자를 위해 아이콘도 함께 사용.</p>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:130px"><span style="display:inline-block;width:14px;height:14px;background:#10b981;border-radius:3px;vertical-align:middle;margin-right:6px"></span>수락/승인</td><td>#10B981 (초록)</td></tr>
+        <tr><td style="font-weight:700"><span style="display:inline-block;width:14px;height:14px;background:#e02424;border-radius:3px;vertical-align:middle;margin-right:6px"></span>거부/차단</td><td>#E02424 (빨강)</td></tr>
+        <tr><td style="font-weight:700"><span style="display:inline-block;width:14px;height:14px;background:#f59e0b;border-radius:3px;vertical-align:middle;margin-right:6px"></span>영업 목적</td><td>#F59E0B (주황)</td></tr>
+        <tr><td style="font-weight:700"><span style="display:inline-block;width:14px;height:14px;background:#3b82f6;border-radius:3px;vertical-align:middle;margin-right:6px"></span>구매 목적</td><td>#3B82F6 (파랑)</td></tr>
+        <tr><td style="font-weight:700"><span style="display:inline-block;width:14px;height:14px;background:#8b5cf6;border-radius:3px;vertical-align:middle;margin-right:6px"></span>협업 목적</td><td>#8B5CF6 (보라)</td></tr>
+        <tr><td style="font-weight:700"><span style="display:inline-block;width:14px;height:14px;background:#ec4899;border-radius:3px;vertical-align:middle;margin-right:6px"></span>투자 목적</td><td>#EC4899 (핑크)</td></tr>
+        <tr><td style="font-weight:700"><span style="display:inline-block;width:14px;height:14px;background:#6b7280;border-radius:3px;vertical-align:middle;margin-right:6px"></span>채용 목적</td><td>#6B7280 (회색)</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3 style="color:var(--w)">&#128295; 타이포그래피 &amp; 레이아웃</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:12px">정보의 위계를 굵기와 크기로 명확히 구분. 읽기 쉬운 최소 크기 준수.</p>
+      <table class="tbl">
+        <tr><td style="font-weight:700;width:130px">본문 크기</td><td>최소 16px (모바일), 14px (보조 텍스트)</td></tr>
+        <tr><td style="font-weight:700">제목 크기</td><td>20~28px, font-weight: 800</td></tr>
+        <tr><td style="font-weight:700">줄 간격</td><td>1.5~1.7 (한글 최적화)</td></tr>
+        <tr><td style="font-weight:700">카드 간격</td><td>16px (모바일), 20px (데스크톱)</td></tr>
+        <tr><td style="font-weight:700">폰트</td><td>Pretendard (1순위), Apple SD Gothic Neo (2순위)</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="g2" style="margin-top:6px">
+    <div class="card">
+      <h3 style="color:var(--r)">&#9888; 에러 처리 원칙</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:12px"><strong>기술 용어 절대 금지.</strong> 모든 에러 메시지는 사용자가 이해할 수 있는 일상 언어로.</p>
+      <table class="tbl">
+        <tr><th style="width:180px">상황</th><th>사용자 메시지</th></tr>
+        <tr><td>네트워크 끊김</td><td>&ldquo;인터넷 연결이 불안정해요. 다시 시도해주세요.&rdquo;</td></tr>
+        <tr><td>서버 오류 (500)</td><td>&ldquo;잠시 문제가 생겼어요. 곧 해결될 거예요!&rdquo;</td></tr>
+        <tr><td>요청 제한 초과</td><td>&ldquo;오늘 요청 횟수를 모두 사용했어요. 내일 다시 시도해주세요.&rdquo;</td></tr>
+        <tr><td>이미 요청한 상대</td><td>&ldquo;이미 요청을 보냈어요. 상대방 응답을 기다려주세요.&rdquo;</td></tr>
+        <tr><td>차단된 사용자</td><td>&ldquo;이 분에게는 요청을 보낼 수 없어요.&rdquo;</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>&#9851; 빈 상태 &amp; 스켈레톤</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:12px">빈 화면은 절대 비워두지 않는다. 친절한 안내와 다음 행동을 유도한다.</p>
+      <table class="tbl">
+        <tr><th style="width:140px">화면</th><th>빈 상태 메시지</th></tr>
+        <tr><td>검색 결과 없음</td><td>&ldquo;아직 등록된 분이 없어요. 동료를 초대해보세요!&rdquo;</td></tr>
+        <tr><td>수신함 비어있음</td><td>&ldquo;아직 받은 요청이 없어요. 프로필을 완성하면 요청을 받기 쉬워져요!&rdquo;</td></tr>
+        <tr><td>주소록 비어있음</td><td>&ldquo;아직 연결된 연락처가 없어요. 지금 검색해서 첫 연락을 만들어보세요!&rdquo;</td></tr>
+        <tr><td>보낸 요청 없음</td><td>&ldquo;아직 보낸 요청이 없어요. 누구를 찾고 계세요?&rdquo;</td></tr>
+      </table>
+      <div style="margin-top:12px">
+        <strong style="font-size:13px">스켈레톤 UI:</strong>
+        <span style="font-size:13px;color:#6b7280">모든 데이터 로딩에 회색 펄스 애니메이션 스켈레톤 적용. 실제 카드 모양과 동일한 레이아웃으로 로딩 시 화면 점프 방지.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:6px">
+    <h3>&#9855; 접근성 &amp; 포용적 설계</h3>
+    <div class="g3" style="margin-top:12px">
+      <div class="card-s">
+        <strong style="font-size:14px">색약/색맹 대응</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">색상만으로 정보를 전달하지 않음. 수락/거부는 색상 + 아이콘 + 텍스트 3중 표시. WCAG 2.1 AA 대비율 4.5:1 이상 준수.</p>
+      </div>
+      <div class="card-s">
+        <strong style="font-size:14px">스크린 리더</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">VoiceOver(iOS) / TalkBack(Android) 완전 지원. 모든 인터랙티브 요소에 aria-label 부여. 이미지에 alt 텍스트 필수.</p>
+      </div>
+      <div class="card-s">
+        <strong style="font-size:14px">터치 &amp; 모터 접근성</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">최소 터치 영역 44x44px. 스와이프 대체 버튼 항상 제공. 시간 제한 기능에 연장 옵션 제공.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 6. 알림 전략 -->
+<!-- ============================================ -->
+<div class="sec" id="notifications">
+  <h2 class="sec-title">6. 알림 전략 (Notification Strategy)</h2>
+
+  <div class="card">
+    <h3>알림 유형 &amp; 발송 타이밍</h3>
+    <table class="tbl">
+      <tr><th style="width:60px">유형</th><th style="width:180px">알림 이름</th><th>발송 시점</th><th style="width:100px">채널</th><th style="width:80px">중요도</th></tr>
+      <tr><td><span class="tag tb">수신</span></td><td style="font-weight:700">연락 요청 수신</td><td>요청 도착 즉시</td><td>Push + 인앱</td><td><span class="tag tr">높음</span></td></tr>
+      <tr><td><span class="tag tg">승인</span></td><td style="font-weight:700">요청 승인됨</td><td>상대방 수락 즉시</td><td>Push + 인앱</td><td><span class="tag tr">높음</span></td></tr>
+      <tr><td><span class="tag tr">거부</span></td><td style="font-weight:700">요청 거부됨</td><td>거부 후 10분 후 (감정 완화)</td><td>인앱만</td><td><span class="tag tw">중간</span></td></tr>
+      <tr><td><span class="tag tw">리마인드</span></td><td style="font-weight:700">미응답 리마인드</td><td>요청 후 24시간 경과</td><td>Push + 인앱</td><td><span class="tag tgr">낮음</span></td></tr>
+      <tr><td><span class="tag tgr">요약</span></td><td style="font-weight:700">주간 활동 요약</td><td>매주 월요일 오전 9시</td><td>Push + 이메일</td><td><span class="tag tgr">낮음</span></td></tr>
+      <tr><td><span class="tag tp">초대</span></td><td style="font-weight:700">초대 가입 알림</td><td>초대한 사람 가입 시 즉시</td><td>Push + 인앱</td><td><span class="tag tw">중간</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>알림 문구 예시 (친근하고 자연스러운 톤)</h3>
+    <div class="g2">
+      <div>
+        <div class="noti-example">
+          <div class="noti-title">&#128233; 연락 요청 수신</div>
+          <div class="noti-body">&ldquo;김영호님(A식품 영업팀)이 <strong>영업</strong> 목적으로 연락처를 요청했어요. 확인해보시겠어요?&rdquo;</div>
+        </div>
+        <div class="noti-example">
+          <div class="noti-title">&#127881; 요청 승인됨</div>
+          <div class="noti-body">&ldquo;좋은 소식! 박수진님(B전자 구매팀)이 연락처 요청을 수락했어요. 지금 연락해보세요!&rdquo;</div>
+        </div>
+        <div class="noti-example">
+          <div class="noti-title">&#128172; 요청 거부됨</div>
+          <div class="noti-body">&ldquo;이번에는 연결이 되지 않았어요. 다른 담당자를 찾아보시겠어요?&rdquo;</div>
+        </div>
+      </div>
+      <div>
+        <div class="noti-example">
+          <div class="noti-title">&#9200; 미응답 리마인드 (수신자에게)</div>
+          <div class="noti-body">&ldquo;아직 확인하지 않은 연락 요청이 1건 있어요. 잠깐 확인해보시겠어요?&rdquo;</div>
+        </div>
+        <div class="noti-example">
+          <div class="noti-title">&#128202; 주간 활동 요약</div>
+          <div class="noti-body">&ldquo;이번 주: 요청 5건 보냄, 3건 승인, 2건 대기 중. 새로운 한 주도 좋은 연결이 가득하길!&rdquo;</div>
+        </div>
+        <div class="noti-example">
+          <div class="noti-title">&#127775; 초대 가입</div>
+          <div class="noti-body">&ldquo;내가 초대한 최현수님이 가입했어요! 바로 연락처를 교환해보세요.&rdquo;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>알림 설정 (사용자 제어)</h3>
+    <table class="tbl">
+      <tr><th>카테고리</th><th style="width:100px">기본값</th><th>설명</th></tr>
+      <tr><td style="font-weight:700">연락 요청 수신</td><td><span class="tag tg">ON</span></td><td>새 연락 요청 도착 시 푸시 알림. 끄면 인앱만.</td></tr>
+      <tr><td style="font-weight:700">요청 결과</td><td><span class="tag tg">ON</span></td><td>보낸 요청의 승인/거부 결과 알림.</td></tr>
+      <tr><td style="font-weight:700">리마인드</td><td><span class="tag tg">ON</span></td><td>미응답 요청 리마인더. 끄면 리마인드 발송 안 함.</td></tr>
+      <tr><td style="font-weight:700">주간 요약</td><td><span class="tag tg">ON</span></td><td>월요일 오전 활동 요약 이메일+푸시. 끌 수 있음.</td></tr>
+      <tr><td style="font-weight:700">마케팅</td><td><span class="tag tr">OFF</span></td><td>프로모션, 새 기능 안내. 기본 OFF, 명시적 동의 필요.</td></tr>
+      <tr><td style="font-weight:700">방해금지 시간</td><td><span class="tag tgr">미설정</span></td><td>설정 시 해당 시간에 Push 발송하지 않음 (예: 22:00~08:00)</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 7. 데이터 모델 (13개) -->
+<!-- ============================================ -->
+<div class="sec" id="data-model">
+  <h2 class="sec-title">7. 데이터 모델 (13개 모델)</h2>
+
+  <p style="font-size:14px;color:#6b7280;margin-bottom:20px">PostgreSQL 기반. 모든 모델에 id (UUID, PK), createdAt, updatedAt 공통 필드 포함.</p>
+
+  <div class="g2">
+
+    <!-- User -->
+    <div class="card">
+      <h3><span class="tag tb">핵심</span> User (사용자)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>email</td><td>String UNIQUE</td><td>로그인 이메일</td></tr>
+        <tr><td>passwordHash</td><td>String?</td><td>비밀번호 해시 (소셜 로그인 시 null)</td></tr>
+        <tr><td>name</td><td>String</td><td>실명</td></tr>
+        <tr><td>company</td><td>String</td><td>소속 회사명</td></tr>
+        <tr><td>department</td><td>String</td><td>부서명</td></tr>
+        <tr><td>position</td><td>String</td><td>직책/직급</td></tr>
+        <tr><td>phone</td><td>String (암호화)</td><td>전화번호 (E2E 암호화 저장)</td></tr>
+        <tr><td>profileImage</td><td>String?</td><td>프로필 사진 S3 URL</td></tr>
+        <tr><td>bio</td><td>String?</td><td>자기소개 (200자)</td></tr>
+        <tr><td>isVerified</td><td>Boolean</td><td>전화번호 인증 완료 여부</td></tr>
+        <tr><td>isSearchable</td><td>Boolean</td><td>검색 노출 여부 (프라이버시)</td></tr>
+        <tr><td>plan</td><td>Enum</td><td>FREE / PRO / ENTERPRISE</td></tr>
+        <tr><td>companyId</td><td>UUID? (FK)</td><td>Company 관계</td></tr>
+      </table>
+    </div>
+
+    <!-- Company -->
+    <div class="card">
+      <h3><span class="tag tb">핵심</span> Company (회사)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>name</td><td>String UNIQUE</td><td>회사명</td></tr>
+        <tr><td>industry</td><td>String</td><td>산업 분류 (IT, 제조, 금융 등)</td></tr>
+        <tr><td>size</td><td>Enum</td><td>STARTUP / SMB / MID / ENTERPRISE</td></tr>
+        <tr><td>website</td><td>String?</td><td>회사 웹사이트</td></tr>
+        <tr><td>logo</td><td>String?</td><td>로고 이미지 URL</td></tr>
+        <tr><td>address</td><td>String?</td><td>본사 주소</td></tr>
+        <tr><td>isVerified</td><td>Boolean</td><td>사업자등록 인증 여부</td></tr>
+        <tr><td>employeeCount</td><td>Int?</td><td>임직원 수</td></tr>
+      </table>
+    </div>
+
+    <!-- Department -->
+    <div class="card">
+      <h3><span class="tag tgr">참조</span> Department (부서)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>companyId</td><td>UUID (FK)</td><td>소속 회사</td></tr>
+        <tr><td>name</td><td>String</td><td>부서명</td></tr>
+        <tr><td>parentDeptId</td><td>UUID? (FK)</td><td>상위 부서 (계층 구조)</td></tr>
+      </table>
+    </div>
+
+    <!-- ContactRequest -->
+    <div class="card">
+      <h3><span class="tag tw">핵심</span> ContactRequest (연락 요청)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>requesterId</td><td>UUID (FK)</td><td>요청 보낸 사람</td></tr>
+        <tr><td>targetId</td><td>UUID (FK)</td><td>요청 받는 사람</td></tr>
+        <tr><td>purpose</td><td>Enum</td><td>SALES / PURCHASE / COLLABORATION / INVESTMENT / RECRUITING</td></tr>
+        <tr><td>message</td><td>String?</td><td>한줄 메시지 (100자)</td></tr>
+        <tr><td>status</td><td>Enum</td><td>PENDING / ACCEPTED / REJECTED / EXPIRED</td></tr>
+        <tr><td>rejectionReason</td><td>String?</td><td>거부 사유</td></tr>
+        <tr><td>respondedAt</td><td>DateTime?</td><td>응답 일시</td></tr>
+        <tr><td>expiresAt</td><td>DateTime</td><td>요청 만료 일시 (7일)</td></tr>
+      </table>
+    </div>
+
+    <!-- Contact -->
+    <div class="card">
+      <h3><span class="tag tg">핵심</span> Contact (연락처/주소록)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>주소록 소유자</td></tr>
+        <tr><td>contactUserId</td><td>UUID (FK)</td><td>연결된 상대방</td></tr>
+        <tr><td>requestId</td><td>UUID (FK)</td><td>원본 요청</td></tr>
+        <tr><td>memo</td><td>String?</td><td>개인 메모</td></tr>
+        <tr><td>isFavorite</td><td>Boolean</td><td>즐겨찾기 여부</td></tr>
+      </table>
+    </div>
+
+    <!-- Notification -->
+    <div class="card">
+      <h3><span class="tag tgr">시스템</span> Notification (알림)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>수신자</td></tr>
+        <tr><td>type</td><td>Enum</td><td>REQUEST_RECEIVED / ACCEPTED / REJECTED / REMINDER / WEEKLY</td></tr>
+        <tr><td>title</td><td>String</td><td>알림 제목</td></tr>
+        <tr><td>body</td><td>String</td><td>알림 내용</td></tr>
+        <tr><td>isRead</td><td>Boolean</td><td>읽음 여부</td></tr>
+        <tr><td>relatedId</td><td>UUID?</td><td>관련 요청 ID</td></tr>
+      </table>
+    </div>
+
+    <!-- Subscription -->
+    <div class="card">
+      <h3><span class="tag tw">결제</span> Subscription (구독)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>구독자</td></tr>
+        <tr><td>plan</td><td>Enum</td><td>FREE / PRO / ENTERPRISE</td></tr>
+        <tr><td>startDate</td><td>DateTime</td><td>구독 시작일</td></tr>
+        <tr><td>endDate</td><td>DateTime?</td><td>구독 종료일</td></tr>
+        <tr><td>isActive</td><td>Boolean</td><td>활성 여부</td></tr>
+        <tr><td>paymentMethod</td><td>String?</td><td>결제 수단 (카드/계좌)</td></tr>
+      </table>
+    </div>
+
+    <!-- SearchLog -->
+    <div class="card">
+      <h3><span class="tag tgr">로그</span> SearchLog (검색 기록)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>검색한 사용자</td></tr>
+        <tr><td>query</td><td>String</td><td>검색어</td></tr>
+        <tr><td>filters</td><td>JSON</td><td>적용된 필터 (산업, 직책 등)</td></tr>
+        <tr><td>resultCount</td><td>Int</td><td>결과 수</td></tr>
+      </table>
+    </div>
+
+    <!-- BlockList -->
+    <div class="card">
+      <h3><span class="tag tr">보안</span> BlockList (차단)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>차단한 사용자</td></tr>
+        <tr><td>blockedUserId</td><td>UUID (FK)</td><td>차단된 사용자</td></tr>
+        <tr><td>reason</td><td>String?</td><td>차단 사유</td></tr>
+      </table>
+    </div>
+
+    <!-- Report -->
+    <div class="card">
+      <h3><span class="tag tr">보안</span> Report (신고)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>reporterId</td><td>UUID (FK)</td><td>신고자</td></tr>
+        <tr><td>targetId</td><td>UUID (FK)</td><td>신고 대상</td></tr>
+        <tr><td>reason</td><td>Enum</td><td>SPAM / FAKE_PROFILE / HARASSMENT / OTHER</td></tr>
+        <tr><td>description</td><td>String?</td><td>상세 설명</td></tr>
+        <tr><td>status</td><td>Enum</td><td>PENDING / REVIEWED / RESOLVED</td></tr>
+      </table>
+    </div>
+
+    <!-- BusinessCard -->
+    <div class="card">
+      <h3><span class="tag tgr">부가</span> BusinessCard (명함)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>소유자</td></tr>
+        <tr><td>imageUrl</td><td>String</td><td>명함 이미지 S3 URL</td></tr>
+        <tr><td>ocrData</td><td>JSON</td><td>OCR 추출 데이터 (이름, 회사, 부서 등)</td></tr>
+        <tr><td>isProcessed</td><td>Boolean</td><td>OCR 처리 완료 여부</td></tr>
+      </table>
+    </div>
+
+    <!-- ActivityLog -->
+    <div class="card">
+      <h3><span class="tag tgr">로그</span> ActivityLog (활동 기록)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>userId</td><td>UUID (FK)</td><td>활동한 사용자</td></tr>
+        <tr><td>action</td><td>Enum</td><td>SEARCH / REQUEST / ACCEPT / REJECT / BLOCK / LOGIN</td></tr>
+        <tr><td>metadata</td><td>JSON</td><td>부가 정보 (검색어, 대상 등)</td></tr>
+        <tr><td>ipAddress</td><td>String?</td><td>접속 IP (보안 감사)</td></tr>
+      </table>
+    </div>
+
+    <!-- ApiKey -->
+    <div class="card">
+      <h3><span class="tag tp">엔터프라이즈</span> ApiKey (API 키)</h3>
+      <table class="tbl">
+        <tr><th style="width:140px">필드</th><th>타입</th><th>설명</th></tr>
+        <tr><td>companyId</td><td>UUID (FK)</td><td>소속 회사</td></tr>
+        <tr><td>key</td><td>String UNIQUE</td><td>API 키 (해시 저장)</td></tr>
+        <tr><td>name</td><td>String</td><td>키 이름 (용도 식별)</td></tr>
+        <tr><td>permissions</td><td>JSON</td><td>허용 권한 목록</td></tr>
+        <tr><td>isActive</td><td>Boolean</td><td>활성 여부</td></tr>
+        <tr><td>lastUsedAt</td><td>DateTime?</td><td>마지막 사용 일시</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 8. API 명세 (38개 엔드포인트) -->
+<!-- ============================================ -->
+<div class="sec" id="api">
+  <h2 class="sec-title">8. API 명세 (38개 엔드포인트)</h2>
+
+  <p style="font-size:14px;color:#6b7280;margin-bottom:20px">RESTful API. JSON 요청/응답. JWT Bearer 인증. Rate Limit은 분당 기준.</p>
+
+  <!-- Auth -->
+  <div class="card">
+    <h3><span class="tag tb">Auth</span> 인증 API (5개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/auth/signup</td><td>회원가입 (이메일+비밀번호)</td><td>X</td><td>5/분</td></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/auth/login</td><td>로그인 (이메일+비밀번호)</td><td>X</td><td>10/분</td></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/auth/verify-phone</td><td>전화번호 SMS 인증</td><td>O</td><td>3/분</td></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/auth/refresh</td><td>Access Token 갱신</td><td>O</td><td>20/분</td></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/auth/logout</td><td>로그아웃 (토큰 무효화)</td><td>O</td><td>10/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Users -->
+  <div class="card">
+    <h3><span class="tag tb">Users</span> 사용자 API (4개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/users/me</td><td>내 프로필 조회</td><td>O</td><td>30/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/users/me</td><td>내 프로필 수정</td><td>O</td><td>10/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/users/:id</td><td>다른 사용자 프로필 조회 (공개 정보만)</td><td>O</td><td>30/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/users/me/privacy</td><td>프라이버시 설정 변경</td><td>O</td><td>10/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Search -->
+  <div class="card">
+    <h3><span class="tag tb">Search</span> 검색 API (3개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/search</td><td>통합 검색 (사용자 이름, 회사, 부서, 직책)</td><td>O</td><td>30/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/search/companies</td><td>회사 검색 (자동완성)</td><td>O</td><td>60/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/search/suggestions</td><td>검색어 자동완성 추천</td><td>O</td><td>60/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Contacts -->
+  <div class="card">
+    <h3><span class="tag tg">Contacts</span> 연락처 API (5개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/contacts/request</td><td>연락처 요청 보내기</td><td>O</td><td>10/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/contacts/requests/sent</td><td>보낸 요청 목록</td><td>O</td><td>20/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/contacts/requests/received</td><td>받은 요청 목록</td><td>O</td><td>20/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/contacts/requests/:id/respond</td><td>요청 승인/거부</td><td>O</td><td>20/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/contacts</td><td>내 주소록 (수락된 연락처)</td><td>O</td><td>30/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Companies -->
+  <div class="card">
+    <h3><span class="tag tb">Companies</span> 회사 API (4개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/companies/:id</td><td>회사 상세 정보</td><td>O</td><td>30/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/companies/:id/departments</td><td>회사 부서 목록</td><td>O</td><td>20/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/companies/:id/members</td><td>회사 소속 공개 멤버 목록</td><td>O</td><td>20/분</td></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/companies/verify</td><td>회사 사업자등록 인증 요청</td><td>O</td><td>3/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Notifications -->
+  <div class="card">
+    <h3><span class="tag tgr">Notifications</span> 알림 API (3개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/notifications</td><td>알림 목록 (페이지네이션)</td><td>O</td><td>30/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/notifications/:id/read</td><td>알림 읽음 처리</td><td>O</td><td>60/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/notifications/settings</td><td>알림 설정 변경</td><td>O</td><td>10/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Subscriptions -->
+  <div class="card">
+    <h3><span class="tag tw">Subscriptions</span> 구독 API (3개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/subscriptions/plans</td><td>플랜 목록 조회</td><td>X</td><td>20/분</td></tr>
+      <tr><td><span class="tag tg">POST</span></td><td>/api/subscriptions</td><td>구독 시작 (결제)</td><td>O</td><td>5/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/subscriptions/cancel</td><td>구독 해지</td><td>O</td><td>5/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Admin -->
+  <div class="card">
+    <h3><span class="tag tr">Admin</span> 관리자 API (4개)</h3>
+    <table class="tbl">
+      <tr><th style="width:80px">Method</th><th style="width:240px">Path</th><th>설명</th><th style="width:60px">인증</th><th style="width:80px">Rate Limit</th></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/admin/users</td><td>전체 사용자 목록 (관리자)</td><td>Admin</td><td>20/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/admin/stats</td><td>서비스 통계 대시보드</td><td>Admin</td><td>20/분</td></tr>
+      <tr><td><span class="tag tw">PUT</span></td><td>/api/admin/users/:id</td><td>사용자 정보 수정/정지/삭제</td><td>Admin</td><td>10/분</td></tr>
+      <tr><td><span class="tag tb">GET</span></td><td>/api/admin/reports</td><td>신고 목록 조회</td><td>Admin</td><td>20/분</td></tr>
+    </table>
+  </div>
+
+  <!-- Business Cards, Reports, Activity -->
+  <div class="g2">
+    <div class="card">
+      <h3><span class="tag tgr">Cards</span> 명함 API (3개)</h3>
+      <table class="tbl">
+        <tr><th style="width:70px">Method</th><th>Path</th><th>설명</th></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/cards/upload</td><td>명함 이미지 업로드</td></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/cards/ocr</td><td>명함 OCR 처리 요청</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/cards</td><td>내 명함 목록</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3><span class="tag tgr">기타</span> 신고/활동 API (4개)</h3>
+      <table class="tbl">
+        <tr><th style="width:70px">Method</th><th>Path</th><th>설명</th></tr>
+        <tr><td><span class="tag tg">POST</span></td><td>/api/reports</td><td>사용자 신고</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/reports</td><td>내 신고 목록</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/activity/me</td><td>내 활동 기록</td></tr>
+        <tr><td><span class="tag tb">GET</span></td><td>/api/activity/weekly</td><td>주간 활동 요약</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-s" style="background:#eff6ff;margin-top:8px">
+    <strong>API 합계:</strong> Auth 5 + Users 4 + Search 3 + Contacts 5 + Companies 4 + Notifications 3 + Subscriptions 3 + Admin 4 + Cards 3 + Reports 2 + Activity 2 = <strong>38개 엔드포인트</strong>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 9. 기능 우선순위 (MoSCoW) -->
+<!-- ============================================ -->
+<div class="sec" id="moscow">
+  <h2 class="sec-title">9. 기능 우선순위 (MoSCoW)</h2>
+
+  <div class="g2">
+
+    <div class="card moscow-must">
+      <h3><span class="tag tb" style="font-size:14px">Must Have</span> MVP 필수 기능</h3>
+      <table class="tbl">
+        <tr><th style="width:40px">#</th><th>기능</th><th style="width:100px">예상 공수</th></tr>
+        <tr><td>1</td><td style="font-weight:700">이메일/소셜 회원가입 &amp; 로그인</td><td>1주</td></tr>
+        <tr><td>2</td><td style="font-weight:700">프로필 등록 (이름/회사/부서/직책)</td><td>0.5주</td></tr>
+        <tr><td>3</td><td style="font-weight:700">전화번호 SMS 인증</td><td>0.5주</td></tr>
+        <tr><td>4</td><td style="font-weight:700">사용자 검색 (이름/회사/부서)</td><td>1주</td></tr>
+        <tr><td>5</td><td style="font-weight:700">연락처 요청 보내기</td><td>1주</td></tr>
+        <tr><td>6</td><td style="font-weight:700">요청 수락/거부</td><td>1주</td></tr>
+        <tr><td>7</td><td style="font-weight:700">승인 시 상호 전화번호 공개</td><td>0.5주</td></tr>
+        <tr><td>8</td><td style="font-weight:700">Push 알림 (요청 수신/승인/거부)</td><td>1주</td></tr>
+        <tr><td>9</td><td style="font-weight:700">기본 주소록 (수락된 연락처)</td><td>0.5주</td></tr>
+        <tr><td>10</td><td style="font-weight:700">사용자 차단</td><td>0.5주</td></tr>
+      </table>
+    </div>
+
+    <div class="card moscow-should">
+      <h3><span class="tag tg" style="font-size:14px">Should Have</span> V1.1 기능</h3>
+      <table class="tbl">
+        <tr><th style="width:40px">#</th><th>기능</th><th style="width:100px">예상 공수</th></tr>
+        <tr><td>11</td><td>명함 OCR 자동 입력</td><td>1.5주</td></tr>
+        <tr><td>12</td><td>고급 검색 필터 (산업/직책/회사규모)</td><td>1주</td></tr>
+        <tr><td>13</td><td>연락 이력 &amp; 메모</td><td>0.5주</td></tr>
+        <tr><td>14</td><td>프라이버시 설정 (노출/수신 목적 제어)</td><td>1주</td></tr>
+        <tr><td>15</td><td>프로필 완성도 가이드</td><td>0.5주</td></tr>
+        <tr><td>16</td><td>초대 &amp; 바이럴 링크</td><td>1주</td></tr>
+        <tr><td>17</td><td>주간 활동 요약 이메일</td><td>0.5주</td></tr>
+      </table>
+    </div>
+
+    <div class="card moscow-could">
+      <h3><span class="tag tw" style="font-size:14px">Could Have</span> V1.2 기능</h3>
+      <table class="tbl">
+        <tr><th style="width:40px">#</th><th>기능</th><th style="width:100px">예상 공수</th></tr>
+        <tr><td>18</td><td>CRM 연동 (HubSpot, Salesforce)</td><td>2주</td></tr>
+        <tr><td>19</td><td>팀 관리 (Enterprise)</td><td>2주</td></tr>
+        <tr><td>20</td><td>API 키 발급 &amp; 관리</td><td>1주</td></tr>
+        <tr><td>21</td><td>통계 대시보드 (요청 추이, 승인율)</td><td>1주</td></tr>
+        <tr><td>22</td><td>연락처 CSV/vCard 내보내기</td><td>0.5주</td></tr>
+        <tr><td>23</td><td>회사 사업자등록 인증</td><td>1주</td></tr>
+      </table>
+    </div>
+
+    <div class="card moscow-wont">
+      <h3><span class="tag tgr" style="font-size:14px">Won't Have</span> (현재 범위 밖)</h3>
+      <table class="tbl">
+        <tr><th style="width:40px">#</th><th>기능</th><th>보류 사유</th></tr>
+        <tr><td>24</td><td>AI 추천 (관심 연락처 자동 추천)</td><td>충분한 데이터 축적 후</td></tr>
+        <tr><td>25</td><td>조직도 자동 생성</td><td>회사 데이터 확보 후</td></tr>
+        <tr><td>26</td><td>글로벌 다국어 지원</td><td>한국 시장 PMF 확인 후</td></tr>
+        <tr><td>27</td><td>영상 통화 / 채팅</td><td>기존 통신 앱과의 차별화 불필요</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 10. 기술 아키텍처 -->
+<!-- ============================================ -->
+<div class="sec" id="architecture">
+  <h2 class="sec-title">10. 기술 아키텍처</h2>
+
+  <div class="card">
+    <h3>기술 스택</h3>
+    <div class="g3" style="margin-top:12px">
+      <div class="card-s" style="text-align:center">
+        <strong style="color:var(--p);font-size:14px">Frontend (모바일)</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:6px">React Native + Expo<br>iOS + Android 동시 지원<br>TypeScript</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <strong style="color:var(--p);font-size:14px">Frontend (웹)</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:6px">Next.js 14 (App Router)<br>Tailwind CSS<br>TypeScript</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <strong style="color:var(--p);font-size:14px">Backend</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:6px">Next.js API Routes<br>Prisma ORM<br>PostgreSQL + Redis</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>아키텍처 구성도</h3>
+    <div style="margin-top:16px">
+      <div class="g3" style="gap:12px">
+        <div class="arch-box" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-color:#a7f3d0">React Native App<br><span style="font-weight:400;font-size:12px;color:#6b7280">iOS / Android</span></div>
+        <div class="arch-box" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:#93c5fd">Next.js Web<br><span style="font-weight:400;font-size:12px;color:#6b7280">데스크톱 / 모바일 웹</span></div>
+        <div class="arch-box" style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:#c4b5fd">API SDK<br><span style="font-weight:400;font-size:12px;color:#6b7280">엔터프라이즈 연동</span></div>
+      </div>
+      <div class="arch-arrow">&darr;</div>
+      <div class="arch-box" style="background:linear-gradient(135deg,#1a56db,#0a2d8e);color:#fff;border:none">API Gateway (Vercel Edge)<br><span style="font-weight:400;font-size:12px;opacity:.8">JWT 인증 &middot; Rate Limiting &middot; CORS</span></div>
+      <div class="arch-arrow">&darr;</div>
+      <div class="g4" style="gap:10px">
+        <div class="arch-box">Auth<br><span style="font-weight:400;font-size:11px;color:#6b7280">인증/인가</span></div>
+        <div class="arch-box">Search<br><span style="font-weight:400;font-size:11px;color:#6b7280">검색 엔진</span></div>
+        <div class="arch-box">Contact<br><span style="font-weight:400;font-size:11px;color:#6b7280">요청/승인</span></div>
+        <div class="arch-box">Notification<br><span style="font-weight:400;font-size:11px;color:#6b7280">알림/푸시</span></div>
+      </div>
+      <div class="arch-arrow">&darr;</div>
+      <div class="g3" style="gap:12px">
+        <div class="arch-box" style="background:linear-gradient(135deg,#fef2f2,#fecaca);border-color:#fca5a5">PostgreSQL<br><span style="font-weight:400;font-size:11px;color:#6b7280">메인 DB (Supabase)</span></div>
+        <div class="arch-box" style="background:linear-gradient(135deg,#fffbeb,#fef3c7);border-color:#fcd34d">Redis<br><span style="font-weight:400;font-size:11px;color:#6b7280">캐시 / 세션 / Rate Limit</span></div>
+        <div class="arch-box" style="background:linear-gradient(135deg,#f3f4f6,#e5e7eb);border-color:#d1d5db">S3<br><span style="font-weight:400;font-size:11px;color:#6b7280">이미지 / 명함 저장</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>보안 설계</h3>
+    <div class="g2" style="margin-top:12px">
+      <div class="card-s">
+        <strong style="font-size:14px">전화번호 E2E 암호화</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">전화번호는 AES-256으로 암호화 저장. 수락 시에만 복호화하여 양쪽에 공개. DB 관리자도 평문 확인 불가.</p>
+      </div>
+      <div class="card-s">
+        <strong style="font-size:14px">JWT + Refresh Token</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">Access Token 15분, Refresh Token 7일. httpOnly 쿠키 저장. 로그아웃 시 서버사이드 토큰 무효화.</p>
+      </div>
+      <div class="card-s">
+        <strong style="font-size:14px">Rate Limiting</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">Redis 기반 슬라이딩 윈도우. API별 차등 제한 (인증 5/분, 검색 30/분, 요청 10/분). IP + User ID 복합 키.</p>
+      </div>
+      <div class="card-s">
+        <strong style="font-size:14px">인프라 보안</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">HTTPS 필수. HSTS, CSP 헤더. WAF(Web Application Firewall). DDoS 방어 (Vercel Edge). 보안 감사 로그 90일 보관.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 11. 성과 지표 (KPI) -->
+<!-- ============================================ -->
+<div class="sec" id="kpi">
+  <h2 class="sec-title">11. 성과 지표 (KPI)</h2>
+
+  <div class="card">
+    <h3>핵심 성과 지표 (North Star + 주요 KPI)</h3>
+    <div class="g3" style="margin-top:14px">
+      <div class="card-s kpi-card" style="border:2px solid var(--p)">
+        <div class="kpi-val">30%+</div>
+        <div class="kpi-label">DAU / MAU 비율</div>
+        <div class="kpi-target">월간 활성 사용자 중 일일 접속 비율</div>
+      </div>
+      <div class="card-s kpi-card" style="border:2px solid var(--g)">
+        <div class="kpi-val" style="color:var(--g)">40%+</div>
+        <div class="kpi-label">연락 요청 승인율</div>
+        <div class="kpi-target">전체 요청 대비 수락 비율</div>
+      </div>
+      <div class="card-s kpi-card" style="border:2px solid var(--w)">
+        <div class="kpi-val" style="color:var(--w)">80%+</div>
+        <div class="kpi-label">온보딩 완료율</div>
+        <div class="kpi-target">가입 시작 &rarr; 전화번호 인증 완료</div>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:10px">
+      <div class="card-s kpi-card">
+        <div class="kpi-val" style="color:var(--r)">5%+</div>
+        <div class="kpi-label">유료 전환율</div>
+        <div class="kpi-target">무료 &rarr; Pro/Enterprise 전환</div>
+      </div>
+      <div class="card-s kpi-card">
+        <div class="kpi-val" style="color:#7c3aed">50+</div>
+        <div class="kpi-label">NPS (Net Promoter Score)</div>
+        <div class="kpi-target">&ldquo;이 서비스를 추천하시겠습니까?&rdquo;</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>트래킹 플랜</h3>
+    <table class="tbl">
+      <tr><th>이벤트</th><th>설명</th><th style="width:100px">분류</th><th style="width:120px">측정 도구</th></tr>
+      <tr><td style="font-weight:700">signup_started</td><td>회원가입 시작 (로그인 화면 진입)</td><td><span class="tag tb">인증</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">signup_completed</td><td>회원가입 완료 (전화번호 인증까지)</td><td><span class="tag tb">인증</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">onboarding_step</td><td>온보딩 각 단계 진행 (step 파라미터)</td><td><span class="tag tb">인증</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">search_performed</td><td>검색 실행 (query, filters, resultCount)</td><td><span class="tag tg">검색</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">profile_viewed</td><td>프로필 상세 조회</td><td><span class="tag tg">검색</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">request_sent</td><td>연락처 요청 전송 (purpose 파라미터)</td><td><span class="tag tw">요청</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">request_accepted</td><td>요청 수락</td><td><span class="tag tg">수신</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">request_rejected</td><td>요청 거부 (reason 파라미터)</td><td><span class="tag tr">수신</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">notification_opened</td><td>알림 클릭</td><td><span class="tag tgr">알림</span></td><td>Mixpanel</td></tr>
+      <tr><td style="font-weight:700">subscription_started</td><td>유료 구독 시작 (plan 파라미터)</td><td><span class="tag tw">결제</span></td><td>Mixpanel + Stripe</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 12. 개발 일정 (MVP 12주) -->
+<!-- ============================================ -->
+<div class="sec" id="timeline">
+  <h2 class="sec-title">12. 개발 일정 (MVP 12주)</h2>
+
+  <div class="card">
+    <h3>12주 개발 로드맵</h3>
+    <div class="tl" style="margin-top:20px">
+
+      <div class="tl-item">
+        <h4><span class="tag tb">Week 1~2</span> 인증 &amp; 온보딩</h4>
+        <p>이메일/소셜 로그인, 회원가입, 전화번호 SMS 인증, 온보딩 화면 4개, JWT 인프라</p>
+        <div style="margin-top:6px"><span style="font-size:12px;background:#e0e7ff;color:#4338ca;padding:2px 8px;border-radius:4px">화면: S-01 ~ S-04</span></div>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tb">Week 3~4</span> 프로필 &amp; 검색</h4>
+        <p>사용자 프로필 CRUD, 회사/부서 DB, 통합 검색(Elasticsearch), 자동완성, 필터</p>
+        <div style="margin-top:6px"><span style="font-size:12px;background:#e0e7ff;color:#4338ca;padding:2px 8px;border-radius:4px">화면: S-05 ~ S-07, S-17</span></div>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tg">Week 5~6</span> 연락처 요청 / 승인 / 거부</h4>
+        <p>요청 전송, 수신함, 수락/거부 처리, 상호 전화번호 공개 로직, 차단 기능</p>
+        <div style="margin-top:6px"><span style="font-size:12px;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:4px">화면: S-08 ~ S-13</span></div>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tw">Week 7~8</span> 알림 &amp; 주소록</h4>
+        <p>Push 알림(FCM/APNs), 인앱 알림, 알림 설정, 주소록 CRUD, 메모, 연락 이력</p>
+        <div style="margin-top:6px"><span style="font-size:12px;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:4px">화면: S-14 ~ S-16, S-18</span></div>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tr">Week 9~10</span> 결제 &amp; 구독</h4>
+        <p>Stripe/Toss 결제 연동, 플랜 비교, 구독 관리, 프라이버시 설정, 구독 관리 화면</p>
+        <div style="margin-top:6px"><span style="font-size:12px;background:#fecaca;color:#991b1b;padding:2px 8px;border-radius:4px">화면: S-19 ~ S-20</span></div>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tgr">Week 11~12</span> QA &amp; 런칭 준비</h4>
+        <p>전체 테스트 (단위/통합/E2E), 성능 최적화, 앱 스토어 심사 제출, 모니터링 설정, 런칭 페이지</p>
+        <div style="margin-top:6px"><span style="font-size:12px;background:#f3f4f6;color:#6b7280;padding:2px 8px;border-radius:4px">런칭 준비 + 배포</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>개발 팀 구성 (최소)</h3>
+    <table class="tbl">
+      <tr><th>역할</th><th>인원</th><th>담당 범위</th></tr>
+      <tr><td style="font-weight:700">풀스택 개발자</td><td>2명</td><td>Next.js + API + DB (1명 프론트 집중, 1명 백엔드 집중)</td></tr>
+      <tr><td style="font-weight:700">모바일 개발자</td><td>1명</td><td>React Native 앱 (iOS + Android)</td></tr>
+      <tr><td style="font-weight:700">디자이너</td><td>1명</td><td>UI/UX 디자인, 디자인 시스템, 사용자 테스트</td></tr>
+      <tr><td style="font-weight:700">PM / 기획자</td><td>1명</td><td>요구사항 관리, 일정 관리, QA 리드</td></tr>
+      <tr><td style="font-weight:700;color:#6b7280">합계</td><td style="font-weight:700">5명</td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- 13. 런칭 전략 -->
+<!-- ============================================ -->
+<div class="sec" id="launch">
+  <h2 class="sec-title">13. 런칭 전략</h2>
+
+  <div class="card">
+    <h3>3단계 런칭 프로세스</h3>
+    <div class="tl" style="margin-top:16px">
+
+      <div class="tl-item">
+        <h4><span class="tag tr">Phase 1</span> Closed Beta &mdash; 100명 (4주)</h4>
+        <p>초대 코드 기반 100명 제한. IT/스타트업 업계 종사자 위주. 핵심 흐름(검색 &rarr; 요청 &rarr; 수락) 검증. 주 2회 사용자 인터뷰. NPS 40+ 달성 시 Phase 2 진입.</p>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tw">Phase 2</span> Open Beta &mdash; 1,000명 (6주)</h4>
+        <p>대기자 명단(Waitlist) 순차 초대. 스케일 테스트 (동시 접속 500명). 알림 시스템 안정성 검증. 결제 기능 라이브 테스트. 승인율 35%+ 달성 시 Phase 3 진입.</p>
+      </div>
+
+      <div class="tl-item">
+        <h4><span class="tag tg">Phase 3</span> 정식 런칭 &mdash; 무제한</h4>
+        <p>앱 스토어 + 웹 동시 공개. 프레스 릴리즈 + 매체 인터뷰. 런칭 프로모션 (첫 달 Pro 무료). 바이럴 초대 인센티브 (초대 1명당 무료 요청 +5회).</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h3>초기 타겟 시장</h3>
+      <table class="tbl">
+        <tr><th>세그먼트</th><th>이유</th></tr>
+        <tr><td style="font-weight:700">한국 IT / SaaS 업계</td><td>B2B 영업이 활발하고, 신규 도구 수용도가 높음</td></tr>
+        <tr><td style="font-weight:700">스타트업 생태계</td><td>네트워킹 니즈가 높고, 얼리어답터 성향</td></tr>
+        <tr><td style="font-weight:700">VC / 엔젤 투자자</td><td>고가 플랜 잠재 고객, 딜 소싱 니즈 강함</td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>바이럴 메커니즘</h3>
+      <table class="tbl">
+        <tr><th>메커니즘</th><th>설명</th></tr>
+        <tr><td style="font-weight:700">초대 루프</td><td>연락 요청을 받으면 미가입자도 가입해야 수락 가능 &rarr; 자연스러운 초대</td></tr>
+        <tr><td style="font-weight:700">양방향 가치</td><td>요청자와 수신자 모두 가치를 얻음 (명함 교환처럼)</td></tr>
+        <tr><td style="font-weight:700">네트워크 효과</td><td>사용자가 많을수록 검색 가능한 담당자가 늘어남 &rarr; 가치 증가</td></tr>
+        <tr><td style="font-weight:700">초대 보상</td><td>초대한 사람이 가입 시 양쪽 모두 무료 요청 +5회 지급</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #a7f3d0">
+    <h3 style="color:#065f46">핵심 성공 조건 요약</h3>
+    <div class="g3" style="margin-top:12px">
+      <div class="card-s" style="text-align:center;background:#fff">
+        <strong style="color:var(--p);font-size:24px">3클릭</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">검색 &rarr; 프로필 &rarr; 요청 완료<br>어떤 상황에서든 3클릭 이내</p>
+      </div>
+      <div class="card-s" style="text-align:center;background:#fff">
+        <strong style="color:var(--g);font-size:24px">60초</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">가입 &rarr; 첫 검색까지<br>1분 이내 온보딩 완료</p>
+      </div>
+      <div class="card-s" style="text-align:center;background:#fff">
+        <strong style="color:var(--w);font-size:24px">0건</strong>
+        <p style="font-size:13px;color:#6b7280;margin-top:4px">원치 않는 연락<br>구조적 스팸 방지</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- Footer -->
+<div class="footer">
+  #002 동의 기반 비즈니스 연락처 디렉토리 &mdash; PRD (Product Requirements Document)<br>
+  &copy; 2026 사업 기회 탐색 프로젝트. 내부 검토용 자료.
+</div>
+
+</body>
+</html>

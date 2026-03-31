@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사업계획서 — 동의 기반 비즈니스 연락처 디렉토리</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#1a56db;--g:#0e9f6e;--w:#f59e0b;--r:#e02424;--t:#111827;--bg:#f0f4f8;--bd:#e5e7eb;--card:#fff}
+body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg);color:var(--t);line-height:1.7}
+a{color:var(--p);text-decoration:none}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.hero{background:linear-gradient(135deg,#1a56db,#0a2d8e);padding:42px 24px 36px;text-align:center;color:#fff}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 18px;font-size:13px;margin-bottom:14px}
+.hero h1{font-size:clamp(22px,4vw,36px);font-weight:900;line-height:1.3;margin-bottom:8px}
+.hero p{font-size:15px;opacity:.85;max-width:640px;margin:0 auto}
+.score-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.score-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:18px 24px;min-width:150px;text-align:center}
+.score-card .num{font-size:28px;font-weight:900;display:block}
+.score-card .lbl{font-size:12px;opacity:.8}
+.nav{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;overflow-x:auto}
+.nav-inner{display:flex;gap:0;max-width:960px;margin:0 auto;padding:0 20px}
+.nav a{padding:14px 18px;font-size:14px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:.2s;color:var(--t)}
+.nav a:hover,.nav a.on{color:var(--p);border-bottom-color:var(--p)}
+.sec{padding:36px 0}
+.sec-title{border-left:4px solid var(--p);padding-left:14px;font-size:21px;font-weight:800;margin-bottom:24px}
+.card{background:var(--card);border-radius:16px;padding:26px;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:20px}
+.card h3{font-size:17px;font-weight:700;margin-bottom:12px}
+.card-s{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px}
+@media(max-width:900px){.g3,.g4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr}}
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:600}
+.tb{background:#eff6ff;color:var(--p)}.tg{background:#ecfdf5;color:var(--g)}.tw{background:#fffbeb;color:var(--w)}.tr{background:#fef2f2;color:var(--r)}.tgr{background:#f3f4f6;color:#6b7280}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin:14px 0}
+.tbl th{background:#f8faff;padding:10px 12px;text-align:left;font-weight:700;border-bottom:2px solid var(--bd)}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--bd)}
+.tbl .ours td{background:#eff6ff !important;font-weight:600}
+.sc-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.sc-lbl{width:180px;font-size:14px;font-weight:600;flex-shrink:0}
+.sc-track{flex:1;background:#e5e7eb;border-radius:999px;height:11px;overflow:hidden}
+.sc-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,#1a56db,#60a5fa);transition:width .6s}
+.sc-num{width:42px;font-size:14px;font-weight:700;text-align:right;flex-shrink:0}
+.risk{display:flex;gap:12px;padding:14px;border-radius:10px;margin-bottom:10px;align-items:flex-start}
+.risk-h{background:#fff5f5}.risk-m{background:#fffbeb}.risk-l{background:#f0fdf4}
+.risk-icon{font-size:20px;flex-shrink:0}.risk-text{font-size:14px}
+.tl{position:relative;padding-left:32px;margin:20px 0}
+.tl::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--p),#e5e7eb)}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-item::before{content:'';position:absolute;left:-25px;top:4px;width:12px;height:12px;background:var(--p);border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px var(--p)}
+.tl-item h4{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-item p{font-size:14px;color:#6b7280}
+.kpi-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.kpi{flex:1;min-width:140px;background:var(--card);border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.kpi .k-num{font-size:28px;font-weight:900;color:var(--p);display:block}
+.kpi .k-lbl{font-size:12px;color:#6b7280;margin-top:2px}
+.footer{background:#1e293b;color:#94a3b8;padding:32px 24px;text-align:center;font-size:13px;margin-top:40px}
+.footer a{color:#60a5fa}
+.flow-step{text-align:center;padding:16px 10px}
+.flow-step .fs-num{display:inline-flex;width:36px;height:36px;border-radius:50%;background:var(--p);color:#fff;font-weight:800;font-size:16px;align-items:center;justify-content:center;margin-bottom:8px}
+.flow-step h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.flow-step p{font-size:13px;color:#6b7280}
+.flow-arrow{display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--p);font-weight:700}
+.bar-vis{margin:16px 0}
+.bar-vis .bv-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.bar-vis .bv-lbl{width:80px;font-size:13px;font-weight:700;text-align:right;flex-shrink:0}
+.bar-vis .bv-track{flex:1;height:28px;background:#e5e7eb;border-radius:8px;overflow:hidden;position:relative}
+.bar-vis .bv-bar{height:100%;border-radius:8px;display:flex;align-items:center;padding-left:10px;color:#fff;font-size:12px;font-weight:700}
+.bar-vis .bv-val{width:120px;font-size:13px;font-weight:600;flex-shrink:0;padding-left:8px}
+.fund-use{display:flex;gap:4px;height:32px;border-radius:8px;overflow:hidden;margin:14px 0}
+.fund-use div{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">PAGE 07 / 09 &mdash; Business Plan</div>
+  <h1>사업계획서</h1>
+  <p>동의 기반 비즈니스 연락처 디렉토리 &mdash; 투자자 등급의 종합 사업계획서. 문제 정의부터 시장 기회, 재무 계획, Exit 전략까지 전체 사업 청사진</p>
+  <div class="score-row">
+    <div class="score-card">
+      <span class="num">$650B+</span>
+      <span class="lbl">TAM (전문가 네트워킹)</span>
+    </div>
+    <div class="score-card">
+      <span class="num">0개</span>
+      <span class="lbl">동의 기반 경쟁사</span>
+    </div>
+    <div class="score-card">
+      <span class="num">Y3</span>
+      <span class="lbl">손익분기점 (BEP)</span>
+    </div>
+    <div class="score-card">
+      <span class="num">2,176억</span>
+      <span class="lbl">Y5 매출 목표</span>
+    </div>
+    <div class="score-card">
+      <span class="num">1~2조</span>
+      <span class="lbl">Exit 목표 밸류</span>
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="nav-inner">
+    <a href="index.html">종합 대시보드</a>
+    <a href="page01-competitors.html">경쟁사 분석</a>
+    <a href="page02-customer.html">고객 니즈</a>
+    <a href="page03-investment.html">투자/IR 시장</a>
+    <a href="page04-financials.html">재무 시뮬레이션</a>
+    <a href="page05-product.html">제품 설계</a>
+    <a href="page06-legal.html">법률/규제</a>
+    <a href="page07-business-plan.html" class="on">사업계획서</a>
+    <a href="page08-prd.html">PRD</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ============================================================ -->
+<!-- 1. Executive Summary (핵심 요약) -->
+<!-- ============================================================ -->
+<div class="sec" id="executive-summary">
+  <div class="sec-title">1. Executive Summary (핵심 요약)</div>
+
+  <div class="card" style="border-left:4px solid var(--p)">
+    <h3 style="font-size:19px;color:var(--p)">한 줄 요약</h3>
+    <p style="font-size:17px;font-weight:700;margin-bottom:16px">"모든 회사의 모든 부서 담당자를 동의 기반으로 찾아 연락하는 세계 최초의 플랫폼"</p>
+    <p style="font-size:14px;color:#6b7280">현재 B2B 영업 담당자, 구직자, 투자자, 기자 등이 특정 기업의 특정 부서 담당자에게 연락하려면 지인 소개(평균 3단계), 콜드콜(실패율 97%), 또는 ZoomInfo($200+/월)에 의존합니다. 우리는 "디지털 명함 교환" 구조로 양측 모두가 동의해야만 연락 정보가 공개되는 플랫폼을 만들어, 스팸 없는 비즈니스 네트워킹의 표준을 세우겠습니다.</p>
+  </div>
+
+  <div class="card">
+    <h3>핵심 5대 포인트</h3>
+    <table class="tbl">
+      <tr><th style="width:120px">구분</th><th>내용</th></tr>
+      <tr><td><span class="tag tr">Problem</span></td><td>특정 회사 특정 부서 담당자를 합법적으로 찾아 연락하는 방법이 전 세계에 <strong>없음</strong>. 콜드콜 성공률 3%, ZoomInfo는 비싸고 한국 데이터 부정확</td></tr>
+      <tr><td><span class="tag tg">Solution</span></td><td><strong>동의 기반 디렉토리</strong> &mdash; 사용자가 프로필을 등록하면, 검색자는 연락 요청을 보내고, 등록자가 승인해야만 연락처가 공개됨. 스팸 구조적 차단</td></tr>
+      <tr><td><span class="tag tb">Market</span></td><td>TAM $650B+ (전문가 네트워킹), SAM $32B (B2B 연락처 DB), SOM $500M (한국/일본 초기). CAGR 25%</td></tr>
+      <tr><td><span class="tag tw">Model</span></td><td>Freemium SaaS &mdash; Free(월 5건), Pro(월 29,000원), Enterprise(월 99,000원/팀). LTV/CAC 비율 8.2x</td></tr>
+      <tr><td><span class="tag tgr">Ask</span></td><td>Seed 5억원 (Pre-money 20억원). 6개월 내 MVP + 5,000명 유저. Y3 BEP, Y5 매출 2,176억 목표</td></tr>
+    </table>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <span class="k-num">$650B+</span>
+      <span class="k-lbl">TAM 시장규모</span>
+    </div>
+    <div class="kpi">
+      <span class="k-num">0개</span>
+      <span class="k-lbl">동의기반 경쟁사</span>
+    </div>
+    <div class="kpi">
+      <span class="k-num">Y3</span>
+      <span class="k-lbl">BEP 달성 연도</span>
+    </div>
+    <div class="kpi">
+      <span class="k-num">2,176억</span>
+      <span class="k-lbl">Y5 목표 매출</span>
+    </div>
+    <div class="kpi">
+      <span class="k-num">8.2x</span>
+      <span class="k-lbl">LTV/CAC</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 2. 문제 정의 (Problem) -->
+<!-- ============================================================ -->
+<div class="sec" id="problem">
+  <div class="sec-title">2. 문제 정의 (Problem)</div>
+
+  <div class="card">
+    <h3>핵심 문제: "특정 회사의 특정 부서 담당자를 어떻게 찾는가?"</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:16px">B2B 영업 담당자, 구직자, 투자자, 기자, 컨설턴트 등 모든 비즈니스 종사자가 매일 겪는 문제입니다. 삼성전자 반도체 사업부의 구매 담당자, 네이버 AI Lab의 기술 리더, 현대차 전기차 부문 마케팅 팀장에게 연락하고 싶을 때 &mdash; 합법적이고 효과적인 방법이 사실상 존재하지 않습니다.</p>
+    <div class="g2">
+      <div class="card-s">
+        <h3>현재 방법의 한계</h3>
+        <table class="tbl">
+          <tr><th>방법</th><th>문제점</th></tr>
+          <tr><td><strong>지인 소개</strong></td><td>평균 3단계 거쳐야 도달. 시간 2~4주 소요. 인맥 없으면 불가능</td></tr>
+          <tr><td><strong>콜드콜</strong></td><td>성공률 <strong>3%</strong> (97% 실패). 대표번호 &rarr; ARS &rarr; 부서 연결 거부 반복</td></tr>
+          <tr><td><strong>ZoomInfo</strong></td><td>월 $200+ 고가. 한국 데이터 <strong>부정확</strong> (정확도 40% 미만). 동의 없는 크롤링</td></tr>
+          <tr><td><strong>LinkedIn</strong></td><td>전화번호 미공개. InMail <strong>읽힘률 20%</strong> 미만. SNS 기반이라 프로페셔널 맥락 부족</td></tr>
+          <tr><td><strong>콜드이메일</strong></td><td>응답률 <strong>3.43%</strong>. 추측 이메일(firstname@company.com) 바운스율 높음</td></tr>
+        </table>
+      </div>
+      <div class="card-s">
+        <h3>시장 데이터가 말하는 문제의 심각성</h3>
+        <div class="sc-row">
+          <div class="sc-lbl">콜드콜 실패율</div>
+          <div class="sc-track"><div class="sc-bar" style="width:97%;background:linear-gradient(90deg,var(--r),#f87171)"></div></div>
+          <div class="sc-num">97%</div>
+        </div>
+        <div class="sc-row">
+          <div class="sc-lbl">전체 이메일 중 스팸</div>
+          <div class="sc-track"><div class="sc-bar" style="width:46.8%;background:linear-gradient(90deg,var(--r),#f87171)"></div></div>
+          <div class="sc-num">46.8%</div>
+        </div>
+        <div class="sc-row">
+          <div class="sc-lbl">콜드이메일 응답률</div>
+          <div class="sc-track"><div class="sc-bar" style="width:3.4%;background:linear-gradient(90deg,var(--w),#fbbf24)"></div></div>
+          <div class="sc-num">3.4%</div>
+        </div>
+        <div class="sc-row">
+          <div class="sc-lbl">영업없는 구매 선호</div>
+          <div class="sc-track"><div class="sc-bar" style="width:67%"></div></div>
+          <div class="sc-num">67%</div>
+        </div>
+        <div class="sc-row">
+          <div class="sc-lbl">B2B 구매자 자율 리서치</div>
+          <div class="sc-track"><div class="sc-bar" style="width:83%"></div></div>
+          <div class="sc-num">83%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>고객 세그먼트별 페인 포인트</h3>
+    <div class="g3">
+      <div class="card-s" style="border-top:3px solid var(--p)">
+        <h3>B2B 영업 담당자</h3>
+        <p style="font-size:13px;color:#6b7280">"의사결정권자에게 직접 연락하고 싶지만, 대표번호 ARS에서 막히고, 이메일은 스팸으로 분류됩니다."</p>
+        <ul style="font-size:13px;padding-left:16px;margin-top:8px">
+          <li>주당 평균 18시간을 리드 발굴에 소비</li>
+          <li>접촉 시도의 97%가 실패</li>
+          <li>ZoomInfo 등 도구 비용 연 $2,400+</li>
+        </ul>
+      </div>
+      <div class="card-s" style="border-top:3px solid var(--g)">
+        <h3>구직자 / 이직 희망자</h3>
+        <p style="font-size:13px;color:#6b7280">"관심 있는 회사의 팀장에게 직접 커피챗을 요청하고 싶지만, LinkedIn InMail은 읽히지 않습니다."</p>
+        <ul style="font-size:13px;padding-left:16px;margin-top:8px">
+          <li>InMail 응답률 5~15%</li>
+          <li>채용 사이트만으로는 문화/팀 파악 불가</li>
+          <li>레퍼럴 없는 지원자의 합격률 2배 낮음</li>
+        </ul>
+      </div>
+      <div class="card-s" style="border-top:3px solid var(--w)">
+        <h3>투자자 / VC</h3>
+        <p style="font-size:13px;color:#6b7280">"유망한 스타트업의 CTO에게 연락하고 싶은데, 서로 아는 사람이 없으면 접근이 불가능합니다."</p>
+        <ul style="font-size:13px;padding-left:16px;margin-top:8px">
+          <li>딜 소싱의 60%가 인맥 기반</li>
+          <li>콜드 접근 딜 클로징률 5% 미만</li>
+          <li>업계 DB(PitchBook 등) 한국 커버리지 부족</li>
+        </ul>
+      </div>
+    </div>
+    <div class="g3" style="margin-top:16px">
+      <div class="card-s" style="border-top:3px solid var(--r)">
+        <h3>기자 / 미디어</h3>
+        <p style="font-size:13px;color:#6b7280">"긴급 취재 시 해당 기업의 PR 담당자를 찾는 데만 반나절이 걸립니다."</p>
+        <ul style="font-size:13px;padding-left:16px;margin-top:8px">
+          <li>취재원 확보에 평균 3시간 소요</li>
+          <li>기업 홈페이지 연락처 = 대표번호뿐</li>
+          <li>마감 시간 내 연락 실패 빈번</li>
+        </ul>
+      </div>
+      <div class="card-s" style="border-top:3px solid #8b5cf6">
+        <h3>스타트업 창업자</h3>
+        <p style="font-size:13px;color:#6b7280">"잠재 파트너사의 사업개발 담당자에게 제안을 보내고 싶지만, 접점이 전혀 없습니다."</p>
+        <ul style="font-size:13px;padding-left:16px;margin-top:8px">
+          <li>사업개발 미팅 성사율 5% 미만</li>
+          <li>LinkedIn 연결 요청 승인율 20~30%</li>
+          <li>인맥 네트워크 규모가 사업 성패 좌우</li>
+        </ul>
+      </div>
+      <div class="card-s" style="border-top:3px solid #06b6d4">
+        <h3>컨설턴트 / 프리랜서</h3>
+        <p style="font-size:13px;color:#6b7280">"프로젝트 발주처의 실무 담당자를 찾아야 하는데, 조달 포탈에는 담당자 연락처가 없습니다."</p>
+        <ul style="font-size:13px;padding-left:16px;margin-top:8px">
+          <li>제안서 제출 후 팔로업 연락처 확보 어려움</li>
+          <li>기존 고객 추천에 과도하게 의존</li>
+          <li>신규 시장 개척 시 진입 장벽 높음</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk risk-h">
+    <div class="risk-icon">&#128680;</div>
+    <div class="risk-text"><strong>핵심 인사이트:</strong> B2B 구매자의 67%는 영업 담당자 없이 구매하기를 선호하고, 83%는 자율적으로 리서치합니다. 하지만 "연락이 필요할 때" 적절한 사람을 찾는 방법은 여전히 1990년대 수준(전화번호부)에 머물러 있습니다. 이 구조적 갭이 우리의 기회입니다.</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 3. 솔루션 (Solution) -->
+<!-- ============================================================ -->
+<div class="sec" id="solution">
+  <div class="sec-title">3. 솔루션 (Solution)</div>
+
+  <div class="card">
+    <h3>"디지털 명함 교환" &mdash; 4단계 프로세스</h3>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:18px">실제 명함 교환처럼, 양측 모두가 동의해야만 연락 정보가 공개됩니다. 일방적 정보 수집이 아닌 상호 합의 기반의 연결입니다.</p>
+    <div class="g4">
+      <div class="flow-step card-s">
+        <div class="fs-num">1</div>
+        <h4>프로필 등록</h4>
+        <p>직장, 부서, 직책 등 비즈니스 프로필을 등록하고 공개 범위를 직접 설정</p>
+      </div>
+      <div class="flow-step card-s">
+        <div class="fs-num">2</div>
+        <h4>검색 & 요청</h4>
+        <p>찾고자 하는 담당자를 검색 후, 연락 목적과 자기소개를 포함해 연락 요청</p>
+      </div>
+      <div class="flow-step card-s">
+        <div class="fs-num">3</div>
+        <h4>승인 / 거절</h4>
+        <p>요청 받은 사람이 요청자 프로필과 사유를 확인 후 수락 또는 거절 결정</p>
+      </div>
+      <div class="flow-step card-s">
+        <div class="fs-num">4</div>
+        <h4>연결 완료</h4>
+        <p>수락 시 양측 연락처가 상호 공개. 거절 시 어떤 정보도 노출되지 않음</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>기존 서비스와의 근본적 차이점</h3>
+    <table class="tbl">
+      <tr><th style="width:140px">비교 항목</th><th>LinkedIn / SNS</th><th>ZoomInfo / Apollo</th><th style="background:#eff6ff"><strong>우리 서비스</strong></th></tr>
+      <tr><td><strong>본질</strong></td><td>소셜 네트워크 (자기 PR)</td><td>데이터 크롤링 DB</td><td style="background:#eff6ff"><strong>동의 기반 디렉토리</strong></td></tr>
+      <tr><td><strong>정보 수집 방식</strong></td><td>사용자 자발적 입력</td><td>웹 크롤링 + 추정</td><td style="background:#eff6ff"><strong>사용자 직접 등록 + 검증</strong></td></tr>
+      <tr><td><strong>연락처 공개</strong></td><td>이메일만 (전화번호 비공개)</td><td>일방적 열람 (동의 없음)</td><td style="background:#eff6ff"><strong>양측 동의 시에만 공개</strong></td></tr>
+      <tr><td><strong>스팸 차단</strong></td><td>InMail 무차별 발송 가능</td><td>구조적 차단 불가</td><td style="background:#eff6ff"><strong>요청-승인 구조로 원천 차단</strong></td></tr>
+      <tr><td><strong>한국 데이터</strong></td><td>한국 직장인 58% 미가입</td><td>한국 데이터 정확도 40%</td><td style="background:#eff6ff"><strong>한국 직장인 직접 등록, 정확도 99%+</strong></td></tr>
+      <tr><td><strong>개인정보 규제</strong></td><td>GDPR 소송 지속</td><td>다수 소송 진행 중</td><td style="background:#eff6ff"><strong>동의 기반으로 규제 리스크 최소</strong></td></tr>
+      <tr><td><strong>가격</strong></td><td>InMail 개당 $2~5</td><td>월 $200~$500</td><td style="background:#eff6ff"><strong>무료(5건/월) ~ 월 29,000원</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>핵심 가치 4가지</h3>
+    <div class="g4">
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--p)">
+        <div style="font-size:32px;margin-bottom:8px">&#129309;</div>
+        <h4 style="font-size:15px;font-weight:700">상호성</h4>
+        <p style="font-size:13px;color:#6b7280">양측 모두 동의해야만 연결. 일방적 정보 열람 불가</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--g)">
+        <div style="font-size:32px;margin-bottom:8px">&#9989;</div>
+        <h4 style="font-size:15px;font-weight:700">동의 기반</h4>
+        <p style="font-size:13px;color:#6b7280">PIPA/GDPR 완전 준수. 모든 정보 공유에 명시적 동의 필수</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--w)">
+        <div style="font-size:32px;margin-bottom:8px">&#127919;</div>
+        <h4 style="font-size:15px;font-weight:700">정확도</h4>
+        <p style="font-size:13px;color:#6b7280">본인이 직접 등록한 정보. 크롤링 추정 데이터가 아닌 실제 연락처</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--r)">
+        <div style="font-size:32px;margin-bottom:8px">&#128274;</div>
+        <h4 style="font-size:15px;font-weight:700">프라이버시</h4>
+        <p style="font-size:13px;color:#6b7280">사용자가 공개 범위를 완전히 통제. 원치 않는 연락 100% 차단</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk risk-l">
+    <div class="risk-icon">&#128161;</div>
+    <div class="risk-text"><strong>왜 지금인가?</strong> (1) GDPR/PIPA 강화로 크롤링 기반 서비스의 법적 리스크 급증, (2) B2B 구매자 67%가 영업 없는 구매 선호, (3) AI 기술 성숙으로 매칭 정확도 향상, (4) 리멤버가 5,400억에 Exit하며 한국 시장의 가치 입증</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 4. 비즈니스 모델 (Business Model) -->
+<!-- ============================================================ -->
+<div class="sec" id="business-model">
+  <div class="sec-title">4. 비즈니스 모델 (Business Model)</div>
+
+  <div class="card">
+    <h3>Freemium 구독 모델</h3>
+    <table class="tbl">
+      <tr><th style="width:140px">플랜</th><th>가격</th><th>주요 기능</th><th style="width:100px">대상</th></tr>
+      <tr>
+        <td><span class="tag tgr">Free</span></td>
+        <td><strong>무료</strong></td>
+        <td>월 5건 연락 요청, 기본 검색 (회사명/부서), 프로필 등록, 요청 수신 무제한</td>
+        <td>개인 사용자</td>
+      </tr>
+      <tr>
+        <td><span class="tag tb">Pro</span></td>
+        <td><strong>월 29,000원</strong><br><span style="font-size:12px;color:#6b7280">(연 290,000원)</span></td>
+        <td>무제한 연락 요청, 고급 필터 (업종/직급/지역), 연락 이력 관리, 요청 우선 노출, 프로필 분석 리포트</td>
+        <td>영업 담당자</td>
+      </tr>
+      <tr style="background:#eff6ff">
+        <td><span class="tag tg">Enterprise</span></td>
+        <td><strong>월 99,000원/팀</strong><br><span style="font-size:12px;color:#6b7280">(연 990,000원/팀)</span></td>
+        <td>팀 관리 대시보드, API 액세스, CRM 연동 (Salesforce/HubSpot), 팀 통계, 관리자 콘솔, 우선 CS</td>
+        <td>기업 영업팀</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>추가 수익원 (Revenue Streams)</h3>
+    <div class="g2">
+      <div class="card-s">
+        <h3><span class="tag tb">구독 수익</span> &mdash; 핵심 (70%)</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>Pro / Enterprise 월정액 구독</li>
+          <li>연간 구독 시 2개월 무료 할인</li>
+          <li>유저 성장에 비례해 예측 가능한 MRR</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <h3><span class="tag tg">프리미엄 API</span> &mdash; 확장 (15%)</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>CRM/마케팅 자동화 연동 API</li>
+          <li>호출량 기반 과금 (1,000건당 50,000원)</li>
+          <li>엔터프라이즈 고객 커스터마이징</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <h3><span class="tag tw">기업 인증 배지</span> &mdash; 부가 (10%)</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>Verified Company 인증 마크</li>
+          <li>기업 프로필 페이지 + 부서별 담당자 목록</li>
+          <li>월 500,000원 (대기업 기준)</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <h3><span class="tag tgr">채용 연동</span> &mdash; 미래 (5%)</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>채용 공고 → 해당 팀 담당자 연결</li>
+          <li>헤드헌터 전용 플랜</li>
+          <li>성공 수수료 모델 (Y3+)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Unit Economics (단위 경제학)</h3>
+    <div class="g3">
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--p)">
+        <p style="font-size:12px;color:#6b7280;margin-bottom:4px">CAC (고객 획득 비용)</p>
+        <p style="font-size:28px;font-weight:900;color:var(--p)">35,000원</p>
+        <p style="font-size:12px;color:#6b7280">오가닉 60% + 유료 40% 블렌딩</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--g)">
+        <p style="font-size:12px;color:#6b7280;margin-bottom:4px">LTV (고객 생애 가치)</p>
+        <p style="font-size:28px;font-weight:900;color:var(--g)">287,000원</p>
+        <p style="font-size:12px;color:#6b7280">평균 구독 기간 14개월 기준</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--w)">
+        <p style="font-size:12px;color:#6b7280;margin-bottom:4px">LTV / CAC</p>
+        <p style="font-size:28px;font-weight:900;color:var(--w)">8.2x</p>
+        <p style="font-size:12px;color:#6b7280">SaaS 우수 기준(3x) 크게 초과</p>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:14px">
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:12px;color:#6b7280;margin-bottom:4px">Payback Period (회수 기간)</p>
+        <p style="font-size:28px;font-weight:900;color:var(--t)">1.7개월</p>
+        <p style="font-size:12px;color:#6b7280">SaaS 우수 기준(12개월) 크게 초과</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:12px;color:#6b7280;margin-bottom:4px">Gross Margin (매출총이익률)</p>
+        <p style="font-size:28px;font-weight:900;color:var(--t)">85%</p>
+        <p style="font-size:12px;color:#6b7280">SaaS 평균 75% 대비 우수</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 5. 시장 기회 (Market Opportunity) -->
+<!-- ============================================================ -->
+<div class="sec" id="market">
+  <div class="sec-title">5. 시장 기회 (Market Opportunity)</div>
+
+  <div class="card">
+    <h3>TAM / SAM / SOM 시장 규모</h3>
+    <div class="bar-vis">
+      <div class="bv-row">
+        <div class="bv-lbl">TAM</div>
+        <div class="bv-track"><div class="bv-bar" style="width:100%;background:linear-gradient(90deg,#1a56db,#3b82f6)">$650B+</div></div>
+        <div class="bv-val">전문가 네트워킹</div>
+      </div>
+      <div class="bv-row">
+        <div class="bv-lbl">SAM</div>
+        <div class="bv-track"><div class="bv-bar" style="width:5%;background:linear-gradient(90deg,var(--g),#34d399)">$32B</div></div>
+        <div class="bv-val">B2B 연락처 DB</div>
+      </div>
+      <div class="bv-row">
+        <div class="bv-lbl">SOM</div>
+        <div class="bv-track"><div class="bv-bar" style="width:0.8%;background:linear-gradient(90deg,var(--w),#fbbf24);min-width:60px">$500M</div></div>
+        <div class="bv-val">한국+일본 초기</div>
+      </div>
+    </div>
+    <div class="g3" style="margin-top:16px">
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:36px;font-weight:900;color:var(--p)">$650B+</p>
+        <p style="font-size:13px;font-weight:700">TAM</p>
+        <p style="font-size:12px;color:#6b7280">전 세계 전문가 네트워킹, B2B 데이터, 세일즈 인텔리전스 시장 합산</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:36px;font-weight:900;color:var(--g)">$32B</p>
+        <p style="font-size:13px;font-weight:700">SAM</p>
+        <p style="font-size:12px;color:#6b7280">B2B 연락처 데이터베이스 + 세일즈 인텔리전스 플랫폼 시장</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:36px;font-weight:900;color:var(--w)">$500M</p>
+        <p style="font-size:13px;font-weight:700">SOM (5년 내)</p>
+        <p style="font-size:12px;color:#6b7280">한국 + 일본 시장 초기 공략. 한국 직장인 2,000만명 x 일본 6,500만명</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>시장 성장 동력</h3>
+    <table class="tbl">
+      <tr><th>분야</th><th>현재 규모</th><th>CAGR</th><th>2030 예상</th><th>성장 동력</th></tr>
+      <tr><td>B2B 데이터 플랫폼</td><td>$7.5B</td><td><span class="tag tg">25.4%</span></td><td>$29B</td><td>AI 기반 영업, 데이터 기반 의사결정 확산</td></tr>
+      <tr><td>세일즈 인텔리전스</td><td>$3.4B</td><td><span class="tag tg">22.8%</span></td><td>$12B</td><td>영업 자동화, CRM 연동 수요 폭증</td></tr>
+      <tr><td>전문가 네트워킹</td><td>$18B</td><td><span class="tag tb">18.2%</span></td><td>$52B</td><td>원격근무 확산, 글로벌 협업 증가</td></tr>
+      <tr><td>개인정보 보호 기술</td><td>$2.1B</td><td><span class="tag tg">28.6%</span></td><td>$10B</td><td>GDPR/PIPA 강화, 동의 기반 솔루션 수요</td></tr>
+      <tr><td>HR 테크 / 채용</td><td>$24B</td><td><span class="tag tb">16.5%</span></td><td>$65B</td><td>인재 전쟁 심화, 다이렉트 소싱 확대</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>"왜 지금?"이 중요한 4가지 이유</h3>
+    <div class="g2">
+      <div class="card-s">
+        <h3><span class="tag tr">1. 규제 환경 강화</span></h3>
+        <p style="font-size:14px">GDPR 벌금 누적 $4.5B+, 한국 PIPA 2023년 개정 (과징금 매출 3%), 크롤링 기반 서비스의 법적 리스크가 급격히 상승하면서 동의 기반 대안의 수요가 폭증하고 있습니다.</p>
+      </div>
+      <div class="card-s">
+        <h3><span class="tag tb">2. 구매자 행동 변화</span></h3>
+        <p style="font-size:14px">B2B 구매자 67%가 영업 없는 구매를 선호하고, 83%가 자율 리서치를 합니다. 하지만 "필요할 때 직접 연락"할 수 있는 인프라는 부재합니다.</p>
+      </div>
+      <div class="card-s">
+        <h3><span class="tag tg">3. AI 기술 성숙</span></h3>
+        <p style="font-size:14px">GPT-4/Claude 수준의 LLM으로 연락 목적 분석, 매칭 추천, 스팸 탐지의 정확도가 실용 수준에 도달했습니다. 2년 전에는 불가능했던 기술입니다.</p>
+      </div>
+      <div class="card-s">
+        <h3><span class="tag tw">4. 시장 가치 입증</span></h3>
+        <p style="font-size:14px">리멤버가 5,400억에 라인(LINE)에 인수되며, 한국의 비즈니스 연락처 시장이 대규모 Exit이 가능함을 입증했습니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 6. 경쟁 우위 & 해자 (Competitive Moat) -->
+<!-- ============================================================ -->
+<div class="sec" id="moat">
+  <div class="sec-title">6. 경쟁 우위 & 해자 (Competitive Moat)</div>
+
+  <div class="card">
+    <h3>5가지 핵심 해자 (Moat)</h3>
+    <div class="g3">
+      <div class="card-s" style="border-left:4px solid var(--p)">
+        <h3>1. 네트워크 효과</h3>
+        <p style="font-size:13px;color:#6b7280">사용자가 늘수록 검색 가능한 담당자가 증가하고, 이는 다시 더 많은 사용자를 유입시킵니다. 임계점(10만명) 돌파 후 자기 강화 루프 가동.</p>
+        <div class="sc-row" style="margin-top:10px">
+          <div class="sc-lbl" style="width:100px">방어력</div>
+          <div class="sc-track"><div class="sc-bar" style="width:95%"></div></div>
+          <div class="sc-num">95</div>
+        </div>
+      </div>
+      <div class="card-s" style="border-left:4px solid var(--g)">
+        <h3>2. 동의 기반 데이터</h3>
+        <p style="font-size:13px;color:#6b7280">모든 데이터가 본인 동의하에 수집됨. 크롤링으로는 절대 복제할 수 없는 구조적 데이터 자산입니다.</p>
+        <div class="sc-row" style="margin-top:10px">
+          <div class="sc-lbl" style="width:100px">방어력</div>
+          <div class="sc-track"><div class="sc-bar" style="width:98%"></div></div>
+          <div class="sc-num">98</div>
+        </div>
+      </div>
+      <div class="card-s" style="border-left:4px solid var(--w)">
+        <h3>3. 규제 면역</h3>
+        <p style="font-size:13px;color:#6b7280">GDPR/PIPA 완전 준수 설계. 규제 강화될수록 경쟁사(ZoomInfo 등)는 약해지고 우리는 강해집니다.</p>
+        <div class="sc-row" style="margin-top:10px">
+          <div class="sc-lbl" style="width:100px">방어력</div>
+          <div class="sc-track"><div class="sc-bar" style="width:90%"></div></div>
+          <div class="sc-num">90</div>
+        </div>
+      </div>
+    </div>
+    <div class="g2" style="margin-top:14px">
+      <div class="card-s" style="border-left:4px solid var(--r)">
+        <h3>4. 데이터 정확도</h3>
+        <p style="font-size:13px;color:#6b7280">본인이 직접 입력/갱신한 데이터이므로 정확도 99%+. ZoomInfo(40~70%)과 비교 불가한 품질 차이.</p>
+        <div class="sc-row" style="margin-top:10px">
+          <div class="sc-lbl" style="width:100px">방어력</div>
+          <div class="sc-track"><div class="sc-bar" style="width:92%"></div></div>
+          <div class="sc-num">92</div>
+        </div>
+      </div>
+      <div class="card-s" style="border-left:4px solid #8b5cf6">
+        <h3>5. 양면 가치 (Two-sided)</h3>
+        <p style="font-size:13px;color:#6b7280">검색자뿐 아니라 등록자(수신자)에게도 가치 제공. 새로운 비즈니스 기회/채용 제안/투자 제안을 받을 수 있어 이탈이 낮음.</p>
+        <div class="sc-row" style="margin-top:10px">
+          <div class="sc-lbl" style="width:100px">방어력</div>
+          <div class="sc-track"><div class="sc-bar" style="width:85%"></div></div>
+          <div class="sc-num">85</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>경쟁사 비교 매트릭스</h3>
+    <table class="tbl">
+      <tr><th>기능</th><th>ZoomInfo</th><th>LinkedIn</th><th>리멤버</th><th>Apollo.io</th><th style="background:#eff6ff">우리 서비스</th></tr>
+      <tr><td>동의 기반 수집</td><td><span class="tag tr">X</span></td><td><span class="tag tw">부분</span></td><td><span class="tag tw">부분</span></td><td><span class="tag tr">X</span></td><td style="background:#eff6ff"><span class="tag tg">O (100%)</span></td></tr>
+      <tr><td>한국 데이터 정확도</td><td><span class="tag tr">40%</span></td><td><span class="tag tw">42%</span></td><td><span class="tag tg">80%+</span></td><td><span class="tag tr">35%</span></td><td style="background:#eff6ff"><span class="tag tg">99%+</span></td></tr>
+      <tr><td>전화번호 공개</td><td><span class="tag tg">O</span></td><td><span class="tag tr">X</span></td><td><span class="tag tw">제한적</span></td><td><span class="tag tg">O</span></td><td style="background:#eff6ff"><span class="tag tg">동의 시 O</span></td></tr>
+      <tr><td>스팸 차단</td><td><span class="tag tr">X</span></td><td><span class="tag tr">X</span></td><td><span class="tag tr">X</span></td><td><span class="tag tr">X</span></td><td style="background:#eff6ff"><span class="tag tg">구조적 차단</span></td></tr>
+      <tr><td>GDPR/PIPA 준수</td><td><span class="tag tr">소송중</span></td><td><span class="tag tw">부분</span></td><td><span class="tag tg">준수</span></td><td><span class="tag tr">소송중</span></td><td style="background:#eff6ff"><span class="tag tg">완전 준수</span></td></tr>
+      <tr><td>가격 (월)</td><td>$200+</td><td>$60+</td><td>무료~3만원</td><td>$50+</td><td style="background:#eff6ff"><strong>무료~29,000원</strong></td></tr>
+      <tr><td>부서/직급 검색</td><td><span class="tag tg">O</span></td><td><span class="tag tw">제한</span></td><td><span class="tag tr">X</span></td><td><span class="tag tg">O</span></td><td style="background:#eff6ff"><span class="tag tg">O</span></td></tr>
+    </table>
+  </div>
+
+  <div class="risk risk-l">
+    <div class="risk-icon">&#128737;</div>
+    <div class="risk-text"><strong>왜 따라잡기 어려운가?</strong> 동의 기반 데이터는 돈으로 살 수 없습니다. LinkedIn이 9억 명의 프로필을 가지고 있어도, 그 중 "특정 요청자에게 내 전화번호를 공개하겠다"고 동의한 사람은 0명입니다. 이 동의 데이터를 축적하려면 사용자를 한 명씩 확보해야 하며, 이는 시간과 신뢰의 문제입니다.</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 7. Go-to-Market 전략 -->
+<!-- ============================================================ -->
+<div class="sec" id="gtm">
+  <div class="sec-title">7. Go-to-Market 전략</div>
+
+  <div class="card">
+    <h3>3단계 확장 전략</h3>
+    <div class="g3">
+      <div class="card-s" style="border-top:4px solid var(--p)">
+        <h3><span class="tag tb">Phase 1</span> 0~6개월</h3>
+        <p style="font-size:20px;font-weight:900;color:var(--p);margin:8px 0">5,000명</p>
+        <p style="font-size:14px;font-weight:700;margin-bottom:8px">한국 IT/스타트업 생태계 집중</p>
+        <ul style="font-size:13px;padding-left:16px;color:#6b7280">
+          <li>판교/강남 스타트업 밀집 지역 공략</li>
+          <li>IT 컨퍼런스 부스 + 네트워킹 이벤트</li>
+          <li>테크 블로그/뉴스레터 제휴</li>
+          <li>초기 사용자 1:1 온보딩</li>
+          <li>추천인 보상 프로그램 가동</li>
+        </ul>
+        <p style="font-size:12px;color:#6b7280;margin-top:10px"><strong>목표:</strong> Product-Market Fit 검증 + 초기 네트워크 효과 시작</p>
+      </div>
+      <div class="card-s" style="border-top:4px solid var(--g)">
+        <h3><span class="tag tg">Phase 2</span> 6~18개월</h3>
+        <p style="font-size:20px;font-weight:900;color:var(--g);margin:8px 0">30만명</p>
+        <p style="font-size:14px;font-weight:700;margin-bottom:8px">한국 전 산업 확장</p>
+        <ul style="font-size:13px;padding-left:16px;color:#6b7280">
+          <li>제조/금융/유통 등 전 업종 확대</li>
+          <li>기업 인증(Verified) 프로그램 출시</li>
+          <li>CRM 연동 API 출시</li>
+          <li>TV/온라인 광고 본격화</li>
+          <li>기업 단체 가입 프로그램</li>
+        </ul>
+        <p style="font-size:12px;color:#6b7280;margin-top:10px"><strong>목표:</strong> 네트워크 효과 임계점 돌파 (10만명) + 유료 전환 최적화</p>
+      </div>
+      <div class="card-s" style="border-top:4px solid var(--w)">
+        <h3><span class="tag tw">Phase 3</span> 18~36개월</h3>
+        <p style="font-size:20px;font-weight:900;color:var(--w);margin:8px 0">100만명</p>
+        <p style="font-size:14px;font-weight:700;margin-bottom:8px">일본 / 동남아 진출</p>
+        <ul style="font-size:13px;padding-left:16px;color:#6b7280">
+          <li>일본 시장 진출 (명함 문화 + APPI 활용)</li>
+          <li>싱가포르/동남아 허브 설립</li>
+          <li>현지 파트너십 체결</li>
+          <li>다국어 지원 + 현지화</li>
+          <li>글로벌 Enterprise 플랜 출시</li>
+        </ul>
+        <p style="font-size:12px;color:#6b7280;margin-top:10px"><strong>목표:</strong> 아시아 1위 동의 기반 비즈니스 연락처 플랫폼</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>고객 획득 채널 (Customer Acquisition)</h3>
+    <table class="tbl">
+      <tr><th>채널</th><th>전략</th><th>예상 비중</th><th>CAC</th></tr>
+      <tr>
+        <td><span class="tag tg">추천 (바이럴)</span></td>
+        <td>연결 수락 시 양측에 크레딧 지급. "이 사람에게 연락해보세요" 추천 기능</td>
+        <td><strong>40%</strong></td>
+        <td>5,000원</td>
+      </tr>
+      <tr>
+        <td><span class="tag tb">기업 제휴</span></td>
+        <td>스타트업 액셀러레이터, 코워킹스페이스, 산업 협회와 제휴. 기업 일괄 가입</td>
+        <td><strong>25%</strong></td>
+        <td>15,000원</td>
+      </tr>
+      <tr>
+        <td><span class="tag tw">컨퍼런스</span></td>
+        <td>주요 IT/비즈니스 행사 부스 운영. 명함 스캔 → 프로필 자동 생성</td>
+        <td><strong>15%</strong></td>
+        <td>25,000원</td>
+      </tr>
+      <tr>
+        <td><span class="tag tgr">콘텐츠 마케팅</span></td>
+        <td>B2B 영업 노하우 블로그, 뉴스레터, 유튜브. SEO + 리드 제너레이션</td>
+        <td><strong>15%</strong></td>
+        <td>30,000원</td>
+      </tr>
+      <tr>
+        <td><span class="tag tgr">유료 광고</span></td>
+        <td>Google Ads, LinkedIn Ads, 카카오 비즈보드. 리타겟팅 중심</td>
+        <td><strong>5%</strong></td>
+        <td>80,000원</td>
+      </tr>
+    </table>
+    <p style="font-size:13px;color:#6b7280;margin-top:10px"><strong>Blended CAC: 35,000원</strong> &mdash; 오가닉(바이럴+콘텐츠) 비중이 높아 CAC가 낮은 것이 핵심 강점</p>
+  </div>
+
+  <div class="card">
+    <h3>GTM 타임라인</h3>
+    <div class="tl">
+      <div class="tl-item">
+        <h4>M0~M3: MVP 개발 + 클로즈드 베타</h4>
+        <p>핵심 기능 개발 (프로필 등록, 검색, 요청-승인). 100명 내부 테스트</p>
+      </div>
+      <div class="tl-item">
+        <h4>M3~M6: 오픈 베타 + IT 업계 타겟</h4>
+        <p>판교/강남 스타트업 중심 확산. 컨퍼런스 2개 참가. 5,000명 목표</p>
+      </div>
+      <div class="tl-item">
+        <h4>M6~M12: 정식 출시 + 유료 전환</h4>
+        <p>Pro/Enterprise 플랜 출시. 기업 제휴 10개. 5만명 목표</p>
+      </div>
+      <div class="tl-item">
+        <h4>M12~M18: 전 업종 확장</h4>
+        <p>제조/금융/유통/의료 등 비IT 산업 공략. CRM 연동. 30만명 목표</p>
+      </div>
+      <div class="tl-item">
+        <h4>M18~M24: 일본 시장 진출</h4>
+        <p>일본어 버전 출시. 현지 파트너십. 50만명 목표</p>
+      </div>
+      <div class="tl-item">
+        <h4>M24~M36: 아시아 확장</h4>
+        <p>싱가포르/동남아 진출. 100만명 목표. Series B 라운드</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 8. 팀 & 조직 계획 -->
+<!-- ============================================================ -->
+<div class="sec" id="team">
+  <div class="sec-title">8. 팀 & 조직 계획</div>
+
+  <div class="card">
+    <h3>단계별 팀 구성</h3>
+    <div class="g3">
+      <div class="card-s" style="border-top:4px solid var(--p)">
+        <h3><span class="tag tb">Phase 1</span> 6명</h3>
+        <p style="font-size:12px;color:#6b7280;margin-bottom:10px">0~6개월 (Seed)</p>
+        <table class="tbl">
+          <tr><td><strong>CEO / 창업자</strong></td><td>전략, 사업개발, 투자 유치</td></tr>
+          <tr><td><strong>CTO</strong></td><td>기술 총괄, 아키텍처 설계</td></tr>
+          <tr><td><strong>풀스택 개발자</strong> x2</td><td>프론트엔드 + 백엔드 개발</td></tr>
+          <tr><td><strong>프로덕트 디자이너</strong></td><td>UX/UI 설계, 사용자 리서치</td></tr>
+          <tr><td><strong>그로스 마케터</strong></td><td>초기 사용자 확보, 바이럴</td></tr>
+        </table>
+        <p style="font-size:12px;color:#6b7280;margin-top:8px">월 인건비: 약 4,500만원</p>
+      </div>
+      <div class="card-s" style="border-top:4px solid var(--g)">
+        <h3><span class="tag tg">Phase 2</span> 15명</h3>
+        <p style="font-size:12px;color:#6b7280;margin-bottom:10px">6~18개월 (Series A)</p>
+        <table class="tbl">
+          <tr><td colspan="2" style="font-size:12px;color:#6b7280">Phase 1 인원 유지 +</td></tr>
+          <tr><td><strong>백엔드 개발자</strong> x2</td><td>API, 인프라, 성능 최적화</td></tr>
+          <tr><td><strong>프론트 개발자</strong> x2</td><td>웹/앱 UI, 반응형 개발</td></tr>
+          <tr><td><strong>데이터 엔지니어</strong></td><td>분석 파이프라인, ML 모델</td></tr>
+          <tr><td><strong>CS 담당</strong> x2</td><td>고객 지원, 온보딩</td></tr>
+          <tr><td><strong>마케팅 담당</strong> x2</td><td>콘텐츠, 퍼포먼스, 제휴</td></tr>
+        </table>
+        <p style="font-size:12px;color:#6b7280;margin-top:8px">월 인건비: 약 1.2억원</p>
+      </div>
+      <div class="card-s" style="border-top:4px solid var(--w)">
+        <h3><span class="tag tw">Phase 3</span> 25명</h3>
+        <p style="font-size:12px;color:#6b7280;margin-bottom:10px">18~36개월 (Series B)</p>
+        <table class="tbl">
+          <tr><td colspan="2" style="font-size:12px;color:#6b7280">Phase 2 인원 유지 +</td></tr>
+          <tr><td><strong>해외사업 담당</strong> x3</td><td>일본/동남아 현지화</td></tr>
+          <tr><td><strong>법무 담당</strong></td><td>개인정보, 국제 규제 대응</td></tr>
+          <tr><td><strong>보안 엔지니어</strong></td><td>데이터 보안, 침투 테스트</td></tr>
+          <tr><td><strong>운영 담당</strong> x5</td><td>CS 확대, 기업 영업, 운영</td></tr>
+          <tr><td><strong>HR 담당</strong></td><td>채용, 조직문화, 평가</td></tr>
+        </table>
+        <p style="font-size:12px;color:#6b7280;margin-top:8px">월 인건비: 약 2.2억원</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>자문단 (Advisory Board) 필요 영역</h3>
+    <div class="g2">
+      <div class="card-s">
+        <h3>필수 자문 영역</h3>
+        <table class="tbl">
+          <tr><td><span class="tag tr">개인정보보호</span></td><td>PIPA/GDPR 전문 변호사. 서비스 설계 단계부터 법적 검토 필수</td></tr>
+          <tr><td><span class="tag tb">B2B SaaS</span></td><td>SaaS 성장 전략 + 유료 전환 경험. 국내외 SaaS 스케일업 경력</td></tr>
+          <tr><td><span class="tag tg">네트워크 플랫폼</span></td><td>양면 시장 경험. 리멤버/링크드인/번개장터 등 네트워크 사업 경력</td></tr>
+          <tr><td><span class="tag tw">일본 시장</span></td><td>일본 IT/비즈니스 경험. 현지 네트워크 보유. 일본 진출 성공 사례</td></tr>
+        </table>
+      </div>
+      <div class="card-s">
+        <h3>보상 구조</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>스톡옵션 0.25~0.5% (4년 베스팅)</li>
+          <li>월 1~2회 자문 미팅</li>
+          <li>핵심 의사결정 참여 (필요 시)</li>
+          <li>자문료 월 50~100만원 (상장 전)</li>
+          <li>네트워크 소개/연결 기대</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 9. 재무 계획 (Financial Plan) -->
+<!-- ============================================================ -->
+<div class="sec" id="financials">
+  <div class="sec-title">9. 재무 계획 (Financial Plan)</div>
+
+  <div class="card">
+    <h3>5개년 재무 요약</h3>
+    <table class="tbl">
+      <tr><th>항목</th><th>Y1</th><th>Y2</th><th style="background:#ecfdf5">Y3 (BEP)</th><th>Y4</th><th>Y5</th></tr>
+      <tr><td><strong>총 사용자 수</strong></td><td>5만명</td><td>30만명</td><td style="background:#ecfdf5">100만명</td><td>250만명</td><td>500만명</td></tr>
+      <tr><td><strong>유료 전환율</strong></td><td>5%</td><td>6%</td><td style="background:#ecfdf5">7%</td><td>7.5%</td><td>8%</td></tr>
+      <tr><td><strong>유료 사용자 수</strong></td><td>2,500명</td><td>18,000명</td><td style="background:#ecfdf5">70,000명</td><td>187,500명</td><td>400,000명</td></tr>
+      <tr><td><strong>ARPU (월)</strong></td><td>21,000원</td><td>33,600원</td><td style="background:#ecfdf5">30,300원</td><td>33,600원</td><td>45,300원</td></tr>
+      <tr><td><strong>연 매출</strong></td><td><span class="tag tw">6.3억원</span></td><td><span class="tag tg">72.5억원</span></td><td style="background:#ecfdf5"><span class="tag tg">254.6억원</span></td><td><span class="tag tg">756.8억원</span></td><td><span class="tag tg">2,176억원</span></td></tr>
+      <tr><td><strong>연 비용</strong></td><td>15.5억원</td><td>47.5억원</td><td style="background:#ecfdf5">127.5억원</td><td>307.5억원</td><td>625억원</td></tr>
+      <tr><td><strong>순이익</strong></td><td><span class="tag tr">-9.2억원</span></td><td><span class="tag tg">+25억원</span></td><td style="background:#ecfdf5"><span class="tag tg">+127.1억원</span></td><td><span class="tag tg">+449.3억원</span></td><td><span class="tag tg">+1,551억원</span></td></tr>
+      <tr><td><strong>순이익률</strong></td><td><span class="tag tr">-146%</span></td><td><span class="tag tg">34.5%</span></td><td style="background:#ecfdf5"><span class="tag tg">49.9%</span></td><td><span class="tag tg">59.4%</span></td><td><span class="tag tg">71.3%</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>연도별 매출 성장 시각화</h3>
+    <div class="bar-vis">
+      <div class="bv-row">
+        <div class="bv-lbl">Y1</div>
+        <div class="bv-track"><div class="bv-bar" style="width:0.3%;background:linear-gradient(90deg,var(--w),#fbbf24);min-width:60px">6.3억</div></div>
+        <div class="bv-val"><span class="tag tr">-9.2억</span></div>
+      </div>
+      <div class="bv-row">
+        <div class="bv-lbl">Y2</div>
+        <div class="bv-track"><div class="bv-bar" style="width:3.3%;background:linear-gradient(90deg,var(--g),#34d399);min-width:70px">72.5억</div></div>
+        <div class="bv-val"><span class="tag tg">+25억</span></div>
+      </div>
+      <div class="bv-row">
+        <div class="bv-lbl" style="color:var(--g);font-weight:800">Y3 BEP</div>
+        <div class="bv-track"><div class="bv-bar" style="width:11.7%;background:linear-gradient(90deg,var(--g),#34d399);min-width:80px">254.6억</div></div>
+        <div class="bv-val"><span class="tag tg">+127.1억</span></div>
+      </div>
+      <div class="bv-row">
+        <div class="bv-lbl">Y4</div>
+        <div class="bv-track"><div class="bv-bar" style="width:34.8%;background:linear-gradient(90deg,#1a56db,#3b82f6)">756.8억</div></div>
+        <div class="bv-val"><span class="tag tg">+449.3억</span></div>
+      </div>
+      <div class="bv-row">
+        <div class="bv-lbl">Y5</div>
+        <div class="bv-track"><div class="bv-bar" style="width:100%;background:linear-gradient(90deg,#1a56db,#3b82f6)">2,176억</div></div>
+        <div class="bv-val"><span class="tag tg">+1,551억</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>펀딩 라운드 계획</h3>
+    <table class="tbl">
+      <tr><th>라운드</th><th>시기</th><th>금액</th><th>Pre-money</th><th>목적</th><th>마일스톤</th></tr>
+      <tr style="background:#eff6ff">
+        <td><span class="tag tb">Seed</span></td>
+        <td>M0</td>
+        <td><strong>5억원</strong></td>
+        <td>20억원</td>
+        <td>MVP 개발, 초기 마케팅</td>
+        <td>MVP 출시 + 5,000명</td>
+      </tr>
+      <tr>
+        <td><span class="tag tg">Series A</span></td>
+        <td>M12</td>
+        <td><strong>50억원</strong></td>
+        <td>200억원</td>
+        <td>제품 강화, 마케팅 확대</td>
+        <td>30만명 + BEP 가시화</td>
+      </tr>
+      <tr>
+        <td><span class="tag tw">Series B</span></td>
+        <td>M24</td>
+        <td><strong>150억원</strong></td>
+        <td>1,500억원</td>
+        <td>일본 진출, 엔터프라이즈</td>
+        <td>100만명 + 일본 출시</td>
+      </tr>
+      <tr>
+        <td><span class="tag tgr">Series C</span></td>
+        <td>M36</td>
+        <td><strong>300억원</strong></td>
+        <td>5,000억원</td>
+        <td>아시아 확장, Exit 준비</td>
+        <td>500만명 + IPO/M&A 검토</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Seed 라운드 자금 사용 계획 (5억원)</h3>
+    <div class="fund-use">
+      <div style="width:40%;background:var(--p)">MVP 개발 40%</div>
+      <div style="width:30%;background:var(--g)">마케팅 30%</div>
+      <div style="width:20%;background:var(--w)">운영 20%</div>
+      <div style="width:10%;background:var(--r)">예비 10%</div>
+    </div>
+    <div class="g4" style="margin-top:14px">
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:24px;font-weight:900;color:var(--p)">2억원</p>
+        <p style="font-size:13px;font-weight:700">MVP 개발 (40%)</p>
+        <p style="font-size:12px;color:#6b7280">인건비 (개발팀 4명 x 6개월), 인프라, 디자인</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:24px;font-weight:900;color:var(--g)">1.5억원</p>
+        <p style="font-size:13px;font-weight:700">마케팅 (30%)</p>
+        <p style="font-size:12px;color:#6b7280">초기 사용자 확보, 컨퍼런스, 콘텐츠, 광고</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:24px;font-weight:900;color:var(--w)">1억원</p>
+        <p style="font-size:13px;font-weight:700">운영 (20%)</p>
+        <p style="font-size:12px;color:#6b7280">사무실, 법무, 회계, CS, 기타 운영비</p>
+      </div>
+      <div class="card-s" style="text-align:center">
+        <p style="font-size:24px;font-weight:900;color:var(--r)">0.5억원</p>
+        <p style="font-size:13px;font-weight:700">예비 (10%)</p>
+        <p style="font-size:12px;color:#6b7280">예상치 못한 비용, 피벗 대비 버퍼</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>핵심 가정 (Key Assumptions)</h3>
+    <div class="g2">
+      <div class="card-s">
+        <h3>보수적 가정</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>Y1 사용자 수 5만명 (한국 직장인 2,000만명의 0.25%)</li>
+          <li>유료 전환율 5% (SaaS 평균 3~5%)</li>
+          <li>월간 이탈률 5% (B2B SaaS 평균 3~7%)</li>
+          <li>ARPU 월 21,000원 (Pro:Enterprise 비율 8:2)</li>
+          <li>매출총이익률 85% (인프라 비용 15%)</li>
+        </ul>
+      </div>
+      <div class="card-s">
+        <h3>상향 시나리오 변수</h3>
+        <ul style="font-size:14px;padding-left:16px">
+          <li>바이럴 계수 K>1 달성 시 &rarr; 사용자 2배 가속</li>
+          <li>기업 인증 매출 가세 시 &rarr; ARPU 50% 상승</li>
+          <li>일본 진출 성공 시 &rarr; TAM 3배 확대</li>
+          <li>유료 전환율 10% 달성 시 &rarr; 매출 2배</li>
+          <li>API 과금 매출 가세 시 &rarr; 순이익률 5%p 개선</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 10. 투자 제안 (Investment Ask) -->
+<!-- ============================================================ -->
+<div class="sec" id="investment">
+  <div class="sec-title">10. 투자 제안 (Investment Ask)</div>
+
+  <div class="card" style="border-left:4px solid var(--p)">
+    <h3 style="font-size:19px;color:var(--p)">Seed 투자 제안 요약</h3>
+    <div class="g3" style="margin-top:16px">
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--p)">
+        <p style="font-size:12px;color:#6b7280">투자 요청액</p>
+        <p style="font-size:32px;font-weight:900;color:var(--p)">5억원</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--g)">
+        <p style="font-size:12px;color:#6b7280">Pre-money Valuation</p>
+        <p style="font-size:32px;font-weight:900;color:var(--g)">20억원</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--w)">
+        <p style="font-size:12px;color:#6b7280">투자자 지분</p>
+        <p style="font-size:32px;font-weight:900;color:var(--w)">20%</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>6개월 내 달성 마일스톤</h3>
+    <table class="tbl">
+      <tr><th style="width:40px">#</th><th>마일스톤</th><th style="width:100px">목표</th><th style="width:100px">달성 기한</th></tr>
+      <tr><td>1</td><td>MVP 출시 (프로필 등록, 검색, 요청-승인 기능)</td><td><span class="tag tg">완료</span></td><td>M3</td></tr>
+      <tr><td>2</td><td>베타 사용자 1,000명 확보</td><td>1,000명</td><td>M4</td></tr>
+      <tr><td>3</td><td>일간 활성 사용자(DAU) 500명</td><td>DAU 500</td><td>M5</td></tr>
+      <tr><td>4</td><td>유료 전환 시작 + 월 매출 500만원</td><td>MRR 500만</td><td>M6</td></tr>
+      <tr><td>5</td><td>총 사용자 5,000명 돌파</td><td>5,000명</td><td>M6</td></tr>
+      <tr><td>6</td><td>Series A 라운드 시작</td><td>50억원 목표</td><td>M6~M9</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Exit 전략</h3>
+    <div class="g2">
+      <div class="card-s" style="border-top:3px solid var(--p)">
+        <h3><span class="tag tb">Option A: M&A</span></h3>
+        <p style="font-size:14px;margin-bottom:10px">대형 플랫폼 또는 SaaS 기업에 의한 인수합병</p>
+        <ul style="font-size:13px;padding-left:16px;color:#6b7280">
+          <li><strong>벤치마크:</strong> 리멤버 &rarr; LINE에 5,400억원 인수 (2022)</li>
+          <li><strong>잠재 인수자:</strong> Salesforce, LinkedIn(Microsoft), 네이버, 카카오</li>
+          <li><strong>예상 밸류:</strong> Y5 매출 2,176억 x PSR 5~10배 = <strong>1~2조원</strong></li>
+          <li><strong>시기:</strong> Y4~Y5 (사용자 250~500만명 시점)</li>
+          <li><strong>투자자 리턴:</strong> Seed 기준 50~100배</li>
+        </ul>
+      </div>
+      <div class="card-s" style="border-top:3px solid var(--g)">
+        <h3><span class="tag tg">Option B: IPO</span></h3>
+        <p style="font-size:14px;margin-bottom:10px">코스닥 또는 해외(NYSE/NASDAQ) 상장</p>
+        <ul style="font-size:13px;padding-left:16px;color:#6b7280">
+          <li><strong>벤치마크:</strong> ZoomInfo IPO 시가총액 $8.2B (2020)</li>
+          <li><strong>코스닥 요건:</strong> 기술특례(매출 30억+, 기술평가 A) 활용</li>
+          <li><strong>예상 시가총액:</strong> Y5 순이익 1,551억 x PER 30~50배 = <strong>4.7~7.8조원</strong></li>
+          <li><strong>시기:</strong> Y5~Y6 (매출 2,000억+ 시점)</li>
+          <li><strong>투자자 리턴:</strong> Seed 기준 200~400배</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="risk risk-l">
+    <div class="risk-icon">&#128176;</div>
+    <div class="risk-text"><strong>투자 매력도 요약:</strong> (1) TAM $650B+ 대형 시장, (2) 동의 기반 경쟁사 0개 (카테고리 창출), (3) LTV/CAC 8.2x (SaaS 우수 기준의 2.7배), (4) 리멤버 5,400억 Exit으로 시장 가치 입증, (5) GDPR/PIPA 강화로 시장 트렌드와 정합. Pre-money 20억원은 아이디어 단계 대비 보수적 밸류에이션입니다.</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 11. 리스크 & 완화 전략 -->
+<!-- ============================================================ -->
+<div class="sec" id="risks">
+  <div class="sec-title">11. 리스크 & 완화 전략</div>
+
+  <div class="card">
+    <h3>리스크 매트릭스</h3>
+    <table class="tbl">
+      <tr><th>리스크</th><th>영향도</th><th>발생 확률</th><th>등급</th></tr>
+      <tr><td>콜드 스타트 (초기 사용자 부족)</td><td>높음</td><td>높음</td><td><span class="tag tr">HIGH</span></td></tr>
+      <tr><td>LinkedIn의 유사 기능 출시</td><td>높음</td><td>중간</td><td><span class="tag tr">HIGH</span></td></tr>
+      <tr><td>개인정보 규제 변경</td><td>높음</td><td>낮음</td><td><span class="tag tw">MEDIUM</span></td></tr>
+      <tr><td>수익화 지연 (유료 전환율 미달)</td><td>중간</td><td>중간</td><td><span class="tag tw">MEDIUM</span></td></tr>
+      <tr><td>데이터 유출 사고</td><td>매우 높음</td><td>낮음</td><td><span class="tag tw">MEDIUM</span></td></tr>
+      <tr><td>일본 시장 진출 실패</td><td>중간</td><td>중간</td><td><span class="tag tw">MEDIUM</span></td></tr>
+      <tr><td>핵심 인재 이탈</td><td>높음</td><td>낮음</td><td><span class="tag tg">LOW</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>주요 리스크별 상세 분석 & 완화 전략</h3>
+
+    <div class="risk risk-h">
+      <div class="risk-icon">&#128308;</div>
+      <div class="risk-text">
+        <strong>리스크 1: 콜드 스타트 문제 (닭과 달걀)</strong><br>
+        <strong>설명:</strong> 등록자가 없으면 검색자가 안 오고, 검색자가 없으면 등록자가 가입할 이유가 없습니다.<br>
+        <strong>완화 전략:</strong>
+        <ul style="margin-top:6px;padding-left:16px">
+          <li><strong>공급 측 먼저:</strong> IT/스타트업 업계 5,000명을 먼저 확보. 컨퍼런스 명함 스캔 &rarr; 자동 프로필 생성 (동의 후)</li>
+          <li><strong>양면 가치:</strong> 등록자에게도 비즈니스 기회 수신이라는 가치 제공 (영업 제안, 채용 제안, 투자 제안)</li>
+          <li><strong>기업 제휴:</strong> 스타트업 액셀러레이터 10곳과 제휴하여 포트폴리오 기업 일괄 가입</li>
+          <li><strong>추천 보상:</strong> 추천인에게 Pro 기능 1개월 무료 제공. 바이럴 계수 K>1 달성 목표</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="risk risk-h">
+      <div class="risk-icon">&#128308;</div>
+      <div class="risk-text">
+        <strong>리스크 2: LinkedIn의 유사 기능 출시</strong><br>
+        <strong>설명:</strong> LinkedIn이 "연락 요청-승인" 기능을 추가할 경우 경쟁 압력이 극심해질 수 있습니다.<br>
+        <strong>완화 전략:</strong>
+        <ul style="margin-top:6px;padding-left:16px">
+          <li><strong>구조적 차이:</strong> LinkedIn은 SNS(자기 PR)이고 우리는 디렉토리(담당자 검색). 본질이 다릅니다</li>
+          <li><strong>한국/일본 특화:</strong> LinkedIn의 한국 직장인 침투율은 42%. 나머지 58%가 우리의 핵심 타겟</li>
+          <li><strong>속도 우위:</strong> LinkedIn은 대기업이므로 의사결정이 느림. 우리는 6개월 안에 PMF를 확보</li>
+          <li><strong>인수 대상:</strong> LinkedIn이 유사 기능을 만들기보다 우리를 인수할 가능성이 더 높음</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="risk risk-m">
+      <div class="risk-icon">&#128992;</div>
+      <div class="risk-text">
+        <strong>리스크 3: 개인정보 규제 변경</strong><br>
+        <strong>설명:</strong> PIPA 또는 GDPR이 더욱 강화되어 동의 기반 서비스에도 추가 규제가 적용될 수 있습니다.<br>
+        <strong>완화 전략:</strong>
+        <ul style="margin-top:6px;padding-left:16px">
+          <li><strong>규제 친화적 설계:</strong> 동의 기반 모델 자체가 규제 방향과 일치. 규제 강화 = 경쟁사 퇴출</li>
+          <li><strong>법무 자문단:</strong> 개인정보보호 전문 변호사 자문단 상시 운영</li>
+          <li><strong>PIPC 협력:</strong> 개인정보보호위원회와 사전 협의로 규제 불확실성 최소화</li>
+          <li><strong>유연한 아키텍처:</strong> 규제 변경 시 빠른 대응 가능한 모듈형 동의 관리 시스템</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="risk risk-m">
+      <div class="risk-icon">&#128992;</div>
+      <div class="risk-text">
+        <strong>리스크 4: 수익화 지연</strong><br>
+        <strong>설명:</strong> 무료 사용자가 대부분이고 유료 전환율이 기대에 미치지 못할 수 있습니다.<br>
+        <strong>완화 전략:</strong>
+        <ul style="margin-top:6px;padding-left:16px">
+          <li><strong>가치 잠금:</strong> 무료 5건/월 제한으로 파워유저의 유료 전환 유도</li>
+          <li><strong>기업 플랜 집중:</strong> 개인 유료보다 기업 단체 가입이 더 높은 전환율 (15%+)</li>
+          <li><strong>부가 수익원:</strong> API, 기업 인증, 채용 연동 등 구독 외 수익 다변화</li>
+          <li><strong>가격 실험:</strong> A/B 테스트로 최적 가격 포인트 탐색 (19,000원~49,000원)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="risk risk-m">
+      <div class="risk-icon">&#128992;</div>
+      <div class="risk-text">
+        <strong>리스크 5: 데이터 유출 사고</strong><br>
+        <strong>설명:</strong> 개인 연락처를 다루는 서비스 특성상, 데이터 유출 시 서비스 신뢰도에 치명적 타격.<br>
+        <strong>완화 전략:</strong>
+        <ul style="margin-top:6px;padding-left:16px">
+          <li><strong>보안 설계:</strong> 연락처 데이터 AES-256 암호화 저장, 전송 시 TLS 1.3</li>
+          <li><strong>접근 제어:</strong> 승인된 연결에서만 복호화. 서버 관리자도 열람 불가</li>
+          <li><strong>보안 감사:</strong> 연 2회 외부 침투 테스트 + SOC 2 인증 추진</li>
+          <li><strong>사고 대응:</strong> 72시간 이내 통지 체계 + 사이버 보험 가입</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="risk risk-l">
+      <div class="risk-icon">&#128994;</div>
+      <div class="risk-text">
+        <strong>리스크 6: 핵심 인재 이탈</strong><br>
+        <strong>설명:</strong> 초기 스타트업 특성상 핵심 멤버 1~2명 이탈 시 프로젝트 지연 가능.<br>
+        <strong>완화 전략:</strong> 스톡옵션 4년 베스팅 (1년 클리프), 초기 멤버 공동창업자 대우, 기술 문서화 철저히 하여 속인 의존도 최소화
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 12. 마일스톤 & 로드맵 -->
+<!-- ============================================================ -->
+<div class="sec" id="roadmap">
+  <div class="sec-title">12. 마일스톤 & 로드맵</div>
+
+  <div class="card">
+    <h3>M0 ~ Y5 핵심 마일스톤 타임라인</h3>
+    <div class="tl">
+      <div class="tl-item">
+        <h4><span class="tag tb">M0</span> 프로젝트 킥오프</h4>
+        <p>Seed 투자 유치 완료. 핵심 팀 6명 구성. 개발 시작</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tb">M3</span> MVP 출시</h4>
+        <p>프로필 등록, 검색, 요청-승인 핵심 기능 완성. 클로즈드 베타 100명</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tb">M6</span> 5,000명 사용자 달성</h4>
+        <p>오픈 베타 + IT 업계 집중 공략. 유료 플랜 출시. MRR 500만원</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tg">M12 (Y1)</span> Series A 라운드</h4>
+        <p>사용자 5만명, MRR 5,000만원. 50억원 투자 유치. 팀 15명 확대</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tg">M18 (Y1.5)</span> 30만명 + CRM 연동</h4>
+        <p>전 업종 확장 완료. Salesforce/HubSpot API 연동. Enterprise 플랜 가동</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tw">M24 (Y2)</span> 일본 시장 진출</h4>
+        <p>일본어 버전 출시. 현지 파트너십 5개. Series B 150억원</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tg">M36 (Y3)</span> BEP 달성 + 100만명</h4>
+        <p>손익분기점 돌파. 아시아 3개국 운영. 연 매출 254.6억원</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tb">M48 (Y4)</span> 250만명 + 동남아 확장</h4>
+        <p>싱가포르/태국/베트남 진출. Series C 300억원. 연 매출 756.8억원</p>
+      </div>
+      <div class="tl-item">
+        <h4><span class="tag tr">M60 (Y5)</span> 500만명 + Exit 검토</h4>
+        <p>연 매출 2,176억원, 순이익 1,551억원. M&A(1~2조원) 또는 IPO 추진</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>마일스톤별 핵심 KPI</h3>
+    <table class="tbl">
+      <tr><th>시기</th><th>총 사용자</th><th>유료 사용자</th><th>MRR</th><th>ARR</th><th>팀 규모</th><th>누적 투자</th></tr>
+      <tr><td>M3</td><td>100명</td><td>-</td><td>-</td><td>-</td><td>6명</td><td>5억</td></tr>
+      <tr><td>M6</td><td>5,000명</td><td>250명</td><td>500만</td><td>6,000만</td><td>6명</td><td>5억</td></tr>
+      <tr><td>M12</td><td>5만명</td><td>2,500명</td><td>5,250만</td><td>6.3억</td><td>15명</td><td>55억</td></tr>
+      <tr><td>M18</td><td>15만명</td><td>9,000명</td><td>3억</td><td>36억</td><td>15명</td><td>55억</td></tr>
+      <tr><td>M24</td><td>30만명</td><td>18,000명</td><td>6억</td><td>72.5억</td><td>20명</td><td>205억</td></tr>
+      <tr><td>M36</td><td>100만명</td><td>70,000명</td><td>21.2억</td><td>254.6억</td><td>25명</td><td>205억</td></tr>
+      <tr><td>M48</td><td>250만명</td><td>187,500명</td><td>63억</td><td>756.8억</td><td>40명</td><td>505억</td></tr>
+      <tr style="background:#eff6ff"><td><strong>M60</strong></td><td><strong>500만명</strong></td><td><strong>400,000명</strong></td><td><strong>181.3억</strong></td><td><strong>2,176억</strong></td><td><strong>60명</strong></td><td><strong>505억</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Exit 시나리오별 투자자 수익률 (Seed 5억원 기준)</h3>
+    <div class="g3">
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--w)">
+        <p style="font-size:12px;color:#6b7280">보수적 시나리오</p>
+        <p style="font-size:11px;color:#6b7280;margin-bottom:4px">M&A 5,000억원</p>
+        <p style="font-size:32px;font-weight:900;color:var(--w)">20x</p>
+        <p style="font-size:12px;color:#6b7280">Seed 투자 대비 수익률</p>
+        <p style="font-size:14px;font-weight:700;margin-top:4px">투자금 5억 &rarr; 100억</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--g)">
+        <p style="font-size:12px;color:#6b7280">기본 시나리오</p>
+        <p style="font-size:11px;color:#6b7280;margin-bottom:4px">M&A 1조원</p>
+        <p style="font-size:32px;font-weight:900;color:var(--g)">50x</p>
+        <p style="font-size:12px;color:#6b7280">Seed 투자 대비 수익률</p>
+        <p style="font-size:14px;font-weight:700;margin-top:4px">투자금 5억 &rarr; 250억</p>
+      </div>
+      <div class="card-s" style="text-align:center;border-top:3px solid var(--p)">
+        <p style="font-size:12px;color:#6b7280">낙관적 시나리오</p>
+        <p style="font-size:11px;color:#6b7280;margin-bottom:4px">IPO 5조원</p>
+        <p style="font-size:32px;font-weight:900;color:var(--p)">200x</p>
+        <p style="font-size:12px;color:#6b7280">Seed 투자 대비 수익률</p>
+        <p style="font-size:14px;font-weight:700;margin-top:4px">투자금 5억 &rarr; 1,000억</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- 부록: 용어 정리 -->
+<!-- ============================================================ -->
+<div class="sec" id="glossary">
+  <div class="sec-title">부록: 핵심 용어 정리</div>
+
+  <div class="card">
+    <table class="tbl">
+      <tr><th style="width:140px">용어</th><th>설명</th></tr>
+      <tr><td><strong>TAM</strong></td><td>Total Addressable Market. 전체 시장 규모. 이론적으로 도달 가능한 최대 시장</td></tr>
+      <tr><td><strong>SAM</strong></td><td>Serviceable Addressable Market. 서비스 가능 시장. 실제 제공 가능한 서비스 범위의 시장</td></tr>
+      <tr><td><strong>SOM</strong></td><td>Serviceable Obtainable Market. 획득 가능 시장. 현실적으로 확보 가능한 시장 점유율</td></tr>
+      <tr><td><strong>CAC</strong></td><td>Customer Acquisition Cost. 고객 1명을 유치하는 데 드는 비용</td></tr>
+      <tr><td><strong>LTV</strong></td><td>Lifetime Value. 고객 1명이 서비스 이용 기간 동안 지불하는 총 금액</td></tr>
+      <tr><td><strong>MRR / ARR</strong></td><td>Monthly / Annual Recurring Revenue. 월간 / 연간 반복 매출</td></tr>
+      <tr><td><strong>ARPU</strong></td><td>Average Revenue Per User. 유료 사용자 1인당 평균 매출</td></tr>
+      <tr><td><strong>BEP</strong></td><td>Break-Even Point. 손익분기점. 매출이 비용을 초과하는 시점</td></tr>
+      <tr><td><strong>PSR</strong></td><td>Price-to-Sales Ratio. 주가매출비율. 기업 가치 / 연간 매출</td></tr>
+      <tr><td><strong>PMF</strong></td><td>Product-Market Fit. 제품이 시장의 실제 수요와 맞아떨어지는 상태</td></tr>
+      <tr><td><strong>Freemium</strong></td><td>무료(Free) + 유료(Premium) 결합 모델. 기본 기능은 무료, 고급 기능은 유료</td></tr>
+      <tr><td><strong>RCPS</strong></td><td>상환전환우선주. 스타트업 투자에서 일반적으로 사용되는 투자 증권</td></tr>
+    </table>
+  </div>
+</div>
+
+</div><!-- .wrap -->
+
+<!-- Footer -->
+<div class="footer">
+  &copy; 2026 Contact Directory Research &mdash; 사업계획서 (page 07/09). 본 문서의 재무 수치는 예측치이며 실제 결과와 다를 수 있습니다.
+</div>
+
+</body>
+</html>
